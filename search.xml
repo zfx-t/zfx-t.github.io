@@ -5198,7 +5198,8 @@ close.sh<figure class="highlight shell"><table><tr><td class="code"><pre><span c
     <title>react快速过知识点</title>
     <url>/posts/a27176ba/</url>
     <content><![CDATA[<h2 id="创建react项目"><a href="#创建react项目" class="headerlink" title="创建react项目"></a>创建react项目</h2><p>在终端输入<code>npx create-react-app xxx</code>创建一个react项目,通过<code>npm start</code>启动该项目.</p>
-<h2 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h2><p><img src="https://image.zfxt.top/hexo-blog/react%E5%BF%AB%E9%80%9F%E8%BF%87%E7%9F%A5%E8%AF%86%E7%82%B9-2024-03-27-10-39-51.png" alt="react快速过知识点-2024-03-27-10-39-51"><br><code>StrickMode</code>是一个严格模式,它可以严格的进行功能审查</p>
+<h2 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h2><p><img src="https://image.zfxt.top/hexo-blog/react%E5%BF%AB%E9%80%9F%E8%BF%87%E7%9F%A5%E8%AF%86%E7%82%B9-2024-03-27-10-39-51.png" alt="react快速过知识点-2024-03-27-10-39-51"></p>
+<p><code>StrickMode</code>是一个严格模式,它可以严格的进行功能审查</p>
 <h2 id="组件方式"><a href="#组件方式" class="headerlink" title="组件方式"></a>组件方式</h2><ol>
 <li>函数式组件<ul>
 <li>JSX语法,将html+js融合的很深,他每个组件只能返回一个根元素.每个组件都需要正确的闭合</li>
