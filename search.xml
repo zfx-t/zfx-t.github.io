@@ -5480,6 +5480,17 @@ close.sh<figure class="highlight shell"><table><tr><td class="code"><pre><span c
 <p>如使用阿里云镜像:</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</span><br></pre></td></tr></table></figure>
 
+<h2 id="docker代理"><a href="#docker代理" class="headerlink" title="docker代理"></a>docker代理</h2><ol>
+<li><p>创建或修改 Docker 配置文件<br> 在 Linux 上，Docker 配置文件通常位于 &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;docker.service.d&#x2F;http-proxy.conf 或 &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;docker.service.d&#x2F;https-proxy.conf。如果这些文件不存在，你需要创建它们。</p>
+<p> 为 HTTPS 代理创建或修改 &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;docker.service.d&#x2F;https-proxy.conf：</p>
+ <figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Environment</span>=<span class="string">&quot;HTTPS_PROXY=https://your-proxy-server:proxy-port/&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新加载并重启 Docker 服务<br>配置完成后，重新加载 systemd 配置并重启 Docker 服务：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>验证代理配置<br>可以通过以下命令验证代理配置是否生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
+
 <h2 id="部署docker镜像代理"><a href="#部署docker镜像代理" class="headerlink" title="部署docker镜像代理"></a>部署docker镜像代理</h2><p>第一步：Fork项目：项目为CM大佬创建维护<br><a href="https://github.com/cmliu/CF-Workers-docker.io">CF-Worker</a></p>
 <p>第二步：CF部署Pages，选择第一步中Fork的仓库，配置页面保持默认，点击部署</p>
 <p>第三步：添加自定义域，绑定自己的域名</p>
