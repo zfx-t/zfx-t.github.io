@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Android（Fragment） | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Fragment是什么Fragment是一种可以嵌入在Activity当中的UI片段。你可以将Fragment理解成一个迷你型的Activity，虽然这个迷你型的Activity有可能和普通的Activity是一样大的。解决某些问题：一个页面只能展示一个activity，如果要展示另一个的话，需要入栈和出栈。但是一个activity中可以包含很多个fragment。实现了多页面共存。 简单使用 首">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android（Fragment）">
+<meta property="og:url" content="https://zfxt.top/posts/9a0619a3/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="Fragment是什么Fragment是一种可以嵌入在Activity当中的UI片段。你可以将Fragment理解成一个迷你型的Activity，虽然这个迷你型的Activity有可能和普通的Activity是一样大的。解决某些问题：一个页面只能展示一个activity，如果要展示另一个的话，需要入栈和出栈。但是一个activity中可以包含很多个fragment。实现了多页面共存。 简单使用 首">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2023-07-07T04:13:00.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:24.964Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/9a0619a3/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android（Fragment）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Android（Fragment）</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Android（Fragment）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-07T04:13:00.000Z" title="发表于 2023-07-07 12:13:00">2023-07-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:24.964Z" title="更新于 2024-12-26 13:53:24">2024-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">884</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="Fragment是什么"><a href="#Fragment是什么" class="headerlink" title="Fragment是什么"></a>Fragment是什么</h2><p>Fragment是一种可以嵌入在Activity当中的UI片段。你可以将Fragment理解成一个迷你型的Activity，虽然这个迷你型的Activity有可能和普通的Activity是一样大的。<br>解决某些问题：一个页面只能展示一个activity，如果要展示另一个的话，需要入栈和出栈。但是一个activity中可以包含很多个fragment。实现了多页面共存。</p>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><ol>
+<li><p>首先为我们的<code>fragment</code>创建两个布局文件<br>如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:orientation</span>=<span class="string">&quot;vertical&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/button&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_gravity</span>=<span class="string">&quot;center_horizontal&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">&quot;Button&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>定义一个fragment类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">RightFragment</span>():Fragment()&#123;</span><br><span class="line"></span><br><span class="line">    override fun <span class="title function_">onCreateView</span><span class="params">(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)</span>: View? &#123;</span><br><span class="line">        <span class="keyword">return</span> inflater.inflate(R.layout.right_fragment,container,<span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并重写他的onCreateView方法</p>
+<blockquote>
+<p>与actiivity类似，也很像自定义控件的创建方式。</p>
+</blockquote>
+</li>
+<li><p>然后在布局中引入fragment</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">fragment</span></span></span><br><span class="line"><span class="tag">           <span class="attr">android:id</span>=<span class="string">&quot;@+id/leftFrag&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">android:name</span>=<span class="string">&quot;top.zfxt.fragmenttest.LeftFragment&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">android:layout_width</span>=<span class="string">&quot;0dp&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">android:layout_weight</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>需要注意，他这里使用<code>name</code>属性来引入对应的fragment<br>而在自定义控件中，直接写完整的包名来引入。</p>
+</li>
+<li><p>完成简单使用</p>
+</li>
+</ol>
+<h2 id="动态引入fragment"><a href="#动态引入fragment" class="headerlink" title="动态引入fragment"></a>动态引入fragment</h2><p>修改activity中的方法，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">override fun <span class="title function_">onCreate</span><span class="params">(savedInstanceState: Bundle?)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        <span class="type">val</span> <span class="variable">binding</span> <span class="operator">=</span> ActivityMainBinding.inflate(layoutInflater)</span><br><span class="line">        setContentView(binding.root)</span><br><span class="line">        <span class="type">val</span> <span class="variable">button</span> <span class="operator">=</span> findViewById&lt;Button&gt;(R.id.button)</span><br><span class="line">        button.setOnClickListener &#123;</span><br><span class="line">            replaceFragment(AnotherRightFragment())</span><br><span class="line">        &#125;</span><br><span class="line">        replaceFragment(RightFragment())</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> fun <span class="title function_">replaceFragment</span><span class="params">(fragment: Fragment)</span>&#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">fragmentManager</span> <span class="operator">=</span> supportFragmentManager</span><br><span class="line">        <span class="type">val</span> <span class="variable">transaction</span> <span class="operator">=</span> fragmentManager.beginTransaction()</span><br><span class="line">        transaction.replace(R.id.rightLayout,fragment)</span><br><span class="line">        transaction.commit()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>其大致为：<br>(1) 创建待添加Fragment的实例。<br>(2) 获取FragmentManager，在Activity中可以直接调用getSupportFragmentManager()<br>方法获取。<br>(3) 开启一个事务，通过调用beginTransaction()方法开启。<br>(4) 向容器内添加或替换Fragment，一般使用replace()方法实现，需要传入容器的id和待添<br>加的Fragment实例。<br>(5) 提交事务，调用commit()方法来完成。</p>
+<h2 id="fragment添加到返回栈"><a href="#fragment添加到返回栈" class="headerlink" title="fragment添加到返回栈"></a>fragment添加到返回栈</h2><p>只需要在事务执行时，添加一行<br><code>transaction.addToBackStack(null)</code><br>一般默认为null，这样子，fragment也在返回栈中，点击back后，会退回一个返回栈内容。</p>
+<h2 id="fragment和activity交互"><a href="#fragment和activity交互" class="headerlink" title="fragment和activity交互"></a>fragment和activity交互</h2><p>activity获取fragment的实例：<br>Fragment提供了一个<code>supportFragmentManager</code>，activity通过这个管理器，然后调用findViewById，可以获取到Fragment的具体view然后操作。<br>fragment获取activity实例：<br>它内置了一个getActivity()方法，可以获取。<br>fragment和fragment交互：通过activity中转</p>
+<h2 id="Fragment声明周期"><a href="#Fragment声明周期" class="headerlink" title="Fragment声明周期"></a>Fragment声明周期</h2><p><img src="https://image.zfxt.top/hexo-blog/Android%EF%BC%88Fragment%EF%BC%89-2023-07-21-24-50.png"></p>
+<p>他的声明周期与activity很像。当activity处于暂停时，与之关联的fragment也会暂停。fragment除了有和activity几乎一样的回调方法外，还有一些附加的回调方法</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">onAttach()</td>
+<td align="left">当Fragment和Activity建立关联时调用。</td>
+</tr>
+<tr>
+<td align="left">onCreateView()</td>
+<td align="left">为Fragment创建视图（加载布局）时调用。</td>
+</tr>
+<tr>
+<td align="left">onActivityCreated()</td>
+<td align="left">确保与Fragment相关联的Activity已经创建完毕时调用。</td>
+</tr>
+<tr>
+<td align="left">onDestroyView()</td>
+<td align="left">当与Fragment关联的视图被移除时调用。</td>
+</tr>
+<tr>
+<td align="left">onDetach()</td>
+<td align="left">当Fragment和Activity解除关联时调用。</td>
+</tr>
+</tbody></table>
+<h2 id="动态加载布局"><a href="#动态加载布局" class="headerlink" title="动态加载布局"></a>动态加载布局</h2><p>让系统根据屏幕尺寸自动适配使用什么布局，主要是下面这张表<br><img src="https://image.zfxt.top/hexo-blog/Android%EF%BC%88Fragment%EF%BC%89-2023-07-12-53-32.png"><br>然后通过在res下建立对应的目录：如<code>layout-small</code>,<code>drawable-xxhdpi</code>之类的。<br>如果需要设置更具体的大小限制。可以使用最小宽度限定符(smallest-widthqualifier)<br>使用过程例如：需要设置一个大于600dp而单独使用都布局，就建立一个<code>layout-sw600dp</code>的目录。就是这么简单</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/9a0619a3/">https://zfxt.top/posts/9a0619a3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/4b04046c/" title="Kotlin（类，class）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Kotlin（类，class）</div></div><div class="info-2"><div class="info-item-1">初始化类 123456class User (_nickname:String)&#123;	val nickname:String	init&#123;		nickname = _nickname	&#125;&#125; 以上就是一个kotlin类的初始化，他的主构造函数直接写在User类后面，还省略了关键字constructor。但是由于语法结构的问题，他没有函数体，所有就通过init与主构造方法一起使用。在类中的元素必须初始化，可以如上图所示，也可以直接赋值。val nickname:String = _nickname kotlin还可以化简操作，直接把属性声明在主构造函数中1class User(val...</div></div></div></a><a class="pagination-related" href="/posts/e8e0fb17/" title="kotlin数组初始化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">kotlin数组初始化</div></div><div class="info-2"><div class="info-item-1">Array今天在leetcode刷题时，突然发现，自己不会使用最基础的数组以及他的初始化。所以在这里说明一下  使用arrayOf()这是官方推荐的一种写法，他接受的时可变长参数，也就是可以接受任意的参数，直接生成一个数组。 使用arrayOfNull&lt;&gt;(n),初始化一个数组全为空，接受参数为数组的大小。 直接使用Array()生成数组。他又两种构造器   直接传递一个int，这个就是他的size。 除了传递一个int外，还可以传递一个lambda函数，作为数组的初始值。   </div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fragment%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">Fragment是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">简单使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%BC%95%E5%85%A5fragment"><span class="toc-number">3.</span> <span class="toc-text">动态引入fragment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fragment%E6%B7%BB%E5%8A%A0%E5%88%B0%E8%BF%94%E5%9B%9E%E6%A0%88"><span class="toc-number">4.</span> <span class="toc-text">fragment添加到返回栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fragment%E5%92%8Cactivity%E4%BA%A4%E4%BA%92"><span class="toc-number">5.</span> <span class="toc-text">fragment和activity交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fragment%E5%A3%B0%E6%98%8E%E5%91%A8%E6%9C%9F"><span class="toc-number">6.</span> <span class="toc-text">Fragment声明周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%B8%83%E5%B1%80"><span class="toc-number">7.</span> <span class="toc-text">动态加载布局</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '1ef788b2cb173f7f49edd07802f8ee7e'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

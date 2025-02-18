@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>python简单学习 | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python简单学习">
+<meta property="og:url" content="https://zfxt.top/posts/94a5acd6/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2024-01-11T05:02:04.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:25.014Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="python入门">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/94a5acd6/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'python简单学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">python简单学习</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">python简单学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-11T05:02:04.000Z" title="发表于 2024-01-11 13:02:04">2024-01-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:25.014Z" title="更新于 2024-12-26 13:53:25">2024-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/">python</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一个字符必须为字母或者_</span></span><br><span class="line"><span class="comment"># 大小写敏感</span></span><br><span class="line">_a = <span class="number">1</span></span><br><span class="line">a = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">多行注释</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(_a, a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 行与缩进</span></span><br><span class="line"><span class="keyword">if</span> a == <span class="number">2</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a == 2&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Number类型：int 1,bool true,float 1.23,complex 1.1+2j</span></span><br><span class="line"><span class="string">字符串 变量[头下标:尾下标:步长] 来截取字符串</span></span><br><span class="line"><span class="string">字符串可以用 + 运算符连接在一起，用 * 运算符重复。</span></span><br><span class="line"><span class="string">反斜杠可以用来转义，使用 r 可以让反斜杠不发生转义。 如 r&quot;this is a line with \n&quot; 则 \n 会显示，并不是换行。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(a))</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&quot;\n\n按下enter键退出&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。</span></span><br><span class="line"><span class="comment"># 允许多变量赋值,指定赋值</span></span><br><span class="line">x = y = z = <span class="number">1</span></span><br><span class="line">a, b, c = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Number（数字）</span></span><br><span class="line"><span class="string">String（字符串）</span></span><br><span class="line"><span class="string">bool（布尔类型）</span></span><br><span class="line"><span class="string">List（列表）</span></span><br><span class="line"><span class="string">Tuple（元组）</span></span><br><span class="line"><span class="string">Set（集合）</span></span><br><span class="line"><span class="string">Dictionary（字典）</span></span><br><span class="line"><span class="string">不可变数据（3 个）：Number（数字）、String（字符串）、Tuple（元组）；</span></span><br><span class="line"><span class="string">可变数据（3 个）：List（列表）、Dictionary（字典）、Set（集合）。 </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">type()不会认为子类是一种父类类型。</span></span><br><span class="line"><span class="string">isinstance()会认为子类是一种父类类型。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">a = <span class="number">111</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">isinstance</span>(a, <span class="built_in">str</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(a))</span><br><span class="line"><span class="comment"># 注意：Python3 中，bool 是 int 的子类，True 和 False 可以和数字相加， True==1、False==0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># del语句删除一些对象引用。</span></span><br><span class="line"><span class="keyword">del</span> a</span><br><span class="line"></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;Runoob&#x27;</span></span><br><span class="line"><span class="comment"># 索引值以 0 为开始值，-1 为从末尾的开始位置。</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">str</span>[<span class="number">0</span>:-<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># int() 强制转换为整型：</span></span><br><span class="line">x = <span class="built_in">int</span>(<span class="number">2.6</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># while 循环使用 else 语句</span></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> count &lt; <span class="number">5</span>:</span><br><span class="line">    <span class="built_in">print</span>(count, <span class="string">&quot; 小于 5&quot;</span>)</span><br><span class="line">    count = count + <span class="number">1</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(count, <span class="string">&quot; 大于或等于 5&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Python pass是空语句，是为了保持程序结构的完整性。</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">列表推导式</span></span><br><span class="line"><span class="string">[表达式 for 变量 in 列表] </span></span><br><span class="line"><span class="string">[out_exp_res for out_exp in input_list]</span></span><br><span class="line"><span class="string">或者 </span></span><br><span class="line"><span class="string">[表达式 for 变量 in 列表 if 条件]</span></span><br><span class="line"><span class="string">[out_exp_res for out_exp in input_list if condition]</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">names = [<span class="string">&#x27;Bob&#x27;</span>, <span class="string">&#x27;Tom&#x27;</span>, <span class="string">&#x27;alice&#x27;</span>, <span class="string">&#x27;Jerry&#x27;</span>, <span class="string">&#x27;Wendy&#x27;</span>, <span class="string">&#x27;Smith&#x27;</span>]</span><br><span class="line">new_names = [name.upper() <span class="keyword">for</span> name <span class="keyword">in</span> names <span class="keyword">if</span> <span class="built_in">len</span>(name) &gt; <span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(new_names)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 元组推导式（生成器表达式）</span></span><br><span class="line">a = (x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">10</span>))</span><br><span class="line"><span class="comment"># a &lt;generator object &lt;genexpr&gt; at 0x7faf6ee20a50&gt;# 返回的是生成器对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">tuple</span>(a) <span class="comment">#  使用 tuple() 函数，可以直接将生成器对象转换成元组</span></span><br><span class="line"><span class="comment"># (1, 2, 3, 4, 5, 6, 7, 8, 9)</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">创建一个迭代器</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">把一个类作为一个迭代器使用需要在类中实现两个方法 __iter__() 与 __next__() 。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyNumbers</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.a = <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        x = <span class="variable language_">self</span>.a</span><br><span class="line">        <span class="variable language_">self</span>.a += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">myclass = MyNumbers()</span><br><span class="line">myiter = <span class="built_in">iter</span>(myclass)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(myiter))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(myiter))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成器</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">当在生成器函数中使用 yield 语句时，函数的执行将会暂停，并将 yield 后面的表达式作为当前迭代的值返回。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">然后，每次调用生成器的 next() 方法或使用 for 循环进行迭代时，函数会从上次暂停的地方继续执行，直到再次遇到 yield 语句。这样，生成器函数可以逐步产生值，而不需要一次性计算并返回所有结果。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">调用一个生成器函数，返回的是一个迭代器对象。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">countdown</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">yield</span> n</span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建生成器对象</span></span><br><span class="line">generator = countdown(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过迭代生成器获取值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(generator))  <span class="comment"># 输出: 5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(generator))  <span class="comment"># 输出: 4</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>(generator))  <span class="comment"># 输出: 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 for 循环迭代生成器</span></span><br><span class="line"><span class="keyword">for</span> value <span class="keyword">in</span> generator:</span><br><span class="line">    <span class="built_in">print</span>(value)  <span class="comment"># 输出: 2 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># lambda arguments: expression</span></span><br><span class="line">x = <span class="keyword">lambda</span> a, b, c : a + b + c</span><br><span class="line"><span class="built_in">print</span>(x(<span class="number">5</span>, <span class="number">6</span>, <span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">__name__属性</span></span><br><span class="line"><span class="string">一个模块被另一个程序第一次引入时，其主程序将运行。</span></span><br><span class="line"><span class="string">如果我们想在模块被引入时，模块中的某一程序块不执行，</span></span><br><span class="line"><span class="string">我们可以用__name__属性来使该程序块仅在该模块自身运行时执行。 </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="comment"># Filename: using_name.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&#x27;程序自身在运行&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&#x27;我来自另一模块&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内置的函数 dir() 可以找到模块内定义的所有名称。以一个字符串列表的形式返回:</span></span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/94a5acd6/">https://zfxt.top/posts/94a5acd6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python%E5%85%A5%E9%97%A8/">python入门</a></div><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/1b666b6c/" title="TLP的安装"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">TLP的安装</div></div><div class="info-2"><div class="info-item-1">TLPTLP 是一款自由开源的高级电源管理工具，可在不进行任何配置更改的情况下延长电池寿命。所有 TLP 设置都存储在 &#x2F;etc&#x2F;default&#x2F;tlp 中。其默认配置提供了开箱即用的优化的节能设置。TLP 功能:不做描述，只说明安装过程在ubuntu上， 1sudo apt install tlp tlp-rdw 成功安装后使用以下命令启动服务。 1systemctl start tlp.service 使用方法sudo tlp-stat -b 查看电池信息sudo tlp-stat -d 查看磁盘信息等 </div></div></div></a><a class="pagination-related" href="/posts/b7e69161/" title="关于kotlin中的list数组"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">关于kotlin中的list数组</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'b789e3d67a4abc1fa4170a488c91bccf'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

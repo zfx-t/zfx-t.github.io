@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据库备份及恢复 | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="常用数据库备份策略 mysqldump工具备份（数据量小） mysqldump由于是mysql自带的备份工具，所以也是最常用的mysql数据库的备份工具。支持基于InnoDB的热备份。但由于是逻辑备份，所以速度不是很快，适合备份数据量比较小的场景。  mysqldump完全备份+二进制日志 —&gt;实现时间点恢复  基于LVM快照备份（冷备份）  在物理备份中 ，有基于文件系统的物理备份（LVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库备份及恢复">
+<meta property="og:url" content="https://zfxt.top/posts/d635a576/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="常用数据库备份策略 mysqldump工具备份（数据量小） mysqldump由于是mysql自带的备份工具，所以也是最常用的mysql数据库的备份工具。支持基于InnoDB的热备份。但由于是逻辑备份，所以速度不是很快，适合备份数据量比较小的场景。  mysqldump完全备份+二进制日志 —&gt;实现时间点恢复  基于LVM快照备份（冷备份）  在物理备份中 ，有基于文件系统的物理备份（LVM">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2024-05-25T02:14:24.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:25.031Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="备份恢复">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/d635a576/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据库备份及恢复',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">数据库备份及恢复</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">数据库备份及恢复</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-25T02:14:24.000Z" title="发表于 2024-05-25 10:14:24">2024-05-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:25.031Z" title="更新于 2024-12-26 13:53:25">2024-12-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="常用数据库备份策略"><a href="#常用数据库备份策略" class="headerlink" title="常用数据库备份策略"></a>常用数据库备份策略</h2><ol>
+<li><p>mysqldump工具备份（数据量小）<br> <strong>mysqldump</strong>由于是mysql自带的备份工具，所以也是最常用的mysql数据库的备份工具。支持基于InnoDB的热备份。但由于是逻辑备份，所以速度不是很快，适合备份数据量比较小的场景。</p>
+<p> mysqldump完全备份+二进制日志 —&gt;实现时间点恢复</p>
+</li>
+<li><p>基于LVM快照备份（冷备份）</p>
+<p> 在物理备份中 ，有基于文件系统的物理备份（LVM的快照），也可以直接用tar之类的命令打包。但这些只能进行冷备份</p>
+<p> 不同的存储引擎能备份的级别也不一样，MyISAM能备份到表级别，而InnoDB不开启每表一文件的话就只能备份整个数据库。</p>
+</li>
+<li><p>使用percona提供的xtrabackup（推荐）</p>
+<p> 支持InnoDB的物理热备份，支持完全备份，增量备份，而且速度非常快，而且支持InnoDB引擎的数据在不同数据库迁移。<br> 优点如下：</p>
+<ol>
+<li><p>无需停止数据库进行InnoDB热备份，在50G以上的数据量备份时候，应该是首选工具。</p>
+</li>
+<li><p>支持增量备份MySQL并通过流传输到其他的服务器上。</p>
+</li>
+<li><p>备份MySQL的时候不会增加服务器的负载。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>在这里我们不演示如何备份的工作，而只针对于如何将数据恢复到数据库中，并且关闭密码校验。</p>
+<h2 id="恢复数据库"><a href="#恢复数据库" class="headerlink" title="恢复数据库"></a>恢复数据库</h2><blockquote>
+<p>这里以xtrabackup备份后的数据为例。将从一台全新的ubuntu服务器上完成数据库的恢复</p>
+</blockquote>
+<p>首先我们会拥有一个<code>backup.tar.gz</code>的一个压缩包。他实际上就是我们数据库的data文件夹。因此我们只需要将这个压缩包解压到对应的data目录下，然后通过修改密码。重新启动这个数据库即可完成数据的再次访问。</p>
+<h3 id="第一步-解压备份文件"><a href="#第一步-解压备份文件" class="headerlink" title="第一步:解压备份文件"></a>第一步:解压备份文件</h3><p>首先还是先把我们的数据库文件解压出来<br>我们这里选择在<code>/root/back/102</code>目录下解压</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf backup.tar.gz -C /root/back/102</span><br></pre></td></tr></table></figure>
+
+<p>表示会把<code>backup.tar.gz</code>解压到<code>/root/back/102</code>目录下</p>
+<p>然后我们创建一个<code>data</code>目录,用来把解压后的文件移动到这个目录下.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/back/102 <span class="comment">#移动到指定目录下</span></span><br><span class="line"><span class="built_in">mkdir</span> data <span class="comment"># 创建目录</span></span><br><span class="line"><span class="built_in">mv</span> /root/back/102/tmp/backup/2024-03-23/full/* /root/back/102/data <span class="comment"># 移动文件到指定目录下</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://image.zfxt.top/hexo-blog/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%8F%8A%E6%81%A2%E5%A4%8D-2024-05-25-10-53-36.png" alt="数据库备份及恢复-2024-05-25-10-53-36"><br>此时我们可以看到在你对应的目录下,有一个data文件夹,这个文件夹下面就是数据库的所有文件.</p>
+<h3 id="第二步：安装mysql服务"><a href="#第二步：安装mysql服务" class="headerlink" title="第二步：安装mysql服务"></a>第二步：安装mysql服务</h3><ol>
+<li><p>安装docker<br> 这里我们使用docker来安装mysql服务，这样子可以简化很多环境问题。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://test.docker.com -o test-docker.sh</span><br><span class="line"><span class="built_in">sudo</span> sh test-docker.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过docker拉取mysql镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:8.0.19</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动mysql服务<br>这里要考虑两个情况,一个是我们正常的使用.一个是跳过过校验过程进入安全模式实现对密码的修改.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">docker run -p 3306:3306 --name 102 \</span><br><span class="line">-v /root/back/102/mysql-files:/var/lib/mysql-files \</span><br><span class="line">-v /root/back/102/conf:/etc/mysql \</span><br><span class="line">-v /root/back/102/logs:/var/log/mysql \</span><br><span class="line">-v /root/back/102/data:/var/lib/mysql \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=yourpassword \</span><br><span class="line">-d mysql:8.0.19 \</span><br><span class="line">--skip-grant-tables <span class="comment"># 跳过密码校验.带上这个参数表示进入安全模式</span></span><br></pre></td></tr></table></figure>
+
+<p> 这里他会把你的数据库文件挂载到<code>/var/lib/mysql</code>目录下.</p>
+</li>
+</ol>
+<h3 id="第三步：修改密码"><a href="#第三步：修改密码" class="headerlink" title="第三步：修改密码"></a>第三步：修改密码</h3><blockquote>
+<p>这里我们需要修改密码并允许远程连接</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it 102 bash <span class="comment"># 进入docker服务内部</span></span><br><span class="line">mysql -u root -p <span class="comment"># 进入mysql(此时是安全模式,不会有密码校验)</span></span><br></pre></td></tr></table></figure>
+
+<p>进入mysql后我们查看数据后.需要修改密码.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 进入mysql数据库</span><br><span class="line">use mysql; </span><br><span class="line"># 查看用户信息</span><br><span class="line"><span class="keyword">select</span> host, <span class="keyword">user</span>, authentication_string, plugin <span class="keyword">from</span> <span class="keyword">user</span>; </span><br><span class="line"># 修改密码</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> authentication_string<span class="operator">=</span><span class="string">&#x27;&#x27;</span> <span class="keyword">where</span> <span class="keyword">user</span><span class="operator">=</span><span class="string">&#x27;root&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>按<code>ctrl+d</code>退出mysql,再按一次退出docker<br>然后我们退出docker服务,重新启动mysql(不进入安全模式)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> -f 102 <span class="comment"># 删除容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新启动,并且不适用安全模式</span></span><br><span class="line"> docker run -p 3306:3306 --name 102 \</span><br><span class="line">    -v /root/back/102/mysql-files:/var/lib/mysql-files \</span><br><span class="line">    -v /root/back/102/conf:/etc/mysql \</span><br><span class="line">    -v /root/back/102/logs:/var/log/mysql \</span><br><span class="line">    -v /root/back/102/data:/var/lib/mysql \</span><br><span class="line">    -e MYSQL_ROOT_PASSWORD=yourpassword \</span><br><span class="line">    -d mysql:8.0.19 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入docker容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it 102 bash</span><br><span class="line"><span class="comment"># 进入mysql</span></span><br><span class="line">mysql -u root </span><br><span class="line"><span class="comment"># 可能需要的步骤(有时候,如果被提示root用户没有权限就执行这个命令)</span></span><br><span class="line"><span class="comment"># grant system_user on *.* to &#x27;root&#x27;@&#x27;localhost&#x27;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加root@%用户</span></span><br><span class="line">CREATE USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为root设置允许所有权限</span></span><br><span class="line">GRANT ALL ON *.* TO <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置加密方式</span></span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED WITH mysql_native_password BY <span class="string">&#x27;yourpassword&#x27;</span>;</span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED WITH mysql_native_password BY <span class="string">&#x27;yourpassword&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新权限</span></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<p>至此我们就完成了数据库的恢复工作.<br>如果是在云服务器,我们就需要放开3306端口,本地就直接连接即可.<br>这样子我们就可以通过navicat等工具连接到数据库了.</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在经过长达3-4个月的实际使用中。经常会经历包括服务器奔溃，数据库奔溃的情况。曾经我不会解决，每次都要花个10到20分钟。从0开始重新部署一遍数据库。总会显得有些麻烦。现在有一个解决方案：<br><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/forcing-innodb-recovery.html">mysql8.0参考文档</a></p>
+<p>在这个文档中，解释到了一些关于强制重启的参数。而这正是我所刚需的。我并不需要对数据库进行写服务，只需要把他设置为readonly模式。这样子，就算服务器因为内存太小奔溃了。它也可以重新自启动。</p>
+<p>解决措施：在<code>my.cnf</code>中设置如下参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">innodb_force_recovery = 1</span><br></pre></td></tr></table></figure>
+
+<p>1 （SRV_FORCE_IGNORE_CORRUPT）</p>
+<p>即使检测到损坏的页面， 也让服务器运行 。尝试 跳过损坏的索引记录和页面，这有助于转储表。 SELECT * FROM tbl_name</p>
+<p>2 （SRV_FORCE_NO_BACKGROUND）</p>
+<p>阻止主线程和任何清除线程运行。如果在清除操作期间发生意外退出，此恢复值将阻止它。</p>
+<p>3 （SRV_FORCE_NO_TRX_UNDO）</p>
+<p>崩溃恢复后 不运行事务 回滚。</p>
+<p>4 （SRV_FORCE_NO_IBUF_MERGE）</p>
+<p>防止插入缓冲区合并操作。如果这些操作会导致崩溃，则不执行这些操作。不计算表统计 信息。此值可能会永久损坏数据文件。使用此值后，请准备删除并重新创建所有二级索引。设置 InnoDB为只读。</p>
+<p>5 （SRV_FORCE_NO_UNDO_LOG_SCAN）</p>
+<p>启动数据库时 不查看撤消日志InnoDB：即使未完成的事务也视为已提交。此值可能会永久损坏数据文件。设置InnoDB为只读。</p>
+<p>6 （SRV_FORCE_NO_LOG_REDO）</p>
+<p>不执行与恢复相关的重做日志 前滚。此值可能会永久损坏数据文件。使数据库页面处于过时状态，这反过来可能会导致 B 树和其他数据库结构进一步损坏。设置 InnoDB为只读。</p>
+<p>一般设置为4以上时，就可以解决我的需要了。<br>以上</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/d635a576/">https://zfxt.top/posts/d635a576/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/mysql/">mysql</a><a class="post-meta__tags" href="/tags/%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/">备份恢复</a></div><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/8fd4bcc4/" title="子域名共享使用"><img class="cover" src="https://image.zfxt.top/hexo-blog/子域名共享使用-2024-06-16-14-21-55.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">子域名共享使用</div></div><div class="info-2"><div class="info-item-1"> 记录最近想到的一个小知识点  问题起源在最开始我还没有购买自己的域名时，我大多时候想着白嫖，于是就逛了很多包括MyDomain，eu.org此类的网站。同时也在一些学习的qq群里看到有人共享二级域名给别人免费使用。这么一想，我突然发现。似乎是个可以免费提供出去的服务（适用场景：在一个小团队里，大家并不需要每个人都购买一个域名，而是统一的在一个team.com的一级域名下，在将每个二级域名例如：名字缩写+team.com这样式的。分配给每一个人，这样每个人都会有一个自己可以完全支配的域名）。 这个功能在github，jetbrain...</div></div></div></a><a class="pagination-related" href="/posts/7d1fbdb2/" title="嵌入式模拟格力空调遥控器"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">嵌入式模拟格力空调遥控器</div></div><div class="info-2"><div class="info-item-1"> 记录一下：在嵌入式实验中，通过实现模拟格力空调的红外信号实现了使用单片机遥控空调的效果。  红外信号传输原理红外线的通讯原理 红外光是以特定的频率脉冲形式发射，接收端收到到信号后，按照约定的协议进行解码，完成数据传输，在消费类电子产品里，脉冲频率普遍采用 30KHz 到 60KHz 这个频段，NEC协议的频率就是38KHZ。 这个以特定的频率发射其实就可以理解为点灯，不要被复杂的词汇难住了，就是控制灯的闪烁频率(亮灭)，和刚学单片机完成闪光灯一样的意思，只不过是灯换了一种类型，都是灯。 接收端的原理: 接收端的芯片对这个红外光比较敏感，可以根据有没有光输出高低电平，如果发送端的闪烁频率是有规律的，接收端收到后输出的高电平和低电平也是有规律对应的，这样发送端和接收端只要约定好，那就可以做数据传输了。 红外接收原理NEC协议NEC协议是众多红外线协议中的一种(这里说的协议就是他们数据帧格式定义不一样，数据传输原理都是一样的)，我们购买的外能遥控器、淘宝买的mini遥控器、电视机、投影仪几乎都是NEC协议。...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E7%AD%96%E7%95%A5"><span class="toc-number">1.</span> <span class="toc-text">常用数据库备份策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">恢复数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E8%A7%A3%E5%8E%8B%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="toc-number">2.1.</span> <span class="toc-text">第一步:解压备份文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%AE%89%E8%A3%85mysql%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.2.</span> <span class="toc-text">第二步：安装mysql服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81"><span class="toc-number">2.3.</span> <span class="toc-text">第三步：修改密码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">3.</span> <span class="toc-text">补充</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'b77de56499fe781c3f1e523d32b9f9cc'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="分享知识，勤做笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小贺同学的blog">
+<meta property="og:url" content="https://zfxt.top/page/15/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="分享知识，勤做笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/page/15/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '小贺同学的blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a071fa17/" title="Android常用控件">Android常用控件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-07-04T02:42:31.000Z" title="发表于 2023-07-04 10:42:31">2023-07-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">常用控件TextView显示文本    属性 释义 样例    gravity 来指定文字的对齐方式 top,bottom,start等   textColor 指定文字颜色 red，green   textSize 指定文字大小 sp为单位，这样当用户在系统中修改了文字显示尺寸时，应用   程序中的文字大小也会跟着变化。重新运行程序     text 指定文字内容    Button放置按钮    属性 释义 样例    textAllCaps 指定文字是否大小写 false,true   注册Button点击事件的方式  函数式API123button.setOnClickListener &#123; // 在此处添加逻辑 &#125;  2.用实现接口的方式来进行注册 12345678910111213141516 class MainActivity : AppCompatActivity(),View.OnClickListener &#123;	 override fun onCreate(savedInstanceState: Bundle?) &#123;		...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/d9fc97ad/" title="Kotlin标准方法with,run,apply AND 静态方法">Kotlin标准方法with,run,apply AND 静态方法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-30T00:15:00.000Z" title="发表于 2023-06-30 08:15:00">2023-06-30</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">标准函数with,run,apply123456789101112131415161718192021222324252627282930313233343536373839404142fun main() &#123;    //常用写法    val list = listOf(&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;, &quot;pear&quot;, &quot;grape&quot;)    val builder = StringBuilder()    builder.append(&quot;Start eat fruits\n&quot;)    for (fruit in list) &#123;        builder.append(fruit + &quot;\n&quot;)    &#125;    builder.append(&quot;Ate all fruits\n&quot;)    println(builder)    //使用with作为标准函数来写  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/fb710795/" title="Activity最佳实践">Activity最佳实践</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-30T00:02:35.000Z" title="发表于 2023-06-30 08:02:35">2023-06-30</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">知晓当前时哪一个activity直接创建一个kotlin的类，，他与Activity的创建方法不一样。创建BaseActivity类 12345678open class BaseActivity:AppCompatActivity() &#123;    override fun onCreate(savedInstanceState: Bundle?) &#123;        super.onCreate(savedInstanceState)        Log.d(&quot;BaseActivity&quot;,javaClass.simpleName)        //javaClass表示获取当前实例的class对象，相当于在java中调用getClass方法        //::class.java表示获取BaseActivity类的Class对象。相当于在Java中调用BaseActivity.class反射        ActivityCollector.addActivity(this)   ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/49b5653f/" title="Activity启动模式">Activity启动模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-29T23:16:55.000Z" title="发表于 2023-06-30 07:16:55">2023-06-30</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/4dca68be/" title="Activity被回收">Activity被回收</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-29T06:50:35.000Z" title="发表于 2023-06-29 14:50:35">2023-06-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">一般情况下，只有activity被销毁后才hi被回收。可是，当系统内存不足时，他会将处于停止状态的activity也回收了。如果停止状态的activity没被回收，那么再次启动时，将会执行onRestart()方法，然后恢复数据，但是如果被回收后，他会执行onCreate()方法，也就导致，如果这个activity有文本输入框的话，这些数据都会直接消失。 因此为了解决这个问题，Activity提供了一个onSaveInstanceState()回调方法。他在回收前一点会调用该方法。该方法需要一个Bundle参数，也可以用put之类的保存键值对参数。如下代码： 12345override fun onSaveInstanceState(outState: Bundle)&#123;	super.onSaveInstanceState(outState)	val tempData = &quot;Something you just...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/b44bf942/" title="Activity生命周期">Activity生命周期</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-29T05:57:15.000Z" title="发表于 2023-06-29 13:57:15">2023-06-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a4e34b71/" title="Activity的跳转">Activity的跳转</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-29T02:01:00.000Z" title="发表于 2023-06-29 10:01:00">2023-06-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">activity的销毁只要调用finish()方法即可销毁activity。 Intentintent是Android程序中各组件之间进行交互的一种重要方式，不仅可以指定当前组件要执行的动作，也可以在不同组件传递数据。 activity的跳转 显式跳转，直接确定跳转的类，然后进行跳转 隐式跳转，设定好被跳转activity的响应事件和类别，然后通过触发对应的intent和category进行跳转。   显示跳转Intent有很多构造参数，这里我们选用一个Intent(Context packageContext,Class&lt;?&gt; cls)第一个参数需要一个启动的上下文，而我们的Activity实例就是一个context。第二个参数就是要跳转的目的类（他需要接受一个java的类）例如：123456button1.setOnClickListenner&#123;	val intent =...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/81c5b9b9/" title="Activity更替（视图绑定）">Activity更替（视图绑定）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-29T01:30:25.000Z" title="发表于 2023-06-29 09:30:25">2023-06-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content"> kotin已经是google官宣的第一android开发语言。在android开发中，经常需要在activity中去获取某个具体的View属性，一般可以通过findViewById(R.id.button1)的方法来获取View，从而实现具体的逻辑变化。  但是一直使用findViewById()非常不利于代码的整洁性和可观性，因此可以采用视图绑定的方法来简化操作。   在原先的kotlin开发中，他可以通过插件apply plugin: &#39;kotlin-android-extensions&#39;已经被弃用来实现简单的视图绑定。现在这个插件已经被废除，需要使用其他方法    视图绑定在app目录下的build.gradle配置文件中填入一下内容  1android &#123; ... viewBinding &#123; enabled = true &#125; &#125; 然后就可以便携的在activity中使用视图绑定 123456789override fun onCreate(savedInstanceState: Bundle?) &#123;  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/115e430b/" title="Activity的使用（1）">Activity的使用（1）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-29T00:07:58.000Z" title="发表于 2023-06-29 08:07:58">2023-06-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">Activity的概念他是一种可以包含用户组界面的组件。他就是一个app的门面，所有可见的内容都是在activity中定义的。 相关配置每个Activity都需要绑定一个布局文件layout以及必须在AndroidManifest注册。  在layout布局文件中，每个元素都应该有一个唯一的id作为标识符。例如：1&lt;Button...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/2a9bcd2f/" title="Android入门(0)">Android入门(0)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-28T23:33:46.000Z" title="发表于 2023-06-29 07:33:46">2023-06-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">IDEA是一款非常强大的编译器，而且大家常用的AndroidStudio就是基于IDEA开发出来的，因此无论是使用Android Studion还是IDEA都会非常的熟练，他们的快捷键等都几乎保持一致。因此无论是使用idea或者android studio都没有问题。这里我选择使用idea。就不多再下载一个编译器了。使用过程  首先需要安装android SDK他会要求你进行下载，当你下载完成后，你就可以使用idea开发android了 如果是旧UI的话，就可以在开发Android时自己选择模拟的设备了，如图而如果更换了新UI就不会显示这个，你需要通过更多工具获得选择这些工具后，他们就会出现在右栏或者底栏，就可以方便的使用了。 logcat的使用最重要的是他的筛选工具，他可以筛选log的等级，和包名  </div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/14/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/#content-inner">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/#content-inner">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/#content-inner">27</a><a class="extend next" rel="next" href="/page/16/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Android%E5%85%A5%E9%97%A8/"><span class="card-category-list-name">Android入门</span><span class="card-category-list-count">42</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Echarts/"><span class="card-category-list-name">Echarts</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Linux基础</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/RabbitMQ/"><span class="card-category-list-name">RabbitMQ</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/clash/"><span class="card-category-list-name">clash</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kali/"><span class="card-category-list-name">kali</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kotlin/"><span class="card-category-list-name">kotlin</span><span class="card-category-list-count">65</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nvm/"><span class="card-category-list-name">nvm</span><span class="card-category-list-count">2</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.15em; color: rgb(111, 117, 104);">adb调试</a><a href="/tags/android/" style="font-size: 1.32em; color: rgb(142, 50, 50);">android</a><a href="/tags/vue/" style="font-size: 1.45em; color: rgb(113, 76, 50);">vue</a><a href="/tags/JS/" style="font-size: 1.32em; color: rgb(91, 50, 111);">JS</a><a href="/tags/MediaPlayer/" style="font-size: 1.15em; color: rgb(112, 61, 50);">MediaPlayer</a><a href="/tags/APK%E6%89%93%E5%8C%85/" style="font-size: 1.15em; color: rgb(193, 87, 118);">APK打包</a><a href="/tags/android-Studio/" style="font-size: 1.15em; color: rgb(50, 187, 167);">android Studio</a><a href="/tags/bee%E6%A1%86%E6%9E%B6/" style="font-size: 1.15em; color: rgb(106, 70, 100);">bee框架</a><a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.15em; color: rgb(113, 77, 163);">目录结构</a><a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.15em; color: rgb(178, 131, 105);">四大组件</a><a href="/tags/Android-Media/" style="font-size: 1.15em; color: rgb(50, 177, 187);">Android Media</a><a href="/tags/jetpack-compose/" style="font-size: 1.19em; color: rgb(145, 124, 187);">jetpack compose</a><a href="/tags/cameraX/" style="font-size: 1.15em; color: rgb(50, 121, 161);">cameraX</a><a href="/tags/%E8%BD%BBnas/" style="font-size: 1.15em; color: rgb(50, 50, 79);">轻nas</a><a href="/tags/%E6%9D%82%E8%A8%80/" style="font-size: 1.19em; color: rgb(122, 125, 135);">杂言</a><a href="/tags/ES6/" style="font-size: 1.19em; color: rgb(153, 70, 50);">ES6</a><a href="/tags/fetch/" style="font-size: 1.15em; color: rgb(108, 75, 50);">fetch</a><a href="/tags/promise/" style="font-size: 1.15em; color: rgb(52, 74, 50);">promise</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.15em; color: rgb(192, 117, 50);">C语言</a><a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.15em; color: rgb(181, 198, 113);">长连接和短链接</a><a href="/tags/gradle/" style="font-size: 1.19em; color: rgb(184, 89, 103);">gradle</a><a href="/tags/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/" style="font-size: 1.19em; color: rgb(109, 50, 177);">数据通信</a><a href="/tags/idea%E6%BF%80%E6%B4%BB/" style="font-size: 1.15em; color: rgb(63, 50, 185);">idea激活</a><a href="/tags/JAVA/" style="font-size: 1.28em; color: rgb(69, 131, 84);">JAVA</a><a href="/tags/JWT/" style="font-size: 1.15em; color: rgb(175, 194, 200);">JWT</a><a href="/tags/jar%E5%8C%85/" style="font-size: 1.15em; color: rgb(180, 191, 72);">jar包</a><a href="/tags/java/" style="font-size: 1.19em; color: rgb(129, 170, 50);">java</a><a href="/tags/k8s/" style="font-size: 1.19em; color: rgb(50, 50, 58);">k8s</a><a href="/tags/ktor/" style="font-size: 1.15em; color: rgb(50, 193, 134);">ktor</a><a href="/tags/compose/" style="font-size: 1.24em; color: rgb(126, 168, 50);">compose</a><a href="/tags/linux/" style="font-size: 1.41em; color: rgb(191, 82, 112);">linux</a><a href="/tags/Lombok/" style="font-size: 1.15em; color: rgb(50, 52, 63);">Lombok</a><a href="/tags/MVI/" style="font-size: 1.15em; color: rgb(65, 67, 197);">MVI</a><a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 1.15em; color: rgb(103, 72, 97);">架构</a><a href="/tags/mock/" style="font-size: 1.15em; color: rgb(50, 106, 50);">mock</a><a href="/tags/nginx/" style="font-size: 1.36em; color: rgb(188, 114, 61);">nginx</a><a href="/tags/ORM%E6%A1%86%E6%9E%B6/" style="font-size: 1.15em; color: rgb(114, 50, 190);">ORM框架</a><a href="/tags/Sqlite/" style="font-size: 1.19em; color: rgb(124, 50, 107);">Sqlite</a><a href="/tags/shell/" style="font-size: 1.19em; color: rgb(111, 62, 132);">shell</a><a href="/tags/ssl%E8%AF%81%E4%B9%A6/" style="font-size: 1.19em; color: rgb(170, 172, 88);">ssl证书</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      <a class="card-more-btn" href="/archives/" title="查看更多"><i class="fas fa-angle-right"></i></a>
+    </div>
+    <ul class="card-archive-list">
+  
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2025/02/">
+          <span class="card-archive-list-date">二月 2025</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/12/">
+          <span class="card-archive-list-date">十二月 2024</span>
+          <span class="card-archive-list-count">9</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/11/">
+          <span class="card-archive-list-date">十一月 2024</span>
+          <span class="card-archive-list-count">3</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/09/">
+          <span class="card-archive-list-date">九月 2024</span>
+          <span class="card-archive-list-count">1</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/07/">
+          <span class="card-archive-list-date">七月 2024</span>
+          <span class="card-archive-list-count">9</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/06/">
+          <span class="card-archive-list-date">六月 2024</span>
+          <span class="card-archive-list-count">5</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/05/">
+          <span class="card-archive-list-date">五月 2024</span>
+          <span class="card-archive-list-count">2</span>
+        </a>
+      </li>
+    
+      <li class="card-archive-list-item">
+        <a class="card-archive-list-link" href="/archives/2024/04/">
+          <span class="card-archive-list-date">四月 2024</span>
+          <span class="card-archive-list-count">4</span>
+        </a>
+      </li>
+    </ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">265</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">164k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-02-18T07:41:49.319Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://image.zfxt.top/stair.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://unpkg.com/typed.js/dist/typed.umd.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js').then(() => {
+    jinrishici.load(result =>{
+      if (true) {
+        const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"]
+        const content = result.data.content
+        sub.unshift(content)
+        typedJSFn.init(sub)
+      } else {
+        document.getElementById('subtitle').textContent = result.data.content
+      }
+    })
+  })
+}
+typedJSFn.run(subtitleType)
+</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

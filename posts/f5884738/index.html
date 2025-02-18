@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Android入门（RecyclerView控件） | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="RecyclerView控件首先，他并不是系统自带的控件，而是在androidx中的，也就是还需要从外部导入。不过好在IDEA已经帮我们导入过了，在build.gralde中 12345678910dependencies &#123;    implementation &#x27;androidx.core:core-ktx:1.7.0&#x27;    implementation &amp;#x2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android入门（RecyclerView控件）">
+<meta property="og:url" content="https://zfxt.top/posts/f5884738/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="RecyclerView控件首先，他并不是系统自带的控件，而是在androidx中的，也就是还需要从外部导入。不过好在IDEA已经帮我们导入过了，在build.gralde中 12345678910dependencies &#123;    implementation &#x27;androidx.core:core-ktx:1.7.0&#x27;    implementation &amp;#x2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2023-07-05T06:02:00.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:24.960Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/f5884738/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android入门（RecyclerView控件）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Android入门（RecyclerView控件）</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Android入门（RecyclerView控件）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-05T06:02:00.000Z" title="发表于 2023-07-05 14:02:00">2023-07-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:24.960Z" title="更新于 2024-12-26 13:53:24">2024-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">983</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="RecyclerView控件"><a href="#RecyclerView控件" class="headerlink" title="RecyclerView控件"></a>RecyclerView控件</h2><p>首先，他并不是系统自带的控件，而是在<code>androidx</code>中的，也就是还需要从外部导入。不过好在IDEA已经帮我们导入过了，在<code>build.gralde</code>中</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line"></span><br><span class="line">    implementation <span class="string">&#x27;androidx.core:core-ktx:1.7.0&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;androidx.appcompat:appcompat:1.4.1&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;com.google.android.material:material:1.5.0&#x27;</span></span><br><span class="line">    implementation <span class="string">&#x27;androidx.constraintlayout:constraintlayout:2.1.3&#x27;</span></span><br><span class="line">    testImplementation <span class="string">&#x27;junit:junit:4.13.2&#x27;</span></span><br><span class="line">    androidTestImplementation <span class="string">&#x27;androidx.test.ext:junit:1.1.3&#x27;</span></span><br><span class="line">    androidTestImplementation <span class="string">&#x27;androidx.test.espresso:espresso-core:3.4.0&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>导入之后就可以正常使用了</p>
+<h3 id="普通使用"><a href="#普通使用" class="headerlink" title="普通使用"></a>普通使用</h3><ol>
+<li>首先直接在layout布局中声明一个recyclerView控件<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">androidx.recyclerview.widget.RecyclerView</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@+id/recyclerView&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>然后继承他的适配器，直接放实例代码<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Girl</span>(val girlName: String, val girlImg: Int)&#123;&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GirlAdapter</span>(val girlList: List&lt;Girl&gt;) :</span><br><span class="line">    RecyclerView.Adapter&lt;GirlAdapter.ViewHolder&gt;() &#123;</span><br><span class="line">	inner <span class="keyword">class</span> <span class="title class_">ViewHolder</span>(view: View) : RecyclerView.ViewHolder(view) &#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">girlName</span> <span class="operator">=</span> view.findViewById&lt;TextView&gt;(R.id.girlName)</span><br><span class="line">        <span class="type">val</span> <span class="variable">girlImg</span> <span class="operator">=</span> view.findViewById&lt;ImageView&gt;(R.id.girlImg)</span><br><span class="line">    &#125;</span><br><span class="line">    override fun <span class="title function_">onCreateViewHolder</span><span class="params">(parent: ViewGroup, viewType: Int)</span>: ViewHolder &#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">view</span> <span class="operator">=</span> LayoutInflater.from(parent.context)</span><br><span class="line">            .inflate(R.layout.girl_item, parent, <span class="literal">false</span>)</span><br><span class="line">        <span class="keyword">return</span> ViewHolder(view)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun <span class="title function_">getItemCount</span><span class="params">()</span> = girlList.size</span><br><span class="line"></span><br><span class="line">    override fun <span class="title function_">onBindViewHolder</span><span class="params">(holder: ViewHolder, position: Int)</span> &#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">girl</span> <span class="operator">=</span> girlList[position]</span><br><span class="line">        holder.girlImg.setImageResource(girl.girlImg)</span><br><span class="line">        holder.girlName.text = girl.girlName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+相较于listview：<ol>
+<li>他只需要接受一个data的参数，更容易理解其中的内容</li>
+<li>他需要实现三个方法和一个内部类</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">释义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ViewHolder</td>
+<td align="left">用来简化操作，提前维护好view变量，提高效率</td>
+</tr>
+<tr>
+<td align="left">onCreateViewHolder()</td>
+<td align="left">创建ViewHolder对象</td>
+</tr>
+<tr>
+<td align="left">getItemCount()</td>
+<td align="left">获取队列的总数</td>
+</tr>
+<tr>
+<td align="left">onBindViewHolder()</td>
+<td align="left">实现数据的绑定</td>
+</tr>
+</tbody></table>
+<pre><code>3. 然后再需要使用他的地方，直接引用，直接给实例代码：
+</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">super</span>.onCreate(savedInstanceState)</span><br><span class="line">setContentView(R.layout.activity_main)</span><br><span class="line">initFruits() <span class="comment">// 初始化水果数据</span></span><br><span class="line"><span class="type">val</span> <span class="variable">layoutManager</span> <span class="operator">=</span> LinearLayoutManager(<span class="built_in">this</span>)</span><br><span class="line">recyclerView.layoutManager = layoutManager</span><br><span class="line"><span class="type">val</span> <span class="variable">adapter</span> <span class="operator">=</span> FruitAdapter(fruitList)</span><br><span class="line">recyclerView.adapter = adapter</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>创建了一个LinearLayoutManager对象，并将它设置到RecyclerView当中。LayoutManager用于指定RecyclerView的布局方式，这里使用的<br>LinearLayoutManager是线性布局的意思，可以实现和ListView类似的效果</p>
+</blockquote>
+<h3 id="布局管理"><a href="#布局管理" class="headerlink" title="布局管理"></a>布局管理</h3><blockquote>
+<p>主要得益于RecyclerView出色的设计。ListView的布局排列是由自身去管理的，而RecyclerView则将这个工作交给了LayoutManager。LayoutManager制定了一套可扩展的布局排列接口，子类只要按照接口的规范来实现，就能定制出各种不同排列方式的布局了。</p>
+</blockquote>
+<p>除了LinearLayoutManager之外，RecyclerView还给我们提供了GridLayoutManager和<br>StaggeredGridLayoutManager这两种内置的布局排列方式。GridLayoutManager可以用实现网格布局，StaggeredGridLayoutManager可以用于实现瀑布流布局<br>线性布局都可以参照下面的实例<br>给一个实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">val</span> <span class="variable">layoutManager</span> <span class="operator">=</span> StaggeredGridLayoutManager(<span class="number">3</span>,</span><br><span class="line"> StaggeredGridLayoutManager.VERTICAL)</span><br><span class="line"> recyclerView.layoutManager = layoutManager</span><br><span class="line"> <span class="type">val</span> <span class="variable">adapter</span> <span class="operator">=</span> FruitAdapter(fruitList)</span><br><span class="line"> recyclerView.adapter = adapter</span><br></pre></td></tr></table></figure>
+
+<h2 id="点击事件"><a href="#点击事件" class="headerlink" title="点击事件"></a>点击事件</h2><p>首先，RecyclerView并没有像Listview一样定义了点击事件。他并没有专门的点击事件。他的点击事件需要根据具体的每个子项控件去设置。而这样往往更加方便使用和易于理解。<br>下面是一个示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">override fun <span class="title function_">onCreateViewHolder</span><span class="params">(parent: ViewGroup, viewType: Int)</span>: ViewHolder &#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">view</span> <span class="operator">=</span> LayoutInflater.from(parent.context)</span><br><span class="line">            .inflate(R.layout.girl_item, parent, <span class="literal">false</span>)</span><br><span class="line">        <span class="type">val</span> <span class="variable">viewHolder</span> <span class="operator">=</span>  ViewHolder(view)</span><br><span class="line">		<span class="comment">//itemView表示最外层布局，也就是整个子项</span></span><br><span class="line">        viewHolder.itemView.setOnClickListener &#123;</span><br><span class="line">            <span class="type">val</span> <span class="variable">position</span> <span class="operator">=</span> viewHolder.adapterPosition</span><br><span class="line">			<span class="comment">//获取当前点击处的序列号。</span></span><br><span class="line">            <span class="type">val</span> <span class="variable">girl</span> <span class="operator">=</span> girlList[position]</span><br><span class="line">			<span class="comment">//根据序列获得girl实例</span></span><br><span class="line">            Toast.makeText(parent.context,<span class="string">&quot;you clicked view $&#123;girl.girlName&#125;&quot;</span>,Toast.LENGTH_SHORT).show()</span><br><span class="line">        &#125;</span><br><span class="line">        viewHolder.girlImg.setOnClickListener &#123;</span><br><span class="line">            <span class="type">val</span> <span class="variable">position</span> <span class="operator">=</span> viewHolder.adapterPosition</span><br><span class="line">            <span class="type">val</span> <span class="variable">girl</span> <span class="operator">=</span> girlList[position]</span><br><span class="line">            Toast.makeText(parent.context,<span class="string">&quot;you clicked img $&#123;girl.girlName&#125;&quot;</span>,Toast.LENGTH_SHORT).show()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>  viewHolder</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>点击事件是在onCreateViewHolder中定义的。</p>
+<blockquote>
+<p>上述代码分别为最<br>外层布局和ImageView都注册了点击事件，itemView表示的就是最外层布局。RecyclerView<br>的强大之处也在于此，它可以轻松实现子项中任意控件或布局的点击事件。我们在两个点击事<br>件中先获取了用户点击的position，然后通过position拿到相应的Fruit实例，再使用Toast分<br>别弹出两种不同的内容以示区别</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/f5884738/">https://zfxt.top/posts/f5884738/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/c2dfd577/" title="Kotlin延迟初始化和密封类，内部类"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Kotlin延迟初始化和密封类，内部类</div></div><div class="info-2"><div class="info-item-1">延迟初始类 这个应用的前提：很多情况下，我们会先初始化一个类，但是因为没有给他赋值，就给他赋值为null。如:  1private var adapter: MsgAdapter? = null  而在kotlin中，对于可能为空的变量，需要进行很多次非空判断，非空保护，即便你知道他不可能为空。以满足他的语法规则。 延迟初始化然后这里提供一种方法： 1private lateinit var adapter: MsgAdapter lateinit这个关键字表明当前这个变量不会立刻初始化，而是会在后面的步骤中赋值。但是他也有一个问题，如果你在使用这个变量时，没有赋值，他会抛出没有初始化的异常UninitializedPropertyAccessException。解决这个问题的方法就是在给他初始化的时候加一个判断是否初始化。 123if (!::adapter.isInitialized) &#123; adapter = MsgAdapter(msgList) &#125;  这是一个固定的语法规则，能判断是否完成初始化。 密封类密封类的关键字是sealed...</div></div></div></a><a class="pagination-related" href="/posts/15967b87/" title="Android入门（listview控件）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Android入门（listview控件）</div></div><div class="info-2"><div class="info-item-1">很烦，，，写了好久然后浏览器闪退了。。。然后写的全无了。所以再写一遍就随便写点了。使用listview的关键。 基本使用 直接在布局引入一个listview控件 然后因为listview的数据不能直接传入。需要通过adapter适配器来实现的，其中最常用的就是arrayAdapter 因此在activity中，初始化一个arrayAdapter。 他的初始化一共需要三个参数。 activity：也就是需要把本类传进去。 resourceid: 需要传入子项布局（也就是listview中每一项内容的样式布局）（可以使用系统默认的，也可以自己定义一个布局。这里不展示） data：传入数据源，一般都是列表。   然后使lisview的adapter属性赋值为你初始的内容1listview.adapter =...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RecyclerView%E6%8E%A7%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">RecyclerView控件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">普通使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B1%80%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">布局管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">点击事件</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '4f0b24381d0f2c6aa5dfac11cf0e39b7'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>kotlin（类型系统） | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="可空性 在java中，运行一个程序，往往遇到的最多的错误就是空指针异常，而空指针异常他是个运行时异常，往往不会指明究竟是哪一行的问题，这就让程序员非常的头疼。  而kotlin的解决方案就是把运行时错误转为编译期的错误。让程序员可以在编译时就减少错误异常的产生。通过区分可空和非空两种数据类型。 可空类型在kotlin中，所有的常见类型都是默认非空的，也就是不能接受null作为参数。除非显示的把他标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin（类型系统）">
+<meta property="og:url" content="https://zfxt.top/posts/39b5aa7e/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="可空性 在java中，运行一个程序，往往遇到的最多的错误就是空指针异常，而空指针异常他是个运行时异常，往往不会指明究竟是哪一行的问题，这就让程序员非常的头疼。  而kotlin的解决方案就是把运行时错误转为编译期的错误。让程序员可以在编译时就减少错误异常的产生。通过区分可空和非空两种数据类型。 可空类型在kotlin中，所有的常见类型都是默认非空的，也就是不能接受null作为参数。除非显示的把他标">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2023-07-12T05:56:40.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:25.012Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/39b5aa7e/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'kotlin（类型系统）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">kotlin（类型系统）</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">kotlin（类型系统）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-12T05:56:40.000Z" title="发表于 2023-07-12 13:56:40">2023-07-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:25.012Z" title="更新于 2024-12-26 13:53:25">2024-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/kotlin/">kotlin</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="可空性"><a href="#可空性" class="headerlink" title="可空性"></a>可空性</h1><blockquote>
+<p>在java中，运行一个程序，往往遇到的最多的错误就是空指针异常，而空指针异常他是个运行时异常，往往不会指明究竟是哪一行的问题，这就让程序员非常的头疼。</p>
+</blockquote>
+<p>而kotlin的解决方案就是把运行时错误转为编译期的错误。让程序员可以在编译时就减少错误异常的产生。通过区分可空和非空两种数据类型。</p>
+<h3 id="可空类型"><a href="#可空类型" class="headerlink" title="可空类型"></a>可空类型</h3><p>在kotlin中，所有的常见类型都是默认<strong>非空</strong>的，也就是不能接受<code>null</code>作为参数。除非显示的把他标记为可空，即在类型后面加上<code>?</code>。<br><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-02-35-23.png"><br>但是，一旦声明了是可控类型，就会有很多操作受到限制，kotlin会直接拒接一部分函数的调用，除非你对他进行了非空判断处理，然后kotlin系统就会只能判断类别，然后你才能继续执行。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fun <span class="title function_">strLen</span><span class="params">(s:String?)</span> = <span class="keyword">if</span>(s!=<span class="literal">null</span>) s.length <span class="keyword">else</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>如果你不进行非空判断，他将不允许进行编译。</p>
+<h3 id="类型定义"><a href="#类型定义" class="headerlink" title="类型定义"></a>类型定义</h3><blockquote>
+<p>类型就是数据的分类……决定了该类型可能的值，以及该类型的值上可以完成的操作。</p>
+</blockquote>
+<p>在java中，他没有区分可空和非空，例如<code>String</code>类型可以接受<code>String</code>类型和<code>null</code>。而这在运行中就有可能导致空指针异常（NullPointerException）。而如果每次调用前都进行一次非空判断，就会大大降低代码的可读性。致使代码臃肿。</p>
+<blockquote>
+<p>java中也提供了@Nullable和@NotNull的注解用来判断能否处理空值。或者直接使用Optional的一种包装类，用来确保没有null，但是这会导致代码变得冗余，额外的包装类还会影响运行时的性能。</p>
+</blockquote>
+<p><strong>Kotlin的可空类型提供了全面的解决方案。区分可空和非空类型使判断变得简单。</strong></p>
+<h2 id="安全调用运算符：？"><a href="#安全调用运算符：？" class="headerlink" title="安全调用运算符：？."></a>安全调用运算符：<code>？.</code></h2><p>kotlin工具库中最有效的一种工具就是安全调用运算符：?.<br>他允许你把一次null检查和一次方法调用合并成一个操作。<br><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-08-03-49.png"></p>
+<p>不只是可以调用方法，调用属性也是一样的，可以把检查过程和方法调用一起执行。</p>
+<h2 id="Elvs运算符：”-“"><a href="#Elvs运算符：”-“" class="headerlink" title="Elvs运算符：” ?: “"></a>Elvs运算符：” ?: “</h2><p>他可以方便的提供代替null的默认值，被称为Elvs运算符。<br><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-12-17-25.png"><br>他常常和安全调用运算符一起使用，用一个值代替对null对象调用方法时返回的null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fun <span class="title function_">strLen</span><span class="params">(s:String?)</span> = s?.length ?: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>Elvs的特殊用处，return和throw都是表达式，也就是说Elvs运算符也可以接return和throw。那么如果左边判断出为空，可以直接返回或者抛出异常。这个使用情况总是特别有用。</p>
+<h2 id="安全转化：”-as-“"><a href="#安全转化：”-as-“" class="headerlink" title="安全转化：” as? “"></a>安全转化：” as? “</h2><p><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-12-49-53.png"><br>这个也很好理解，as就和类型转化符，如果检测到类型不匹配，将会返回一个空值。他也经常和Evls运算符一起使用。比如，重写Equals方法时：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>&#123;</span><br><span class="line">    override fun <span class="title function_">equals</span><span class="params">(o:Any?)</span>:Boolean&#123;</span><br><span class="line">        <span class="type">val</span> <span class="variable">other</span> <span class="operator">=</span> o as? Person ?: <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="非空断言：”-“"><a href="#非空断言：”-“" class="headerlink" title="非空断言：” !! “"></a>非空断言：” !! “</h2><p>就是强制确保该类型一定不是null，尽管他是可空类型。如果他是null的话，将会抛出一个异常表明这个断言出现了问题，但是kotlin与java不一样的就是他会表明具体那个位置出现了问题，而不是单纯的报一个空指针异常。<br>通常不建议使用非空断言，因为他会凌驾于编译器之上，无法替你解决空值问题。</p>
+<h2 id="let函数"><a href="#let函数" class="headerlink" title="let函数"></a>let函数</h2><p>let函数本身没什么特点，他的作用是把一个调用他的对象变成lambda表达式的参数。但是如果结合安全调用运算符一起使用的话，<br><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-19-52-27.png"><br>他就可以很好的解决在预判非空后实现内容。<br>而且如果一个表达式会返回一个对象，一般需要将该对象用一个变量存储，然后再使用该变量进行非空判断再执行操作。而let可以直接把这个表达式的对象进行非空判断后传入到lambda函数中作为参数使用。减少了内存的消耗。</p>
+<h2 id="延迟初始化的属性"><a href="#延迟初始化的属性" class="headerlink" title="延迟初始化的属性"></a>延迟初始化的属性</h2><p>他的作用场景就是，一个变量最终一定是非空的，但是在初始化化时，不知道给他传入什么非空值。而如果传入null，将会导致后期大量的非空判断处理。影响效率。<br>因此可以延迟初始化。他常常与一些框架中的依赖注入相互配合使用。为了保证框架的兼容性，kotlin会默认生成一个lateinit的属性的具有相同可见性的字段。</p>
+<h2 id="可空类型的扩展"><a href="#可空类型的扩展" class="headerlink" title="可空类型的扩展"></a>可空类型的扩展</h2><p><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-14-45-44.png"><br>对于可空类型数据的扩展函数。<br>可以不通过安全检测就直接调用，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fun String?. isNullOrBlank () : Boolean = </span><br><span class="line"><span class="built_in">this</span> == <span class="literal">null</span> <span class="number">11</span> <span class="built_in">this</span>.isBlank ()</span><br></pre></td></tr></table></figure>
+<ol>
+<li>泛型类和泛型函数都是默认可空的，他们都允许null的存在，即使<code>T</code>没有用？结尾，如果要限制非空，需要让泛型继承自Any，即非空泛型。</li>
+</ol>
+<h2 id="可空性和java"><a href="#可空性和java" class="headerlink" title="可空性和java"></a>可空性和java</h2><p><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-19-05-46.png"><br>在java中可以通过注解实现和kotlin类似的效果。并且可以和kotlin的非空与空相互编译成功。</p>
+<blockquote>
+<p>因为<img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-09-10-45.png"></p>
+</blockquote>
+<p>平台类型本质上就是kotlin无法判断的可空性的类型。<img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-10-20-52.png"><br>他即可当作可空又可当作非可空<br>通过kotlin调用java时，一样需要满足相关的安全性判断，否则可能会抛出参数异常的报错<br><img src="https://image.zfxt.top/hexo-blog/kotlin%EF%BC%88%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%EF%BC%89-2023-07-10-32-17.png"><br>kotlin可以根据平台类型去多种方式的执行，继承相关的java代码。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/39b5aa7e/">https://zfxt.top/posts/39b5aa7e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/7a5e1904/" title="Kotlin（基本数据类型）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Kotlin（基本数据类型）</div></div><div class="info-2"><div class="info-item-1">基本数据类型相比于java而言，kotlin不会区分基本数据类型和他们的包装类，都是统一的数据类型，但是他们的底层实现会和java相关。 java中Int，Boolean之类的基本数据类型都和引用类做了区分，基本数组存值，而包装类存储包含该对象的内存地址的引用。 kotlin中他不区分，都是用一个类Int，Boolean等。这样就很方便我们的操作。但是这并不意味着kotlin直接把所有的类都直接写出引用类型了。因为那样的话，就会非常低效。在运行时，数字类型尽可能的使用最高效的方式存储，大部分情况下—-对于变量，属性，参数和返回类型，kotlin的int类型都会编译为java中的基本数据类型。唯一不可行的就是泛型类，集合。他一定会编译为包装类。 可空数据类型...</div></div></div></a><a class="pagination-related" href="/posts/58cbed9c/" title="kotlin（序列）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">kotlin（序列）</div></div><div class="info-2"><div class="info-item-1">序列引出序列的使用，首先当我们在使用集合的各种便携式API函数时，他会创建一个中间列表，最后返回。这在使用中并没有什么问题，但是如果采用了链式的多个函数操作，以及集合的基数很大时就会导致效率低下。例如这个，他会在中途生成两个列表，如果基数很大将会变得非常低效。 1people.map(Person: :name) .filter &#123; it.startsWith （&quot;A&quot;）｝ 而序列就是一种惰性集合，他一样可以使用集合所有的api方法，但是他不会在中间创造集合存储，而是类似java中的流。他是一个迭代器的形式，每个元素每个元素的遍历，然后最后在生成结果，如果没有最后的生成结果的步骤，他不会进行之前的操作。 Sequence接口惰性集合的接口就是Sequence接口，而且他只提供了一个方法，也就是iterator。因为Sequence是惰性的，所以他可以很高效的对集合元素执行链式操作，而且不会产生额外的中间集合。 序列操作序列操作有两种，一种中间操作，他返回的任然是序列，一种是末端操作，他返回的结果，可以是任何所需要的对象。中间操作始终是惰性的...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E7%A9%BA%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">可空性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.0.1.</span> <span class="toc-text">可空类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="toc-number">1.0.2.</span> <span class="toc-text">类型定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%B0%83%E7%94%A8%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9A%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">安全调用运算符：？.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Elvs%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9A%E2%80%9D-%E2%80%9C"><span class="toc-number">1.2.</span> <span class="toc-text">Elvs运算符：” ?: “</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%BD%AC%E5%8C%96%EF%BC%9A%E2%80%9D-as-%E2%80%9C"><span class="toc-number">1.3.</span> <span class="toc-text">安全转化：” as? “</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E7%A9%BA%E6%96%AD%E8%A8%80%EF%BC%9A%E2%80%9D-%E2%80%9C"><span class="toc-number">1.4.</span> <span class="toc-text">非空断言：” !! “</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#let%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">let函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-number">1.6.</span> <span class="toc-text">延迟初始化的属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%89%A9%E5%B1%95"><span class="toc-number">1.7.</span> <span class="toc-text">可空类型的扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E7%A9%BA%E6%80%A7%E5%92%8Cjava"><span class="toc-number">1.8.</span> <span class="toc-text">可空性和java</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'c321c443a162e9b8f2ace22d67a70ed6'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

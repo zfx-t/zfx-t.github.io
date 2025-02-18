@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>room数据库最佳实践 | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="特性1.SQL语句高亮2. 简单入门3. 功能强大4. 数据库监听5. 支持Kotlin协程&#x2F;RxJava&#x2F;Guava 依赖1234567891011dependencies&#123;    val room_version &#x3D; &quot;2.2.0-rc01&quot;    implementation(&quot;androidx.room:room-runtime:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="room数据库最佳实践">
+<meta property="og:url" content="https://zfxt.top/posts/5a9563fd/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="特性1.SQL语句高亮2. 简单入门3. 功能强大4. 数据库监听5. 支持Kotlin协程&#x2F;RxJava&#x2F;Guava 依赖1234567891011dependencies&#123;    val room_version &#x3D; &quot;2.2.0-rc01&quot;    implementation(&quot;androidx.room:room-runtime:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2024-03-25T04:32:26.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:25.016Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="android">
+<meta property="article:tag" content="room数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/5a9563fd/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'room数据库最佳实践',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">room数据库最佳实践</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">room数据库最佳实践</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-25T04:32:26.000Z" title="发表于 2024-03-25 12:32:26">2024-03-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:25.016Z" title="更新于 2024-12-26 13:53:25">2024-12-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">670</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><p>1.SQL语句高亮<br>2. 简单入门<br>3. 功能强大<br>4. 数据库监听<br>5. 支持Kotlin协程&#x2F;RxJava&#x2F;Guava</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dependencies&#123;</span><br><span class="line">    <span class="keyword">val</span> room_version = <span class="string">&quot;2.2.0-rc01&quot;</span></span><br><span class="line"></span><br><span class="line">    implementation(<span class="string">&quot;androidx.room:room-runtime:<span class="variable">$room_version</span>&quot;</span>)</span><br><span class="line">    annotationProcessor <span class="string">&quot;androidx.room:room-compiler:<span class="variable">$room_version</span>&quot;</span> </span><br><span class="line">    <span class="comment">// Kotlin 使用 kapt 替代 annotationProcessor (需要在插件中应用kapt)</span></span><br><span class="line">    <span class="comment">//kapt (&quot;androidx.room:room-compiler:2.6.1&quot;)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可选 - Kotlin扩展和协程支持</span></span><br><span class="line">    implementation(<span class="string">&quot;androidx.room:room-ktx:<span class="variable">$room_version</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>ROOM会在创建数据库对象时就会创建好所有已注册的数据表结构</p>
+<ol>
+<li>创建数据库</li>
+<li>创建操作接口</li>
+<li>创建数据类: 一般为JSON反序列出的data class</li>
+</ol>
+<h3 id="实体类"><a href="#实体类" class="headerlink" title="实体类"></a>实体类</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity(tableName = <span class="string">&quot;todo_item&quot;</span>)</span></span><br><span class="line"><span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">ToDoItem</span>(</span><br><span class="line">    <span class="meta">@PrimaryKey(autoGenerate = true)</span></span><br><span class="line">    <span class="keyword">val</span> id: <span class="built_in">Int</span> = <span class="number">0</span>,</span><br><span class="line">    <span class="keyword">val</span> title: String = <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="keyword">val</span> date: String = System.currentTimeMillis().toString(),</span><br><span class="line">    <span class="keyword">var</span> completed: <span class="built_in">Boolean</span> = <span class="literal">false</span>,</span><br><span class="line">    <span class="keyword">var</span> archived: <span class="built_in">Boolean</span> = <span class="literal">false</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Dao接口"><a href="#Dao接口" class="headerlink" title="Dao接口"></a>Dao接口</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ToDoItemDao</span> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Query(<span class="string">&quot;SELECT * FROM todo_item WHERE archived = 0  ORDER BY id DESC&quot;</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getAll</span><span class="params">()</span></span>: List&lt;ToDoItem&gt;</span><br><span class="line">    <span class="meta">@Insert</span></span><br><span class="line">    <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">insert</span><span class="params">(toDoItem: <span class="type">ToDoItem</span>)</span></span>:<span class="built_in">Long</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Update</span></span><br><span class="line">    <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">update</span><span class="params">(toDoItem: <span class="type">ToDoItem</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据库实体"><a href="#数据库实体" class="headerlink" title="数据库实体"></a>数据库实体</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Database(entities = [ToDoItem::class], version = 2, exportSchema = false)</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">RoomDB</span> : <span class="type">RoomDatabase</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">ToDoItemDao</span><span class="params">()</span></span>: ToDoItemDao</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">var</span> INSTANCE: RoomDB? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">getInstance</span><span class="params">(context: <span class="type">Context</span>)</span></span>: RoomDB &#123;</span><br><span class="line">            <span class="keyword">return</span> runBlocking(Dispatchers.IO) &#123;</span><br><span class="line">                <span class="keyword">var</span> instance = INSTANCE</span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">                    instance = Room.databaseBuilder(context, RoomDB::<span class="keyword">class</span>.java, <span class="string">&quot;todo_db&quot;</span>)</span><br><span class="line">                        .allowMainThreadQueries()<span class="comment">//允许在主线程操作</span></span><br><span class="line">                        .addCallback(DbCreateCallBack())<span class="comment">//增加回调监听</span></span><br><span class="line">                        .addMigrations(MIGARATION_1_2)<span class="comment">//增加数据库迁移</span></span><br><span class="line">                        .build()</span><br><span class="line">                &#125;</span><br><span class="line">                instance</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> MIGARATION_1_2 = <span class="keyword">object</span> : Migration(<span class="number">1</span>, <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">migrate</span><span class="params">(db: <span class="type">SupportSQLiteDatabase</span>)</span></span> &#123;</span><br><span class="line">                db.execSQL(<span class="string">&quot;ALTER TABLE todo_item ADD COLUMN archived INTEGER NOT NULL DEFAULT 0&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">DbCreateCallBack</span><span class="params">()</span></span>: RoomDatabase.Callback &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">object</span> : RoomDatabase.Callback() &#123;</span><br><span class="line">                <span class="comment">//第一次创建数据库时调用</span></span><br><span class="line">                <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(db: <span class="type">SupportSQLiteDatabase</span>)</span></span> &#123;</span><br><span class="line">                    <span class="keyword">super</span>.onCreate(db)</span><br><span class="line">                    Log.d(<span class="string">&quot;First&quot;</span>, <span class="string">&quot;first onCreate db version: &quot;</span> + db.version)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h3><p>ROOM支持查询函数返回四种类型</p>
+<ol>
+<li>Single&#x2F;Mabye&#x2F;Completable&#x2F;Observable&#x2F;Flowable 等RxJava的被观察者</li>
+<li>LiveData: JetPack库中的活跃观察者</li>
+<li>Flow: Kotlin协程中的流</li>
+<li>Cursor: SQLite在Android中最原始的查询结果集, 此返回对象无法监听数据库变化</li>
+</ol>
+<p>我不再推荐在项目中使用RxJava, 因为无法方便实现并发并且容易产生回调地域. 这里建议使用协程</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Query(<span class="string">&quot;select * from Book&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">find</span><span class="params">()</span></span>: Flow&lt;Array&lt;Book&gt;&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Query(<span class="string">&quot;select * from Book&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">find</span><span class="params">()</span></span>: Observable&lt;Array&lt;Book&gt;&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Query(<span class="string">&quot;select * from Book&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">find</span><span class="params">()</span></span>: LiveData&lt;Array&lt;Book&gt;&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Query(<span class="string">&quot;select * from Book&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">find</span><span class="params">()</span></span>: LiveData&lt;List&lt;Book&gt;&gt; <span class="comment">// List 或者 Array都是可以的</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Query(<span class="string">&quot;select * from Book&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">find</span><span class="params">()</span></span>: Flow&lt;Array&lt;Book&gt;&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Query(<span class="string">&quot;select * from Book&quot;</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">find</span><span class="params">()</span></span>: Cursor</span><br></pre></td></tr></table></figure>
+
+<h3 id="多表查询-1对n-n对n"><a href="#多表查询-1对n-n对n" class="headerlink" title="多表查询,1对n,n对n"></a>多表查询,1对n,n对n</h3><p>这一部分内容在前期学习时用的较少,因此需要使用时可以再此学习<br>直接看这篇文章<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904079098036232">https://juejin.cn/post/6844904079098036232</a></p>
+<blockquote>
+<p>该文章借鉴于<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904200162246663">1</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010741032/article/details/117537523">2</a></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/5a9563fd/">https://zfxt.top/posts/5a9563fd/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/android/">android</a><a class="post-meta__tags" href="/tags/room%E6%95%B0%E6%8D%AE%E5%BA%93/">room数据库</a></div><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/3b247948/" title="关于compose的主题配色"><img class="cover" src="https://image.zfxt.top/hexo-blog/关于compose的主题配色-2024-03-25-12-54-34.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">关于compose的主题配色</div></div><div class="info-2"><div class="info-item-1">这篇文章主要是两点: compose的日夜间模式在使用jetpack compose时,我们最开始写每个页面时,往往不会注意他的配色问题,通常都是选择将每个颜色都固定.可是这就会导致一个问题.日夜间模式切换后,不会有任何变化,这就让夜间使用者体验很差.因此需要了解这一方面的问题: 默认主题jetpack Compose是符合Material Design3的规范的.因此我们很多东西都可以遵循其特点,来实现最好的开发方式. 在Theme.kt里,我们可以看到如下代码: 12345678910111213141516171819202122232425262728293031323334private val DarkColorScheme = darkColorScheme(    primary = Purple80,    secondary = PurpleGrey80,    tertiary = Pink80,    background = Color(0xFF030303),    onBackground = Color(0xFF25273D),   ...</div></div></div></a><a class="pagination-related" href="/posts/3ad93a0f/" title="springboot配置ssl证书"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">springboot配置ssl证书</div></div><div class="info-2"><div class="info-item-1">首先如何ssl证书可以从这篇文章中得到：白嫖永久泛域名证书 配置springboot的ssl证书 在resource目录下传入你的证书文件(.pem .cer .crt .jks .PFX)和密钥文件(.txt) 如果你的证书文件不符合格式，也可以进行ssl证书转化 不同格式的ssl证书都是可以相互转化的  修改配置文件在application.yml中配置你的ssl证书  1234567server:port: 443    #HTTPS协议默认端口号为443，需要使用其他端口时，您可以在此处自定义。ssl:    key-alias: tomcat    #证书别名    key-store-password: ********    #填写jks-password.txt文件内的密码。    key-store-type: JKS #JKS格式证书密钥库类型。PFX格式的证书密钥库类型为PKCS12。    key-store: classpath:domain_name.jks  ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/bd59f981/" title="5开发原则"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-02</div><div class="info-item-2">5开发原则</div></div><div class="info-2"><div class="info-item-1">SOLIDSingle responsibility 单一职责Open close principle 开闭原则Lisk of substitution 替换原则（能被子类替代使用）Interface segregation 接口隔离Dependences 依赖抽象而不是具体 </div></div></div></a><a class="pagination-related" href="/posts/436594ce/" title="Android使用Bee框架使用数据库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="info-item-2">Android使用Bee框架使用数据库</div></div><div class="info-2"><div class="info-item-1"> 首先导入所需要的依赖项 12345678// https://mvnrepository.com/artifact/org.teasoft/bee    implementation &#x27;org.teasoft:bee:2.1.7&#x27;// https://mvnrepository.com/artifact/org.teasoft/honey    implementation &#x27;org.teasoft:honey:2.1.7&#x27;// https://mvnrepository.com/artifact/org.teasoft/bee-ext    implementation &#x27;org.teasoft:bee-ext:2.1.7&#x27;    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc    implementation...</div></div></div></a><a class="pagination-related" href="/posts/3b247948/" title="关于compose的主题配色"><img class="cover" src="https://image.zfxt.top/hexo-blog/关于compose的主题配色-2024-03-25-12-54-34.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-25</div><div class="info-item-2">关于compose的主题配色</div></div><div class="info-2"><div class="info-item-1">这篇文章主要是两点: compose的日夜间模式在使用jetpack compose时,我们最开始写每个页面时,往往不会注意他的配色问题,通常都是选择将每个颜色都固定.可是这就会导致一个问题.日夜间模式切换后,不会有任何变化,这就让夜间使用者体验很差.因此需要了解这一方面的问题: 默认主题jetpack Compose是符合Material Design3的规范的.因此我们很多东西都可以遵循其特点,来实现最好的开发方式. 在Theme.kt里,我们可以看到如下代码: 12345678910111213141516171819202122232425262728293031323334private val DarkColorScheme = darkColorScheme(    primary = Purple80,    secondary = PurpleGrey80,    tertiary = Pink80,    background = Color(0xFF030303),    onBackground = Color(0xFF25273D),   ...</div></div></div></a><a class="pagination-related" href="/posts/87b15a64/" title="安卓插件异常"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-06</div><div class="info-item-2">安卓插件异常</div></div><div class="info-2"><div class="info-item-1">问题：Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin [id ‘com.android.application’]解决办法：在gradle.properties添加android.overridePathCheck&#x3D;true即可 出现原因:一般为挪动了文件夹的位置 </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96"><span class="toc-number">2.</span> <span class="toc-text">依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="toc-number">3.1.</span> <span class="toc-text">实体类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dao%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.2.</span> <span class="toc-text">Dao接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E4%BD%93"><span class="toc-number">3.3.</span> <span class="toc-text">数据库实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DQL"><span class="toc-number">3.4.</span> <span class="toc-text">DQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2-1%E5%AF%B9n-n%E5%AF%B9n"><span class="toc-number">3.5.</span> <span class="toc-text">多表查询,1对n,n对n</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'e3f3495ecd3b8f92c81a6d7972d6852d'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

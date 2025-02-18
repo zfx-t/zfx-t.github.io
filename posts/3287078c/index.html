@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Android入门(ContentProvider)不同应用共享数据 | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ContentProvider主要用于在不同的应用程序之间实现数据共享的功能 运行时权限这是ContentProvider能否使用的基础.运行时权限的意义：在旧版android中，所有的权限都是在应用安装时会直接声明出来，如果你接受这些条件就安装。否则拒绝安装就可以了。而这就会导致一些店大欺客的问题。比如：旧版微信就会申请几乎所有的权限。而你如果不接受你就不能使用微信。 所以运行时权限就有了他存在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android入门(ContentProvider)不同应用共享数据">
+<meta property="og:url" content="https://zfxt.top/posts/3287078c/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="ContentProvider主要用于在不同的应用程序之间实现数据共享的功能 运行时权限这是ContentProvider能否使用的基础.运行时权限的意义：在旧版android中，所有的权限都是在应用安装时会直接声明出来，如果你接受这些条件就安装。否则拒绝安装就可以了。而这就会导致一些店大欺客的问题。比如：旧版微信就会申请几乎所有的权限。而你如果不接受你就不能使用微信。 所以运行时权限就有了他存在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2023-07-29T21:01:00.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:24.957Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/3287078c/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android入门(ContentProvider)不同应用共享数据',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Android入门(ContentProvider)不同应用共享数据</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Android入门(ContentProvider)不同应用共享数据</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-29T21:01:00.000Z" title="发表于 2023-07-30 05:01:00">2023-07-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:24.957Z" title="更新于 2024-12-26 13:53:24">2024-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p><strong>ContentProvider主要用于在不同的应用程序之间实现数据共享的功能</strong></p>
+<h2 id="运行时权限"><a href="#运行时权限" class="headerlink" title="运行时权限"></a>运行时权限</h2><p>这是ContentProvider能否使用的基础.<br>运行时权限的意义：在旧版android中，所有的权限都是在应用安装时会直接声明出来，如果你接受这些条件就安装。否则拒绝安装就可以了。而这就会导致一些店大欺客的问题。比如：旧版微信就会申请几乎所有的权限。而你如果不接受你就不能使用微信。</p>
+<p>所以运行时权限就有了他存在的意义：应用会在需要使用该权限时才会像用户发起申请，即便用户拒绝了，也可以正常使用其他功能。<br>当然，并不是所有权限都需要在运行时申请，对于用户来说，不停地授权也很烦琐。Android现在将常用的权限大致归成了两类，一类是普通权限，一类是危险权限。对于普通权限，系统会帮我们自动授权。而危险权限都交给用户决定。<br>以下是Android到Android10版本所有的危险权限：<br><img src="https://image.zfxt.top/hexo-blog/Android%E5%85%A5%E9%97%A8(ContentProvider)%E4%B8%8D%E5%90%8C%E5%BA%94%E7%94%A8%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE-2023-07-15-08-15.png"></p>
+<p>运行时权限申请样例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FirstActivity</span> : AppCompatActivity() &#123;</span><br><span class="line">    <span class="keyword">private</span> lateinit <span class="keyword">var</span> binding: ActivityFirstBinding</span><br><span class="line">    override fun <span class="title function_">onCreate</span><span class="params">(savedInstanceState: Bundle?)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        binding = ActivityFirstBinding.inflate(layoutInflater)</span><br><span class="line">        setContentView(binding.root)</span><br><span class="line">        binding.apply &#123;</span><br><span class="line">            callme.setOnClickListener &#123;</span><br><span class="line">                <span class="comment">/**</span></span><br><span class="line"><span class="comment">                 * 判断是否拥有拨打电话的权限</span></span><br><span class="line"><span class="comment">                 * ContextCompat.checkSelfPermission()接收两个参数，第一个是context。第二个是具体的权限名</span></span><br><span class="line"><span class="comment">                 * PackageManager.PERMISSION_GRANTED是个常量表示用户完成授权</span></span><br><span class="line"><span class="comment">                 * ActivityCompat.requestPermissions()接收三个参数，第三个参数没有具体要求，只要是唯一值即可</span></span><br><span class="line"><span class="comment">                 */</span></span><br><span class="line">                <span class="keyword">if</span> (ContextCompat.checkSelfPermission(</span><br><span class="line">                        <span class="built_in">this</span><span class="meta">@FirstActivity</span>,</span><br><span class="line">                        android.Manifest.permission.CALL_PHONE</span><br><span class="line">                    ) != PackageManager.PERMISSION_GRANTED</span><br><span class="line">                ) &#123;</span><br><span class="line">                    ActivityCompat.requestPermissions(</span><br><span class="line">                        <span class="built_in">this</span><span class="meta">@FirstActivity</span>,</span><br><span class="line">                        arrayOf(android.Manifest.permission.CALL_PHONE),</span><br><span class="line">                        <span class="number">1</span></span><br><span class="line">                    )</span><br><span class="line"></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    call()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 不难理解，所以不做解释</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    override fun <span class="title function_">onRequestPermissionsResult</span><span class="params">(requestCode: Int, permissions: Array&lt;out String&gt;, grantResults: IntArray)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onRequestPermissionsResult(requestCode, permissions, grantResults)</span><br><span class="line">        <span class="keyword">when</span>(requestCode)&#123;</span><br><span class="line">            <span class="number">1</span>-&gt;&#123;</span><br><span class="line">                <span class="keyword">if</span>(grantResults.isNotEmpty() &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED)&#123;</span><br><span class="line">                    call()</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    Toast.makeText(<span class="built_in">this</span><span class="meta">@FirstActivity</span>,<span class="string">&quot;You deny your Permission&quot;</span>,Toast.LENGTH_LONG).show()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> fun <span class="title function_">call</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">val</span> <span class="variable">intent</span> <span class="operator">=</span> Intent(Intent.ACTION_CALL)</span><br><span class="line">            intent.data = Uri.parse(<span class="string">&quot;tel:10086&quot;</span>)</span><br><span class="line">            startActivity(intent)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">            e.printStackTrace()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="访问其他应用的数据"><a href="#访问其他应用的数据" class="headerlink" title="访问其他应用的数据"></a>访问其他应用的数据</h2><p>ContentProvider的使用：</p>
+<ol>
+<li>他想要获取数据就需要借助ContentResolver类。可以通过Context中的getContentResolver()方法获取实例。</li>
+<li>ContentResolver类与<code>SQLiteDatabase</code>类似，也具有<code>insert()</code>,等四个增删改查方法。</li>
+<li>但不同于<code>SQLiteDatabase</code>，他第一个参数接收的不是表名，而是<code>Uri</code>参数。它由三部分组成：协议，authority，path。authority是用于对不同的应用程序做区分的，一般为了避免冲突，会采用应用包名的方式进行命名。path就是对同一应用不同的表做区分，就像表名。它的比较标准的格式如下：<code>content://com.example.app.provider/table1</code>。只需要调用Uri.parse()方法，就可以将内容URI字符串解析成Uri对象了</li>
+<li><ul>
+<li>query()<br>  <img src="https://image.zfxt.top/hexo-blog/Android%E5%85%A5%E9%97%A8(ContentProvider)%E4%B8%8D%E5%90%8C%E5%BA%94%E7%94%A8%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE-2023-07-03-27-32.png"><br>  它与数据库的参数很像，就是第一个不是表名，而是Uri。而且他的参数会更加简单一点。<br>  它返回的也是一个cursor对象，对于cursor对象，只需要遍历，并且按照列数完成对每一列的读取即可。</li>
+<li>insert()  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">val</span> <span class="variable">values</span> <span class="operator">=</span> contentValuesOf(<span class="string">&quot;column1&quot;</span> to <span class="string">&quot;text&quot;</span>, <span class="string">&quot;column2&quot;</span> to <span class="number">1</span>)</span><br><span class="line">contentResolver.insert(uri, values)</span><br></pre></td></tr></table></figure>
+  它接收是也是Uri对象和contentValues对象。</li>
+<li>update()  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">val</span> <span class="variable">values</span> <span class="operator">=</span> contentValuesOf(<span class="string">&quot;column1&quot;</span> to <span class="string">&quot;&quot;</span>)</span><br><span class="line">contentResolver.update(uri, values, <span class="string">&quot;column1 = ? and column2 = ?&quot;</span>, arrayOf(<span class="string">&quot;text&quot;</span>, <span class="string">&quot;1&quot;</span>))</span><br></pre></td></tr></table></figure>
+  这里使用了selection和selectionArgs参数来对想要更新的数据进行约束</li>
+<li>delete()  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">contentResolver.delete(uri, <span class="string">&quot;column2 = ?&quot;</span>, arrayOf(<span class="string">&quot;1&quot;</span>))</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h2 id="构建自己的ContentProvider"><a href="#构建自己的ContentProvider" class="headerlink" title="构建自己的ContentProvider"></a>构建自己的ContentProvider</h2><p>已知：只需要获得该应用程序的内容URI，然后借助ContentResolver进行增删改查操作就可以了，但是如何向外部提供接口并保证数据的安全？<br>步骤：</p>
+<ol>
+<li>新建一个类继承ContentProvider，然后重写其6个抽象方法。<br>(1) onCreate()。初始化ContentProvider的时候调用。通常会在这里完成对数据库的创建和升级等操作，返回true表示ContentProvider初始化成功，返回false则表示失败。</li>
+</ol>
+<p>(2) query()。从ContentProvider中查询数据。uri参数用于确定查询哪张表，projection参数用于确定查询哪些列，selection和selectionArgs参数用于约束查询哪些行，sortOrder参数用于对结果进行排序，查询的结果存放在Cursor对象中返回。</p>
+<p>(3) insert()。向ContentProvider中添加一条数据。uri参数用于确定要添加到的表，待添加的数据保存在values参数中。添加完成后，返回一个用于表示这条新记录的URI。</p>
+<p>(4) update()。更新ContentProvider中已有的数据。uri参数用于确定更新哪一张表中的数据，新数据保存在values参数中，selection和selectionArgs参数用于约束更新哪些行，受影响的行数将作为返回值返回。</p>
+<p>(5) delete()。从ContentProvider中删除数据。uri参数用于确定删除哪一张表中的数据，selection和selectionArgs参数用于约束删除哪些行，被删除的行数将作为返回值返回。</p>
+<p>(6) getType()。根据传入的内容URI返回相应的MIME类型。</p>
+<ol start="2">
+<li>uri解析<br>一个标准的uri写法<br><code>content://com.example.app.provider/table1</code><br>这就表示调用方期望访问的是com.example.app这个应用的table1表中的数据。<br><code>content://com.example.app.provider/table1/1</code><br>表示调用方期望访问的是com.example.app这个应用的table1表中id为1的数据</li>
+</ol>
+<ul>
+<li>*表示匹配任意长度的任意字符。</li>
+<li><code>#</code>表示匹配任意长度的数字。</li>
+</ul>
+<p>一个能够匹配任意表的内容URI格式就可以写成：<br><code>content://com.example.app.provider/*</code><br>一个能够匹配table1表中任意一行数据的内容URI格式就可以写成：<br><code>content://com.example.app.provider/table1/#</code></p>
+<p><code>UriMatcher</code>类有两个方法：</p>
+<ul>
+<li>addURI()：接收三个参数分别把authority,path和一个<strong>自定义代码</strong>传进去</li>
+<li>match()：接收一个uri对象作为参数。能够匹配到这个uri对象的<strong>自定义代码</strong></li>
+</ul>
+<p>URI所对应的MIME字符串主要由3部分组成，Android对这3个部分做了如下格式规定。</p>
+<ul>
+<li>必须以vnd开头。</li>
+<li>如果内容URI以路径结尾，则后接<code>android.cursor.dir/</code>；如果内容URI以id结尾，则后</li>
+<li>接<code>android.cursor.item/</code>。</li>
+<li>最后接上vnd.<authority>.<path>。</li>
+</ul>
+<p><img src="https://image.zfxt.top/hexo-blog/Android%E5%85%A5%E9%97%A8(ContentProvider)%E4%B8%8D%E5%90%8C%E5%BA%94%E7%94%A8%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE-2023-07-16-22-06.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/3287078c/">https://zfxt.top/posts/3287078c/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/38117f08/" title="Android入门(使用多媒体)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Android入门(使用多媒体)</div></div><div class="info-2"><div class="info-item-1">使用通知功能通知渠道：自Android8.0后引入的新概念。每个应用程序可以自由的创建当前应用应该拥有哪些通知渠道。而这些通知渠道的控制权掌握在用户手中。用户可以选择是否响铃、是否振动或者是否要关闭这个渠道的通知。对于应用而言，，通知渠道一旦创建就不可修改。所以一定要设计好有哪些渠道需要设计。 通知渠道的基本使用 首先需要一个NotificationManager对通知进行管理。可以通过调用Context的getSystemService()方法获取。这个方法接收一个参数用于确定获取系统的那个服务，如：val manager = getSystemService(Context.NOTIFICATION_SERVICE) as...</div></div></div></a><a class="pagination-related" href="/posts/436594ce/" title="Android使用Bee框架使用数据库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Android使用Bee框架使用数据库</div></div><div class="info-2"><div class="info-item-1"> 首先导入所需要的依赖项 12345678// https://mvnrepository.com/artifact/org.teasoft/bee    implementation &#x27;org.teasoft:bee:2.1.7&#x27;// https://mvnrepository.com/artifact/org.teasoft/honey    implementation &#x27;org.teasoft:honey:2.1.7&#x27;// https://mvnrepository.com/artifact/org.teasoft/bee-ext    implementation &#x27;org.teasoft:bee-ext:2.1.7&#x27;    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc    implementation...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90"><span class="toc-number">1.</span> <span class="toc-text">运行时权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">2.</span> <span class="toc-text">访问其他应用的数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84ContentProvider"><span class="toc-number">3.</span> <span class="toc-text">构建自己的ContentProvider</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'bc716a7f05566911bf49d4cd67fea8c4'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Android权限说明(引用） | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="引用自掘金  访问登记属性android.permission.ACCESS_CHECKIN_PROPERTIES，读取或写入登记check-in数据库属性表的权限  获取错略位置android.permission.ACCESS_COARSE_LOCATION，通过WiFi或移动基站的方式获取用户错略的经纬度信息，定位精度大概误差在30~1500米  获取精确位置android.permiss">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android权限说明(引用）">
+<meta property="og:url" content="https://zfxt.top/posts/e9b7c22/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="引用自掘金  访问登记属性android.permission.ACCESS_CHECKIN_PROPERTIES，读取或写入登记check-in数据库属性表的权限  获取错略位置android.permission.ACCESS_COARSE_LOCATION，通过WiFi或移动基站的方式获取用户错略的经纬度信息，定位精度大概误差在30~1500米  获取精确位置android.permiss">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:published_time" content="2023-12-13T18:50:00.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:24.962Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/e9b7c22/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android权限说明(引用）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Android权限说明(引用）</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Android权限说明(引用）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-13T18:50:00.000Z" title="发表于 2023-12-14 02:50:00">2023-12-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:24.962Z" title="更新于 2024-12-26 13:53:24">2024-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>引用自<a target="_blank" rel="noopener" href="https://juejin.cn/post/7075669571025256462">掘金</a></p>
+</blockquote>
+<p>访问登记属性android.permission.ACCESS_CHECKIN_PROPERTIES，读取或写入登记check-in数据库属性表的权限 </p>
+<p>获取错略位置android.permission.ACCESS_COARSE_LOCATION，通过WiFi或移动基站的方式获取用户错略的经纬度信息，定位精度大概误差在30~1500米 </p>
+<p>获取精确位置android.permission.ACCESS_FINE_LOCATION，通过GPS芯片接收卫星的定位信息，定位精度达10米以内</p>
+<p>访问定位额外命令android.permission.ACCESS_LOCATION_EXTRA_COMMANDS，允许程序访问额外的定位提供者指令 </p>
+<p>获取模拟定位信息android.permission.ACCESS_MOCK_LOCATION，获取模拟定位信息，一般用于帮助开发者调试应用 </p>
+<p>获取网络状态android.permission.ACCESS_NETWORK_STATE，获取网络信息状态，如当前的网络连接是否有效 </p>
+<p>访问Surface Flinger android.permission.ACCESS_SURFACE_FLINGER，Android平台上底层的图形显示支持，一般用于游戏或照相机预览界面和底层模式的屏幕截图 </p>
+<p>获取WiFi状态android.permission.ACCESS_WIFI_STATE，获取当前WiFi接入的状态以及WLAN热点的信息 </p>
+<p>账户管理android.permission.ACCOUNT_MANAGER，获取账户验证信息，主要为GMail账户信息，只有系统级进程才能访问的权限 </p>
+<p>验证账户android.permission.AUTHENTICATE_ACCOUNTS，允许一个程序通过账户验证方式访问账户管理ACCOUNT_MANAGER相关信息</p>
+<p>电量统计android.permission.BATTERY_STATS，获取电池电量统计信息 </p>
+<p>绑定小插件android.permission.BIND_APPWIDGET，允许一个程序告诉appWidget服务需要访问小插件的数据库，只有非常少的应用才用到此权限 </p>
+<p>绑定设备管理android.permission.BIND_DEVICE_ADMIN，请求系统管理员接收者receiver，只有系统才能使用 </p>
+<p>绑定输入法android.permission.BIND_INPUT_METHOD，请求InputMethodService服务，只有系统才能使用 </p>
+<p>绑定RemoteView android.permission.BIND_REMOTEVIEWS，必须通过RemoteViewsService服务来请求，只有系统才能用 </p>
+<p>绑定壁纸android.permission.BIND_WALLPAPER，必须通过WallpaperService服务来请求，只有系统才能用 </p>
+<p>使用蓝牙android.permission.BLUETOOTH，允许程序连接配对过的蓝牙设备 </p>
+<p>蓝牙管理android.permission.BLUETOOTH_ADMIN，允许程序进行发现和配对新的蓝牙设备 </p>
+<p>变成砖头android.permission.BRICK，能够禁用手机，非常危险，顾名思义就是让手机变成砖头 </p>
+<p>应用删除时广android.permission.BROADCAST_PACKAGE_REMOVED，当一个应用在删除时触发一个广播 </p>
+<p>收到短信时广播android.permission.BROADCAST_SMS，当收到短信时触发一个广播 </p>
+<p>连续广播android.permission.BROADCAST_STICKY，允许一个程序收到广播后快速收到下一个广播 </p>
+<p>WAP PUSH广播android.permission.BROADCAST_WAP_PUSH，WAP PUSH服务收到后触发一个广播 </p>
+<p>拨打电话android.permission.CALL_PHONE，允许程序从非系统拨号器里输入电话号码 </p>
+<p>通话权限android.permission.CALL_PRIVILEGED，允许程序拨打电话，替换系统的拨号器界面 </p>
+<p>拍照权限android.permission.CAMERA，允许访问摄像头进行拍照 </p>
+<p>改变组件状态android.permission.CHANGE_COMPONENT_ENABLED_STATE，改变组件是否启用状态 </p>
+<p>改变配置android.permission.CHANGE_CONFIGURATION，允许当前应用改变配置，如定位 </p>
+<p>改变网络状态android.permission.CHANGE_NETWORK_STATE，改变网络状态如是否能联网 </p>
+<p>改变WiFi多播状态android.permission.CHANGE_WIFI_MULTICAST_STATE，改变WiFi多播状态 </p>
+<p>改变WiFi状态android.permission.CHANGE_WIFI_STATE，改变WiFi状态 </p>
+<p>清除应用缓存android.permission.CLEAR_APP_CACHE，清除应用缓存 </p>
+<p>清除用户数据android.permission.CLEAR_APP_USER_DATA，清除应用的用户数据 </p>
+<p>底层访问权限android.permission.CWJ_GROUP，允许CWJ账户组访问底层信息 </p>
+<p>手机优化大师扩展权限android.permission.CELL_PHONE_MASTER_EX</p>
+<p>控制定位更新android.permission.CONTROL_LOCATION_UPDATES，允许获得移动网络定位信息改变 </p>
+<p>删除缓存文件android.permission.DELETE_CACHE_FILES，允许应用删除缓存文件 </p>
+<p>删除应用android.permission.DELETE_PACKAGES，允许程序删除应用 </p>
+<p>电源管理android.permission.DEVICE_POWER，允许访问底层电源管理 </p>
+<p>应用诊断android.permission.DIAGNOSTIC，允许程序到RW到诊断资源 </p>
+<p>禁用键盘锁android.permission.DISABLE_KEYGUARD，允许程序禁用键盘锁 </p>
+<p>转存系统信息android.permission.DUMP，允许程序获取系统dump信息从系统服务 </p>
+<p>状态栏控制android.permission.EXPAND_STATUS_BAR，允许程序扩展或收缩状态栏 </p>
+<p>工厂测试模式android.permission.FACTORY_TEST，允许程序运行工厂测试模式 </p>
+<p>使用闪光灯android.permission.FLASHLIGHT，允许访问闪光灯 </p>
+<p>强制后退android.permission.FORCE_BACK，允许程序强制使用back后退按键，无论Activity是否在顶层 </p>
+<p>访问账户Gmail列表android.permission.GET_ACCOUNTS，访问GMail账户列表 </p>
+<p>获取应用大小android.permission.GET_PACKAGE_SIZE，获取应用的文件大小 </p>
+<p>获取任务信息android.permission.GET_TASKS，允许程序获取当前或最近运行的应用 </p>
+<p>允许全局搜索android.permission.GLOBAL_SEARCH，允许程序使用全局搜索功能 </p>
+<p>硬件测试android.permission.HARDWARE_TEST，访问硬件辅助设备，用于硬件测试 </p>
+<p>注射事件android.permission.INJECT_EVENTS，允许访问本程序的底层事件，获取按键、轨迹球的事件流 </p>
+<p>安装定位提供android.permission.INSTALL_LOCATION_PROVIDER，安装定位提供 </p>
+<p>安装应用程序android.permission.INSTALL_PACKAGES，允许程序安装应用 </p>
+<p>内部系统窗口android.permission.INTERNAL_SYSTEM_WINDOW，允许程序打开内部窗口，不对第三方应用程序开放此权限 </p>
+<p>访问网络android.permission.INTERNET，访问网络连接，可能产生GPRS流量 </p>
+<p>结束后台进程android.permission.KILL_BACKGROUND_PROCESSES，允许程序调用killBackgroundProcesses(String).方法结束后台进程 </p>
+<p>管理账户android.permission.MANAGE_ACCOUNTS，允许程序管理AccountManager中的账户列表 </p>
+<p>程序引用android.permission.MANAGE_APP_TOKENS，管理创建、摧毁、Z轴顺序，仅用于系统 </p>
+<p>高级权限android.permission.MTWEAK_USER，允许mTweak用户访问高级系统权限 </p>
+<p>社区权限android.permission.MTWEAK_FORUM，允许使用mTweak社区权限 </p>
+<p>软格式化android.permission.MASTER_CLEAR，允许程序执行软格式化，删除系统配置信息 </p>
+<p>修改声音设置android.permission.MODIFY_AUDIO_SETTINGS，修改声音设置信息 </p>
+<p>修改电话状态android.permission.MODIFY_PHONE_STATE，修改电话状态，如飞行模式，但不包含替换系统拨号器界面 </p>
+<p>格式化文件系统android.permission.MOUNT_FORMAT_FILESYSTEMS，格式化可移动文件系统，比如格式化清空SD卡 </p>
+<p>挂载文件系统android.permission.MOUNT_UNMOUNT_FILESYSTEMS，挂载、反挂载外部文件系统 </p>
+<p>允许NFC通讯android.permission.NFC，允许程序执行NFC近距离通讯操作，用于移动支持 </p>
+<p>永久Activityandroid.permission.PERSISTENT_ACTIVITY，创建一个永久的Activity，该功能标记为将来将被移除 </p>
+<p>处理拨出电话android.permission.PROCESS_OUTGOING_CALLS，允许程序监视，修改或放弃播出电话 </p>
+<p>读取日程提醒android.permission.READ_CALENDAR，允许程序读取用户的日程信息 </p>
+<p>读取联系人android.permission.READ_CONTACTS，允许应用访问联系人通讯录信息 </p>
+<p>屏幕截图android.permission.READ_FRAME_BUFFER，读取帧缓存用于屏幕截图 </p>
+<p>读取收藏夹和历史记录com.android.browser.permission.READ_HISTORY_BOOKMARKS，读取浏览器收藏夹和历史记录 </p>
+<p>读取输入状态 android.permission.READ_INPUT_STATE，读取当前键的输入状态，仅用于系统 </p>
+<p>读取系统日志 android.permission.READ_LOGS，读取系统底层日志 </p>
+<p>读取电话状态 android.permission.READ_PHONE_STATE，访问电话状态 </p>
+<p>读取短信内容 android.permission.READ_SMS，读取短信内容 </p>
+<p>读取同步设置 android.permission.READ_SYNC_SETTINGS，读取同步设置，读取Google在线同步设置 </p>
+<p>读取同步状态 android.permission.READ_SYNC_STATS，读取同步状态，获得Google在线同步状态 </p>
+<p>重启设备 android.permission.REBOOT，允许程序重新启动设备 </p>
+<p>开机自动允许 android.permission.RECEIVE_BOOT_COMPLETED，允许程序开机自动运行 </p>
+<p>接收彩信 android.permission.RECEIVE_MMS，接收彩信 </p>
+<p>接收短信 android.permission.RECEIVE_SMS，接收短信 </p>
+<p>接收Wap Push android.permission.RECEIVE_WAP_PUSH，接收WAP PUSH信息 </p>
+<p>录音 android.permission.RECORD_AUDIO，录制声音通过手机或耳机的麦克 </p>
+<p>排序系统任务 android.permission.REORDER_TASKS，重新排序系统Z轴运行中的任务 </p>
+<p>结束系统任务 android.permission.RESTART_PACKAGES，结束任务通过restartPackage(String)方法，该方式将在外来放弃 </p>
+<p>发送短信 android.permission.SEND_SMS，发送短信 </p>
+<p>设置Activity观察其 android.permission.SET_ACTIVITY_WATCHER，设置Activity观察器一般用于monkey测试 </p>
+<p>设置闹铃提醒 com.android.alarm.permission.SET_ALARM，设置闹铃提醒 </p>
+<p>设置总是退出 android.permission.SET_ALWAYS_FINISH，设置程序在后台是否总是退出 </p>
+<p>设置动画缩放 android.permission.SET_ANIMATION_SCALE，设置全局动画缩放 </p>
+<p>设置调试程序 android.permission.SET_DEBUG_APP，设置调试程序，一般用于开发 </p>
+<p>设置屏幕方向 android.permission.SET_ORIENTATION，设置屏幕方向为横屏或标准方式显示，不用于普通应用 </p>
+<p>设置应用参数 android.permission.SET_PREFERRED_APPLICATIONS，设置应用的参数，已不再工作具体查看addPackageToPreferred(String) 介绍 </p>
+<p>设置进程限制 android.permission.SET_PROCESS_LIMIT，允许程序设置最大的进程数量的限制 </p>
+<p>设置系统时间 android.permission.SET_TIME，设置系统时间 </p>
+<p>设置系统时区 android.permission.SET_TIME_ZONE，设置系统时区 </p>
+<p>设置桌面壁纸 android.permission.SET_WALLPAPER，设置桌面壁纸 </p>
+<p>设置壁纸建议 android.permission.SET_WALLPAPER_HINTS，设置壁纸建议 </p>
+<p>发送永久进程信号 android.permission.SIGNAL_PERSISTENT_PROCESSES，发送一个永久的进程信号 </p>
+<p>状态栏控制 android.permission.STATUS_BAR，允许程序打开、关闭、禁用状态栏 </p>
+<p>访问订阅内容 android.permission.SUBSCRIBED_FEEDS_READ，访问订阅信息的数据库 </p>
+<p>写入订阅内容 android.permission.SUBSCRIBED_FEEDS_WRITE，写入或修改订阅内容的数据库 </p>
+<p>显示系统窗口 android.permission.SYSTEM_ALERT_WINDOW，显示系统窗口 </p>
+<p>更新设备状态 android.permission.UPDATE_DEVICE_STATS，更新设备状态 </p>
+<p>使用证书 android.permission.USE_CREDENTIALS，允许程序请求验证从AccountManager </p>
+<p>使用SIP视频 android.permission.USE_SIP，允许程序使用SIP视频服务 </p>
+<p>使用振动 android.permission.VIBRATE，允许振动 </p>
+<p>唤醒锁定 android.permission.WAKE_LOCK，允许程序在手机屏幕关闭后后台进程仍然运行 </p>
+<p>写入GPRS接入点设置 android.permission.WRITE_APN_SETTINGS，写入网络GPRS接入点设置 </p>
+<p>写入日程提醒 android.permission.WRITE_CALENDAR，写入日程，但不可读取 </p>
+<p>写入联系人 android.permission.WRITE_CONTACTS，写入联系人，但不可读取 </p>
+<p>写入外部存储 android.permission.WRITE_EXTERNAL_STORAGE，允许程序写入外部存储，如SD卡上写文件 </p>
+<p>写入Google地图数据 android.permission.WRITE_GSERVICES，允许程序写入Google Map服务数据 </p>
+<p>写入收藏夹和历史记录 com.android.browser.permission.WRITE_HISTORY_BOOKMARKS，写入浏览器历史记录或收藏夹，但不可读取 </p>
+<p>读写系统敏感设置 android.permission.WRITE_SECURE_SETTINGS，允许程序读写系统安全敏感的设置项 </p>
+<p>读写系统设置 android.permission.WRITE_SETTINGS，允许读写系统设置项 </p>
+<p>编写短信 android.permission.WRITE_SMS，允许编写短信 </p>
+<p>写入在线同步设置 android.permission.WRITE_SYNC_SETTINGS，写入Google在线同步设置</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/e9b7c22/">https://zfxt.top/posts/e9b7c22/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/avator.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/b17914dc/" title="Compose 去除点击水波纹阴影效果_局部and全局去除-CompositionLocal实例"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Compose 去除点击水波纹阴影效果_局部and全局去除-CompositionLocal实例</div></div><div class="info-2"><div class="info-item-1">一：针对单个view，去除点击效果，可以在clickable 中添加 1indication = null, interactionSource = remember &#123; MutableInteractionSource() &#125;   二：针对整个Activity,你可以在最root的compose里设置，通过CompositionLocal（让数据流经界面树的一种隐式方式），属性传递，把children就全部替换了 12345678910111213141516171819202122232425262728 @Composablefun ComposeTheme(    content: @Composable () -&gt; Unit) &#123;    MaterialTheme(colors = LightColorPalette) &#123;                // 设置全局参数，去除默认点击效果        CompositionLocalProvider(            LocalIndication...</div></div></div></a><a class="pagination-related" href="/posts/9283408d/" title="Android 13（API 33）读写SD卡权限的调整适配"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Android 13（API 33）读写SD卡权限的调整适配</div></div><div class="info-2"><div class="info-item-1">Android 13（API 33）读写SD卡权限的调整适配在Android13前读取SDcard 的内容只需要一个权限： 1android.permission.READ_EXTERNAL_STORAGE 但是在Android 13以后这个权限被细化成了三个： 123public static final String READ_MEDIA_AUDIO = &quot;android.permission.READ_MEDIA_AUDIO&quot;;public static final String READ_MEDIA_IMAGES = &quot;android.permission.READ_MEDIA_IMAGES&quot;;public static final String READ_MEDIA_VIDEO =...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '6d934b0423fd994b37dc74ce9f663c5e'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

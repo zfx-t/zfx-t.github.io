@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>使用gitea action实现CICD | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CICDCI&#x2F;CD 是持续集成和持续交付&#x2F;部署的缩写，旨在简化并加快软件开发生命周期。 持续集成（CI）是指自动且频繁地将代码更改集成到共享源代码存储库中的做法。持续交付和&#x2F;或持续部署（CD）是一个由两部分组成的过程，涉及代码更改的集成、测试和交付。持续交付不会自动部署到生产环境，持续部署则会自动将更新发布到生产环境。 简单来说，就是我们将代码提交到远程仓库后，自动化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用gitea action实现CICD">
+<meta property="og:url" content="https://zfxt.top/posts/f5d3f52f/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="CICDCI&#x2F;CD 是持续集成和持续交付&#x2F;部署的缩写，旨在简化并加快软件开发生命周期。 持续集成（CI）是指自动且频繁地将代码更改集成到共享源代码存储库中的做法。持续交付和&#x2F;或持续部署（CD）是一个由两部分组成的过程，涉及代码更改的集成、测试和交付。持续交付不会自动部署到生产环境，持续部署则会自动将更新发布到生产环境。 简单来说，就是我们将代码提交到远程仓库后，自动化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-14-13-21.png">
+<meta property="article:published_time" content="2024-12-25T05:13:23.000Z">
+<meta property="article:modified_time" content="2024-12-26T05:53:25.019Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="CICD">
+<meta property="article:tag" content="gitea">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-14-13-21.png"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/f5d3f52f/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '使用gitea action实现CICD',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">使用gitea action实现CICD</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">使用gitea action实现CICD</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-26T05:53:25.019Z" title="更新于 2024-12-26 13:53:25">2024-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%AC%E5%9C%B0%E5%8C%96%E6%9C%8D%E5%8A%A1/">本地化服务</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="CICD"><a href="#CICD" class="headerlink" title="CICD"></a>CICD</h1><p>CI&#x2F;CD 是持续集成和持续交付&#x2F;部署的缩写，旨在简化并加快软件开发生命周期。</p>
+<p>持续集成（CI）是指自动且频繁地将代码更改集成到共享源代码存储库中的做法。持续交付和&#x2F;或持续部署（CD）是一个由两部分组成的过程，涉及代码更改的集成、测试和交付。持续交付不会自动部署到生产环境，持续部署则会自动将更新发布到生产环境。<br><img src="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-13-21-32.png" alt="使用gitea-action实现CICD-2024-12-25-13-21-32"></p>
+<p>简单来说，就是我们将代码提交到远程仓库后，自动化服务会替我们完成测试交付和部署的功能。</p>
+<h1 id="常用的CICD工具"><a href="#常用的CICD工具" class="headerlink" title="常用的CICD工具"></a>常用的CICD工具</h1><p><img src="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-16-34-09.png" alt="使用gitea-action实现CICD-2024-12-25-16-34-09"><br><img src="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-13-23-42.png" alt="使用gitea-action实现CICD-2024-12-25-13-23-42"><br>在本文中我将演示使用<code>gitea actions</code>实现hexo的自动部署功能。</p>
+<h1 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h1><p>正如其名，其实gitea和github actions的功能几乎一致，就是沿用下来了而已。<br>在我们的操作过程中，主要有三步：</p>
+<ol>
+<li>使用docker启动一个act_runner，作为action的服务器</li>
+<li>配置<code>deploy.yml</code>实现推送时，自动部署到服务器</li>
+<li>使用nginx展示部署后的页面</li>
+</ol>
+<h2 id="安装act-runner"><a href="#安装act-runner" class="headerlink" title="安装act_runner"></a>安装act_runner</h2><p>打开gitea的<a target="_blank" rel="noopener" href="https://docs.gitea.com/zh-cn/usage/actions/overview">官方文档</a>可以查阅关于<code>act_runner</code>的配置信息</p>
+<h3 id="注册runner"><a href="#注册runner" class="headerlink" title="注册runner"></a>注册runner</h3><p>在运行Act Runner之前，需要进行注册，因为Runner需要知道从哪里获取Job，并且对于Gitea实例来说，识别Runner也很重要。</p>
+<p><strong>Runner级别</strong><br>您可以在不同级别上注册Runner，它可以是：</p>
+<p>实例级别：Runner将为实例中的所有存储库运行Job。<br>组织级别：Runner将为组织中的所有存储库运行Job。<br>存储库级别：Runner将为其所属的存储库运行Job。<br>请注意，即使存储库具有自己的存储库级别Runner，它仍然可以使用实例级别或组织级别Runner。未来的版本可能提供更多对此进行更好控制的选项。</p>
+<p><strong>获取注册令牌</strong><br>Runner级别决定了从哪里获取注册令牌。</p>
+<p>实例级别：管理员设置页面，例如 <code>&lt;your_gitea.com&gt;/admin/actions/runners</code>。<br>组织级别：组织设置页面，例如 <code>&lt;your_gitea.com&gt;/&lt;org&gt;/settings/actions/runners</code>。<br>存储库级别：存储库设置页面，例如 <code>&lt;your_gitea.com&gt;/&lt;owner&gt;/&lt;repo&gt;/settings/actions/runners</code>。</p>
+<h3 id="启动runner"><a href="#启动runner" class="headerlink" title="启动runner"></a>启动runner</h3><p>我这里直接使用docker compose启动一个。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.8&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">runner:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">gitea/act_runner:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">act_runner</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">CONFIG_FILE:</span> <span class="string">/config.yaml</span></span><br><span class="line">      <span class="attr">GITEA_INSTANCE_URL:</span> <span class="string">&quot;$&#123;INSTANCE_URL&#125;&quot;</span></span><br><span class="line">      <span class="attr">GITEA_RUNNER_REGISTRATION_TOKEN:</span> <span class="string">&quot;$&#123;REGISTRATION_TOKEN&#125;&quot;</span></span><br><span class="line">      <span class="attr">GITEA_RUNNER_NAME:</span> <span class="string">&quot;$&#123;RUNNER_NAME&#125;&quot;</span></span><br><span class="line">      <span class="attr">GITEA_RUNNER_LABELS:</span> <span class="string">&quot;$&#123;RUNNER_LABELS&#125;&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./config.yaml:/config.yaml</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/docker.sock:/var/run/docker.sock</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure>
+
+<p>然后你就可以看到你这边已经存在了一个全局的<code>runner</code>可以提供使用了<br><img src="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-13-45-09.png" alt="使用gitea-action实现CICD-2024-12-25-13-45-09"></p>
+<h2 id="添加配置文件"><a href="#添加配置文件" class="headerlink" title="添加配置文件"></a>添加配置文件</h2><p>在你的仓库下面创建一个<code>.gitea/workflows</code>的文件夹。在文件夹下任意创建一个<code>yml</code>配置文件，如下所示：<br><img src="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-13-47-16.png" alt="使用gitea-action实现CICD-2024-12-25-13-47-16"><br>具体代码如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">Hexo</span> <span class="string">Blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">main</span>  <span class="comment"># 或你希望触发部署的分支</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">Code</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Node.js</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&#x27;16&#x27;</span>  <span class="comment"># 请根据你的需求选择 Node.js 版本</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          npm install</span></span><br><span class="line"><span class="string">          npm install hexo-cli -g          </span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">Hexo</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">Server</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">SSH_PRIVATE_KEY:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.SSH_PRIVATE_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">SERVER_USER:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.SERVER_USER</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">SERVER_HOST:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.SERVER_HOST</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">SERVER_PATH:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.SERVER_PATH</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          # 设置 SSH 密钥</span></span><br><span class="line"><span class="string">          mkdir -p ~/.ssh</span></span><br><span class="line"><span class="string">          echo &quot;$SSH_PRIVATE_KEY&quot; &gt; ~/.ssh/id_rsa</span></span><br><span class="line"><span class="string">          chmod 600 ~/.ssh/id_rsa</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">          <span class="comment"># 使用 scp 将 public 目录推送到服务器指定路径</span></span><br><span class="line">          <span class="string">scp</span> <span class="string">-o</span> <span class="string">StrictHostKeyChecking=no</span> <span class="string">-o</span> <span class="string">UserKnownHostsFile=/dev/null</span> <span class="string">-r</span> <span class="string">./public/*</span> <span class="string">$SERVER_USER@$SERVER_HOST:$SERVER_PATH</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">          <span class="comment"># 如果你需要删除多余的文件，可以在此添加其他命令来清理旧的内容</span></span><br><span class="line">          <span class="string">ssh</span> <span class="string">-o</span> <span class="string">StrictHostKeyChecking=no</span> <span class="string">$SERVER_USER@$SERVER_HOST</span> <span class="string">&lt;&lt;EOF</span></span><br><span class="line">            <span class="comment"># 进入服务器指定目录</span></span><br><span class="line">            <span class="string">cd</span> <span class="string">$SERVER_PATH</span></span><br><span class="line">            <span class="comment"># 可以在此进行其他操作，如清理过时的文件或配置</span></span><br><span class="line">            <span class="string">echo</span> <span class="string">&quot;Deployment complete&quot;</span></span><br><span class="line">          <span class="string">EOF</span>          </span><br></pre></td></tr></table></figure>
+
+<p>上述代码基本与github actions的语法一致，这里不提供相关的基础概念了。想学习的可以查阅github的官网。(大部分情况下可以通过gpt等ai生成一个样例模板，再自己去写所需要的部分)</p>
+<p>上面代码中个别细节需要提及：</p>
+<ol>
+<li><code>secrets.SSH_PRIVATE_KEY</code>等密钥配置文件是保存在仓库的如下选项中<br> 这与github中的配置也是相似的<br> <img src="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-13-51-03.png" alt="使用gitea-action实现CICD-2024-12-25-13-51-03"></li>
+<li><code>StrictHostKeyChecking=no</code>用于关闭交互服务(一般使用ssh密钥连接时都是交互式会提示是否接受等概念)<br> <img src="https://image.zfxt.top/hexo-blog/%E4%BD%BF%E7%94%A8gitea-action%E5%AE%9E%E7%8E%B0CICD-2024-12-25-13-52-32.png" alt="使用gitea-action实现CICD-2024-12-25-13-52-32"></li>
+</ol>
+<h2 id="nginx页面展示"><a href="#nginx页面展示" class="headerlink" title="nginx页面展示"></a>nginx页面展示</h2><p>也就是你所看到的博客页面啦。这些都是我通过nginx展示出来的。不过关于nginx的具体代码配置我就不在此展开了。我应该会有另外的文章去说明这部分内容。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/f5d3f52f/">https://zfxt.top/posts/f5d3f52f/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CICD/">CICD</a><a class="post-meta__tags" href="/tags/gitea/">gitea</a></div><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img class="cover" src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">docker,nginx,ssl最佳实践</div></div><div class="info-2"><div class="info-item-1"> 基于我对docker，nginx还有ssl证书的部署，提出了我对这些服务最高效的部署方法。仅供参考，一定会有更好的方法，只是我还有待学习  使用docker部署nginxdocker部署nginx有什么好处呢？大概就是可以把所有相关的配置文件汇集在一块，也方便在不同的服务器中迁移。这里提供部署所使用的docker代码： 1234567891011# 先创建一个nginx网络docker network create nginx_container# 运行nginx并添加到该网络中docker run --name=nginx  \--volume=/home/&#123;user&#125;/&#123;your_path&#125;/nginx/logs:/var/log/nginx \--volume=/home/&#123;user&#125;/&#123;your_path&#125;/nginx/html:/etc/nginx/html...</div></div></div></a><a class="pagination-related" href="/posts/9c04f269/" title="docker服务器白嫖"><img class="cover" src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">docker服务器白嫖</div></div><div class="info-2"><div class="info-item-1"> 这篇文章的主要面向人群：临时使用linux服务器来测试一些程序，项目等。  play with docker进入这个链接，然后登陆后，就会看到如下界面他会给你提供4个小时的免费使用时长，而且你可以创建多个实例。每个实例都是4h4g的docker服务器。而且这些示例你可以通过ssh远程连接，也可以直接开放端口直接开放在外网。(可是说是配置拉满的免费服务了) 创建完成后，会有一些问题需要解决，第一，他的服务器系统并不和我们常用的ubuntu，centos类似。于是要在这个服务器上跑项目，肯定会有很多环境配置不方便。所以我们使用docker来跑一个ubuntu供我们使用命令如下： 1234docker run -itd --privileged --init -v /:/mnt --network host ubuntu --name ubuntu# 可以避免僵尸进程和孤儿进程--privileged --initdocker exec -it ubuntu bash#...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2fecdaca/" title="自部署gitea"><img class="cover" src="https://image.zfxt.top/hexo-blog/自部署gitea-2024-12-24-23-49-03.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-24</div><div class="info-item-2">自部署gitea</div></div><div class="info-2"><div class="info-item-1">部署gitea的原因使用gitea的原因：本质上是因为在本地硬盘上每次学习一些新知识，于是创建一些demo性质的应用。特别是vue，react之类的前端应用。每个项目都会有node_module这个文件夹，这里面有特别多的4k小文件，这导致我备份硬盘数据时。速率总是被压的很低。所以我在想能不能通过一个本地部署的类似github的服务器，实现我对这些项目的备份，然后通过配置.gitignore忽略掉哪些中间过程文件和复杂的库文件。来实现对磁盘的高效率备份。 部署完gitea后，发现他其实可以很好的替代github，gitee来作为我自己的代码仓库使用。而且他也确实有很多优点，包括如下图片等功能。而且他作为本地化服务，我不需要担心网络故障，权限校验等问题。 部署过程这部分内容主要参考大佬文章以及gitea官网 我只说明我需要使用的docker...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">265</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">100</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">允许一切事物的存在，都是有意义的。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CICD"><span class="toc-number">1.</span> <span class="toc-text">CICD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84CICD%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">常用的CICD工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AD%A3%E7%89%87%E5%BC%80%E5%A7%8B"><span class="toc-number">3.</span> <span class="toc-text">正片开始</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85act-runner"><span class="toc-number">3.1.</span> <span class="toc-text">安装act_runner</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8Crunner"><span class="toc-number">3.1.1.</span> <span class="toc-text">注册runner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8runner"><span class="toc-number">3.1.2.</span> <span class="toc-text">启动runner</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">3.2.</span> <span class="toc-text">添加配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA"><span class="toc-number">3.3.</span> <span class="toc-text">nginx页面展示</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/9493ce59/" title="新公告"><img src="https://image.zfxt.top/hexo-blog/新公告-2025-02-18-15-37-55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新公告"/></a><div class="content"><a class="title" href="/posts/9493ce59/" title="新公告">新公告</a><time datetime="2025-02-18T07:30:18.000Z" title="发表于 2025-02-18 15:30:18">2025-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/16639286/" title="docker,nginx,ssl最佳实践"><img src="https://image.zfxt.top/hexo-blog/docker-nginx-ssl最佳实践-2024-12-25-16-58-02.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker,nginx,ssl最佳实践"/></a><div class="content"><a class="title" href="/posts/16639286/" title="docker,nginx,ssl最佳实践">docker,nginx,ssl最佳实践</a><time datetime="2024-12-25T06:12:29.000Z" title="发表于 2024-12-25 14:12:29">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用gitea action实现CICD"/></a><div class="content"><a class="title" href="/posts/f5d3f52f/" title="使用gitea action实现CICD">使用gitea action实现CICD</a><time datetime="2024-12-25T05:13:23.000Z" title="发表于 2024-12-25 13:13:23">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9c04f269/" title="docker服务器白嫖"><img src="https://image.zfxt.top/hexo-blog/docker服务器白嫖-2024-12-25-12-11-40.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker服务器白嫖"/></a><div class="content"><a class="title" href="/posts/9c04f269/" title="docker服务器白嫖">docker服务器白嫖</a><time datetime="2024-12-25T03:47:51.000Z" title="发表于 2024-12-25 11:47:51">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录"><img src="https://image.zfxt.top/hexo-blog/ubuntu使用ssh密钥登录-2024-12-25-11-43-25.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ubuntu使用ssh密钥登录"/></a><div class="content"><a class="title" href="/posts/dd9695f2/" title="ubuntu使用ssh密钥登录">ubuntu使用ssh密钥登录</a><time datetime="2024-12-25T03:17:36.000Z" title="发表于 2024-12-25 11:17:36">2024-12-25</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '4450413f2853c90a0b52ca9a467594cd'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>
