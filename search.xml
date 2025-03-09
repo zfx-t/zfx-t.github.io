@@ -7212,15 +7212,6 @@ close.sh<figure class="highlight sh"><table><tr><td class="code"><pre><span clas
       </categories>
   </entry>
   <entry>
-    <title>新公告</title>
-    <url>/posts/9493ce59/</url>
-    <content><![CDATA[<p>大家好，这个博客更新至今已有将近2年了，期间从<code>memos</code>切换到<code>typecho</code>。最后迁移到<code>hexo</code>做为最终的博客平台。而在之后，或许这个博客将会大大降低更新频率了。</p>
-<p>一是因为最近上手了新的笔记平台<code>Obsidian</code>,再搭配上一些其他的云存储工具。他已经可以在很大程度上胜任我对知识记录的需求。所以往后我可能少再博客上更新了。而是直接记录在我的个人笔记上。<br>其次，接下来也即将步入社会，要面临工作了，或许也不会有太充足的时间让我广而学之然后更新博客内容。</p>
-<p>当然再此之后，我肯定也会更新，只是内容会更加精炼，尽量做到每一次的内容都更加有价值😘😘😘</p>
-<p><text style="color: red;font-weight: bold; font-size: 20px; text-align: center; display: block; margin-top: 20px; margin-bottom: 20px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"><strong>以上</strong></text></p>
-]]></content>
-  </entry>
-  <entry>
     <title>数据通信基础：传输数据的信息系统</title>
     <url>/posts/870f1c14/</url>
     <content><![CDATA[<h2 id="数据通信基础"><a href="#数据通信基础" class="headerlink" title="数据通信基础"></a>数据通信基础</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
