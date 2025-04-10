@@ -7889,4 +7889,38 @@ close.sh<figure class="highlight sh"><table><tr><td class="code"><pre><span clas
 <p>引用自:<a href="https://www.zhihu.com/question/33774281/answer/3468823863">https://www.zhihu.com/question/33774281/answer/3468823863</a></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>d2l深度学习问题汇总</title>
+    <url>/posts/d734db86/</url>
+    <content><![CDATA[<h2 id="d2l安装问题"><a href="#d2l安装问题" class="headerlink" title="d2l安装问题"></a>d2l安装问题</h2><p>第一步就是安装问题，可能是版本太新的问题，我安装时使用<code>pip install d2l</code>报过错误。所以现提供一个解决方案。<br>有说是后面的版本，你需要提前安装<code>mxnet</code>，然后再安装<code>d2l</code>。但是我没装，所以提供下述解决方案</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install d2l==<span class="number">0.15</span><span class="number">.1</span></span><br><span class="line"><span class="comment"># 在之后还会遇到一个关于ipython新版本缺少指令的问题，需降级使用</span></span><br><span class="line">pip uninstall ipython</span><br><span class="line">pip install ipython==<span class="number">7.22</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<p>更多版本可以查看<a href="https://pypi.org/project/d2l/#history">d2l版本列表</a><br>如此，即可解决d2l包无法使用的问题</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>解决ubuntu下定时任务不执行的问题</title>
+    <url>/posts/c17db359/</url>
+    <content><![CDATA[<h2 id="先打开日志"><a href="#先打开日志" class="headerlink" title="先打开日志"></a>先打开日志</h2><p>查看cron运行日志（<code>/var/log/cron.log</code>），但是并未找到相关文件，原因是<code>ubuntu</code>默认没有开<code>cron</code>日志，执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/rsyslog.d/50-default.conf</span><br></pre></td></tr></table></figure>
+
+<p>找到<code>cron.log</code>相关行，将前面注释符#去掉，保存退出，重启<code>rsyslog</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span>  service rsyslog  restart</span><br></pre></td></tr></table></figure>
+
+<p>执行<code>less -10 /var/log/cron.log</code>再次查看<code>cron</code>运行日志，<code>log</code>出来了，提示如下信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">No MTA installed, discarding output</span><br></pre></td></tr></table></figure>
+
+<p>原因是cron把屏幕输出都发送到email了，而当前环境并未安装email server，于是系统报错，解决方面就是不要直接向屏幕输出内容，而是重定向到一个文件。</p>
+<p>修改任务文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /var/spool/cron/crontabs/waterfronter</span><br></pre></td></tr></table></figure>
+
+<p>将末行改为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">* * * * * <span class="built_in">echo</span> <span class="string">&quot;Hello world!&quot;</span> &gt;&gt; /tmp/cron_log.txt</span><br></pre></td></tr></table></figure>
+
+<p>保存退出，同时<code>reload cron</code>服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service cron reload</span><br></pre></td></tr></table></figure>
+
+<p>若干分钟后查看<code>/tmp/cron_log.txt</code>，“Hello world!”每隔一分钟输出一次，问题解决。</p>
+]]></content>
+  </entry>
 </search>
