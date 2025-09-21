@@ -9,7 +9,7 @@
 <meta property="article:author" content="小贺同学">
 <meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/page/18/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/page/18/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><script>
     (() => {
       
     const saveToLocal = {
@@ -82,25 +82,7 @@
 
       const theme = saveToLocal.get('theme')
     
-          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
-          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
-          
-          if (theme === undefined) {
-            if (mediaQueryLight.matches) activateLightMode()
-            else if (mediaQueryDark.matches) activateDarkMode()
-            else {
-              const hour = new Date().getHours()
-              const isNight = hour <= 6 || hour >= 18
-              isNight ? activateDarkMode() : activateLightMode()
-            }
-            mediaQueryDark.addEventListener('change', () => {
-              if (saveToLocal.get('theme') === undefined) {
-                e.matches ? activateDarkMode() : activateLightMode()
-              }
-            })
-          } else {
-            theme === 'light' ? activateLightMode() : activateDarkMode()
-          }
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
         
       
       const asideStatus = saveToLocal.get('aside-status')
@@ -120,8 +102,8 @@
   </script><script>const GLOBAL_CONFIG = {
   root: '/',
   algolia: undefined,
-  localSearch: undefined,
-  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
   highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
   copy: {
     success: '复制成功',
@@ -141,28 +123,26 @@
     month: '个月前'
   },
   copyright: undefined,
-  lightbox: 'fancybox',
+  lightbox: 'medium_zoom',
   Snackbar: undefined,
   infinitegrid: {
     js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
     buttonText: '加载更多'
   },
   isPhotoFigcaption: false,
-  islazyload: false,
+  islazyloadPlugin: false,
   isAnchor: false,
   percent: {
     toc: true,
     rightside: false,
   },
-  autoDarkmode: true
+  autoDarkmode: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
   title: '小贺同学的blog',
-  isPost: false,
-  isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  isShuoshuo: false
-}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/18adafad/" title="Android入门(2)">Android入门(2)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-21T02:02:00.000Z" title="发表于 2023-06-21 10:02:00">2023-06-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">Android四大组件分别是Activity,Service,BroadcastRecerver和ContentProvider。  其中Activity是所有Android应用程序的门面，你再前端看得到的都在这其中。  而Service就是在后台默默运行，即便用户退出了应用，Service也会在后台运行。  BroadcastReceiver允许你的应用接受来自各处的广播消息，比如电话，短信等，当然，你的应用也可以向外发出广播信息。  ContentProvider则为应用程序之间共享数据提供了可能，比如你想读取系统通讯录中的联系人，即想要通过ContentProvider来实现。   </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/3380fc6e/" title="Android入门(1)">Android入门(1)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-21T00:44:00.000Z" title="发表于 2023-06-21 08:44:00">2023-06-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">目录结构Project项目默认你已经通过idea或者android studio生成了一个android程序了。那么你将会看到如下的目录结构  .gradle和.idea这两个目录下放置到都是Android...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/8f005380/" title="kotlin空指针">kotlin空指针</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-20T06:24:21.000Z" title="发表于 2023-06-20 14:24:21">2023-06-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">在kotlin中，最为核心的一个内容就是kotlin的空安全判断。他可以通过?来简单的确定是否为空类型而接下来要说明的是let函数，对于任何一个类都继承了该方法。例如 123obj.let&#123;obj2? -&gt;//编写具体的业务逻辑&#125; 可以看到，obj对象调用的let函数，后面是lambda表达式，他会直接obj对象本身传递到函数中，就是obj2，如果只有一个参数，也可以直接省略，用it代替。而let的特性让他特别适合处理空指针检查下面示例一个普通的空指针检查 123456fun doStudy(study: Study?)&#123;    	if(study != null)&#123;    		study.readBooks()    		study.doHomework()    &#125;&#125; 在kotlin中，你用if判断完后，他会自动检测，然后转化为非空的study类，然后就可以正常的调用。而如果使用let的话，就会是下面这种情况 123456fun doStudy(study: Study?)&#123;   ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c7d683d3/" title="kotlin（Java函数式API的使用）">kotlin（Java函数式API的使用）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-20T04:43:00.000Z" title="发表于 2023-06-20 12:43:00">2023-06-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">Java函数式API的使用123public interface OnClickListener&#123;	void onClick(View v);&#125; 这种接口被称为函数式接口，或者 SAM 接口， SAM 代表单抽象方法。 使用函数式接口的前体这里的前提是，使用kotlin去调用java方法，而且java方法是个单抽象接口方法，就可以直接使用函数式API。已知在kotlin中，有很多简单快捷的函数式API操作。例如： 123val list = listOf(&quot;Apple&quot;,&quot;Banana&quot;,&quot;Orange&quot;,&quot;Grape&quot;,&quot;Watermelon&quot;)val maxLengthFruit =...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/6d6854ee/" title="kali中使用clash作为代理">kali中使用clash作为代理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-19T02:15:00.000Z" title="发表于 2023-06-19 10:15:00">2023-06-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kali/">kali</a></span></div><div class="content">一般的桌面级OS，如ubuntu，centos。他们都会有图形化的代理配置如下图所示。但是，在kali中他并没有这个配置。因此你需要通过命令行界面去配置代理。这里以clash为例clashclash是一个广泛使用的代理工具，可以跨平台使用，兼容windows，linux，mac。 clash的安装你可以在这个链接中获得clash的最新版本这里是dashboard的发行版本 这里演示在linux下安装clash的过程 Linux这次演示使用clash+dashboard作为代理服务并配合机场使用  dashboarddashboard是一个ui界面，用来管理clash，他更多用于云服务器，一般默认为9090端口，可以从外界访问，从而控制代理服务。  先在用户目录下安装一个clash文件夹，并进入到其中 1mkdir clash &amp;&amp; cd clash   然后再目录下，把机场给的config.yaml下载下来，可以使用wget 1wget &quot;机场给你的订阅链接&quot; -O...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/9ff5edc2/" title="clash快速开启和关闭代理模式">clash快速开启和关闭代理模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-16T04:13:00.000Z" title="发表于 2023-06-16 12:13:00">2023-06-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/clash/">clash</a></span></div><div class="content">如何快速开启和关闭代理模式这一步的前提是你已经完成了clash的部署内容上一篇文章当完成了clash的部署后，自然是需要打开代理的简单的方法就是 123export https_proxy=http://127.0.0.1:7890           export http_proxy=http://127.0.0.1:7890   export all_proxy=socks5://127.0.0.1:7891  但是这只是临时使用。如果每次开关代理都这般麻烦，倒不如不用也可以直接将这个部署到/etc/profile或者/root/.bashrc中。但他是永久性的改变。于是有些情况，他并不适用。国内的网站访问时，如果打开代理会使访问速度大大降低。得不偿失。 所以要设计一个便捷的开关方式，用来便捷的打开或者关闭代理。 第一种简洁方式（但是并不太符合所期望的简洁模式） 设计两个sh脚本分别为open.sh和close.sh 先在目录下建一个目录switch1mkdir switch &amp;&amp; cd...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/9f2a8376/" title="快速便捷开关代理模式">快速便捷开关代理模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T22:53:11.000Z" title="发表于 2023-06-16 06:53:11">2023-06-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/clash/">clash</a></span></div><div class="content">如何快速开启和关闭代理模式这一步的前提是你已经完成了clash的部署内容上一篇文章当完成了clash的部署后，自然是需要打开代理的简单的方法就是 123export https_proxy=http://127.0.0.1:7890           export http_proxy=http://127.0.0.1:7890   export all_proxy=socks5://127.0.0.1:7891 但是这只是临时使用。如果每次开关代理都这般麻烦，倒不如不用也可以直接将这个部署到/etc/profile或者/root/.bashrc中。但他是永久性的改变。于是有些情况，他并不适用。国内的网站访问时，如果打开代理会使访问速度大大降低。得不偿失。 所以要设计一个便捷的开关方式，用来便捷的打开或者关闭代理。 第一种简洁方式（但是并不太符合所期望的简洁模式） 设计两个sh脚本分别为open.sh和close.sh 先在目录下建一个目录switch1mkdir switch &amp;&amp; cd...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/14b1606d/" title="Linux 四个目录命令用途和区别">Linux 四个目录命令用途和区别</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T08:42:38.000Z" title="发表于 2023-06-15 16:42:38">2023-06-15</time></span></div><div class="content">Linux下 &#x2F;bin、&#x2F;sbin、&#x2F;usr&#x2F;sbin、&#x2F;usr&#x2F;bin 目录的作用和区别首先区别&#x2F;sbin,&#x2F;bin&#x2F;sbin 下的命令属于基本的系统命令，如shutdown，reboot，用于启动系统，修复系统 &#x2F;bin下存放一些普通的基本命令，如ls,chmod等，这些命令在Linux系统里的配置文件脚本里经常用到 无论是&#x2F;bin、&#x2F;sbin、&#x2F;usr&#x2F;sbin、&#x2F;usr&#x2F;bin他们都是全局可以执行的命令 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/7f6c5dad/" title="Node.js 工具集：npm、npx、nrm、nvm">Node.js 工具集：npm、npx、nrm、nvm</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T06:40:42.000Z" title="发表于 2023-06-15 14:40:42">2023-06-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/nvm/">nvm</a></span></div><div class="content"> node：是一个基于 Chrome V8 引擎的 JS 运行环境。  npm：是 node.js 默认的包管理系统（用 JavaScript 编写的），在安装的 node 的时候，npm 也会跟着一起安装，管理 node 中的第三方插件。  npx：npm 从 v5.2.0 开始新增了 npx 命令，&gt;&#x3D; 该版本会自动安装 npx，附带：npx 有什么作用跟意义？为什么要有 npx？什么场景使用？。  nrm：是一个 npm 源管理工具，使用它可以快速切换 npm 源，默认是官方源，当 npm 下载包过慢时，可能需要切换到第三方源（例如：淘宝、科大…），还有公司私有源地址等等。  nvm：node 版本管理器，也就是说：一个 nvm 可以管理多个 node 版本（包含 npm 与 npx），可以方便快捷的 安装、切换 不同版本的 node。   安装nvm的安装只需要执行以下一条命令linux下 1curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh |...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/8e6632a6/" title="Nginx URI 匹配和位置配置">Nginx URI 匹配和位置配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T05:41:18.000Z" title="发表于 2023-06-15 13:41:18">2023-06-15</time></span></div><div class="content">location配置 匹配 URI 类型，有四种参数可选，当然也可以不带参数。 命名location，用@来标识，类似于定义goto语句块。1234561. location =    # 精准匹配2. location ^~   # 带参前缀匹配3. location ~    # 正则匹配（区分大小写）4. location ~*   # 正则匹配（不区分大小写）5. location /a   # 普通前缀匹配，优先级低于带参数前缀匹配。6. location /    # 任何没有匹配成功的，都会匹配这里处理  </div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/17/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/#content-inner">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/#content-inner">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/#content-inner">28</a><a class="extend next" rel="next" href="/page/19/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"/></a><div class="content"><a class="title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d734db86/" title="d2l深度学习问题汇总"><img src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"/></a><div class="content"><a class="title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+  pageType: 'home'
+}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/18adafad/" title="Android入门(2)">Android入门(2)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-21T02:02:00.000Z" title="发表于 2023-06-21 10:02:00">2023-06-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">Android四大组件分别是Activity,Service,BroadcastRecerver和ContentProvider。  其中Activity是所有Android应用程序的门面，你再前端看得到的都在这其中。  而Service就是在后台默默运行，即便用户退出了应用，Service也会在后台运行。  BroadcastReceiver允许你的应用接受来自各处的广播消息，比如电话，短信等，当然，你的应用也可以向外发出广播信息。  ContentProvider则为应用程序之间共享数据提供了可能，比如你想读取系统通讯录中的联系人，即想要通过ContentProvider来实现。   </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/3380fc6e/" title="Android入门(1)">Android入门(1)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-21T00:44:00.000Z" title="发表于 2023-06-21 08:44:00">2023-06-21</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Android%E5%85%A5%E9%97%A8/">Android入门</a></span></div><div class="content">目录结构Project项目默认你已经通过idea或者android studio生成了一个android程序了。那么你将会看到如下的目录结构  .gradle和.idea这两个目录下放置到都是Android Studio自动生成的文件，我们无需关心。 app项目中的代码，资源等内容都是放在这个目录下的，我们后面的开发也基本在这个目录下进行 build这个目录主要包括一些在编译时自动生成的文件，我们无需关心。 gradle如果你使用了gradle的wrapper的话，他就会有这个文件，这个文件下主要是gradle的包。 .gitgnore这个文件是用来将来的目录或文件排除在版本控制之外的。 build.gradle这个是项目全局的gradle构建脚本，通常这个文件的内容不需要修改。 gradle.properties这个文件是全局的gradle配置文件，在这里配置到属性将会影响到项目中所有的gradle编译脚本。 gradlew和gradlew.bat这两个文件是用来在命令行界面执行gradle命令的，其汇总gradlew实在Linux或者Mac系统中使用的，gradlew.bat...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/8f005380/" title="kotlin空指针">kotlin空指针</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-20T06:24:21.000Z" title="发表于 2023-06-20 14:24:21">2023-06-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">在kotlin中，最为核心的一个内容就是kotlin的空安全判断。他可以通过?来简单的确定是否为空类型而接下来要说明的是let函数，对于任何一个类都继承了该方法。例如 123obj.let&#123;obj2? -&gt;//编写具体的业务逻辑&#125; 可以看到，obj对象调用的let函数，后面是lambda表达式，他会直接obj对象本身传递到函数中，就是obj2，如果只有一个参数，也可以直接省略，用it代替。而let的特性让他特别适合处理空指针检查下面示例一个普通的空指针检查 123456fun doStudy(study: Study?)&#123;    	if(study != null)&#123;    		study.readBooks()    		study.doHomework()    &#125;&#125; 在kotlin中，你用if判断完后，他会自动检测，然后转化为非空的study类，然后就可以正常的调用。而如果使用let的话，就会是下面这种情况 123456fun doStudy(study: Study?)&#123;    	study?.l...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c7d683d3/" title="kotlin（Java函数式API的使用）">kotlin（Java函数式API的使用）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-20T04:43:00.000Z" title="发表于 2023-06-20 12:43:00">2023-06-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">Java函数式API的使用123public interface OnClickListener&#123;	void onClick(View v);&#125; 这种接口被称为函数式接口，或者 SAM 接口， SAM 代表单抽象方法。 使用函数式接口的前体这里的前提是，使用kotlin去调用java方法，而且java方法是个单抽象接口方法，就可以直接使用函数式API。已知在kotlin中，有很多简单快捷的函数式API操作。例如： 123val list = listOf(&quot;Apple&quot;,&quot;Banana&quot;,&quot;Orange&quot;,&quot;Grape&quot;,&quot;Watermelon&quot;)val maxLengthFruit = list.maxBy&#123;it.length&#125;println(maxLengthFruit) 而这个的前提就是kotlin中可以将函数作为一个参数传递出去。同样也可以使用lambda来简写函数式。我们在这里说的是，如果JAVA是一个单抽象接口方法，我们在kotl...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/6d6854ee/" title="kali中使用clash作为代理">kali中使用clash作为代理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-19T02:15:00.000Z" title="发表于 2023-06-19 10:15:00">2023-06-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kali/">kali</a></span></div><div class="content">一般的桌面级OS，如ubuntu，centos。他们都会有图形化的代理配置如下图所示。但是，在kali中他并没有这个配置。因此你需要通过命令行界面去配置代理。这里以clash为例clashclash是一个广泛使用的代理工具，可以跨平台使用，兼容windows，linux，mac。 clash的安装你可以在这个链接中获得clash的最新版本这里是dashboard的发行版本 这里演示在linux下安装clash的过程 Linux这次演示使用clash+dashboard作为代理服务并配合机场使用  dashboarddashboard是一个ui界面，用来管理clash，他更多用于云服务器，一般默认为9090端口，可以从外界访问，从而控制代理服务。  先在用户目录下安装一个clash文件夹，并进入到其中 1mkdir clash &amp;&amp; cd clash   然后再目录下，把机场给的config.yaml下载下来，可以使用wget 1wget &quot;机场给你的订阅链接&quot; -O config.yaml 然后从github上获取clash和dashboard...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/9ff5edc2/" title="clash快速开启和关闭代理模式">clash快速开启和关闭代理模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-16T04:13:00.000Z" title="发表于 2023-06-16 12:13:00">2023-06-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/clash/">clash</a></span></div><div class="content">如何快速开启和关闭代理模式这一步的前提是你已经完成了clash的部署内容上一篇文章当完成了clash的部署后，自然是需要打开代理的简单的方法就是 123export https_proxy=http://127.0.0.1:7890           export http_proxy=http://127.0.0.1:7890   export all_proxy=socks5://127.0.0.1:7891  但是这只是临时使用。如果每次开关代理都这般麻烦，倒不如不用也可以直接将这个部署到/etc/profile或者/root/.bashrc中。但他是永久性的改变。于是有些情况，他并不适用。国内的网站访问时，如果打开代理会使访问速度大大降低。得不偿失。 所以要设计一个便捷的开关方式，用来便捷的打开或者关闭代理。 第一种简洁方式（但是并不太符合所期望的简洁模式） 设计两个sh脚本分别为open.sh和close.sh 先在目录下建一个目录switch1mkdir switch &amp;&amp; cd switch 然后编写两个文件，并把以下内容填入open.sh1234...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/9f2a8376/" title="快速便捷开关代理模式">快速便捷开关代理模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T22:53:11.000Z" title="发表于 2023-06-16 06:53:11">2023-06-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/clash/">clash</a></span></div><div class="content">如何快速开启和关闭代理模式这一步的前提是你已经完成了clash的部署内容上一篇文章当完成了clash的部署后，自然是需要打开代理的简单的方法就是 123export https_proxy=http://127.0.0.1:7890           export http_proxy=http://127.0.0.1:7890   export all_proxy=socks5://127.0.0.1:7891 但是这只是临时使用。如果每次开关代理都这般麻烦，倒不如不用也可以直接将这个部署到/etc/profile或者/root/.bashrc中。但他是永久性的改变。于是有些情况，他并不适用。国内的网站访问时，如果打开代理会使访问速度大大降低。得不偿失。 所以要设计一个便捷的开关方式，用来便捷的打开或者关闭代理。 第一种简洁方式（但是并不太符合所期望的简洁模式） 设计两个sh脚本分别为open.sh和close.sh 先在目录下建一个目录switch1mkdir switch &amp;&amp; cd switch 然后编写两个文件，并把以下内容填入open.sh12345...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/14b1606d/" title="Linux 四个目录命令用途和区别">Linux 四个目录命令用途和区别</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T08:42:38.000Z" title="发表于 2023-06-15 16:42:38">2023-06-15</time></span></div><div class="content">Linux下 &#x2F;bin、&#x2F;sbin、&#x2F;usr&#x2F;sbin、&#x2F;usr&#x2F;bin 目录的作用和区别首先区别&#x2F;sbin,&#x2F;bin&#x2F;sbin 下的命令属于基本的系统命令，如shutdown，reboot，用于启动系统，修复系统 &#x2F;bin下存放一些普通的基本命令，如ls,chmod等，这些命令在Linux系统里的配置文件脚本里经常用到 无论是&#x2F;bin、&#x2F;sbin、&#x2F;usr&#x2F;sbin、&#x2F;usr&#x2F;bin他们都是全局可以执行的命令 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/7f6c5dad/" title="Node.js 工具集：npm、npx、nrm、nvm">Node.js 工具集：npm、npx、nrm、nvm</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T06:40:42.000Z" title="发表于 2023-06-15 14:40:42">2023-06-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/nvm/">nvm</a></span></div><div class="content"> node：是一个基于 Chrome V8 引擎的 JS 运行环境。  npm：是 node.js 默认的包管理系统（用 JavaScript 编写的），在安装的 node 的时候，npm 也会跟着一起安装，管理 node 中的第三方插件。  npx：npm 从 v5.2.0 开始新增了 npx 命令，&gt;&#x3D; 该版本会自动安装 npx，附带：npx 有什么作用跟意义？为什么要有 npx？什么场景使用？。  nrm：是一个 npm 源管理工具，使用它可以快速切换 npm 源，默认是官方源，当 npm 下载包过慢时，可能需要切换到第三方源（例如：淘宝、科大…），还有公司私有源地址等等。  nvm：node 版本管理器，也就是说：一个 nvm 可以管理多个 node 版本（包含 npm 与 npx），可以方便快捷的 安装、切换 不同版本的 node。   安装nvm的安装只需要执行以下一条命令linux下 1curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash win...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/8e6632a6/" title="Nginx URI 匹配和位置配置">Nginx URI 匹配和位置配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-15T05:41:18.000Z" title="发表于 2023-06-15 13:41:18">2023-06-15</time></span></div><div class="content">location配置 匹配 URI 类型，有四种参数可选，当然也可以不带参数。 命名location，用@来标识，类似于定义goto语句块。1234561. location =    # 精准匹配2. location ^~   # 带参前缀匹配3. location ~    # 正则匹配（区分大小写）4. location ~*   # 正则匹配（不区分大小写）5. location /a   # 普通前缀匹配，优先级低于带参数前缀匹配。6. location /    # 任何没有匹配成功的，都会匹配这里处理  </div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/17/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/#content-inner">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/#content-inner">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/#content-inner">28</a><a class="extend next" rel="next" href="/page/19/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"/></a><div class="content"><a class="title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d734db86/" title="d2l深度学习问题汇总"><img src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"/></a><div class="content"><a class="title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
@@ -170,70 +150,92 @@
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Android%E5%85%A5%E9%97%A8/"><span class="card-category-list-name">Android入门</span><span class="card-category-list-count">42</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Echarts/"><span class="card-category-list-name">Echarts</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Linux基础</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/RabbitMQ/"><span class="card-category-list-name">RabbitMQ</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/clash/"><span class="card-category-list-name">clash</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kali/"><span class="card-category-list-name">kali</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kotlin/"><span class="card-category-list-name">kotlin</span><span class="card-category-list-count">65</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nvm/"><span class="card-category-list-name">nvm</span><span class="card-category-list-count">2</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/android/" style="font-size: 1.35em; color: rgb(50, 129, 50);">android</a><a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.15em; color: rgb(145, 50, 155);">adb调试</a><a href="/tags/vue/" style="font-size: 1.45em; color: rgb(128, 50, 50);">vue</a><a href="/tags/JS/" style="font-size: 1.35em; color: rgb(146, 50, 199);">JS</a><a href="/tags/MediaPlayer/" style="font-size: 1.15em; color: rgb(119, 169, 50);">MediaPlayer</a><a href="/tags/APK%E6%89%93%E5%8C%85/" style="font-size: 1.15em; color: rgb(50, 158, 196);">APK打包</a><a href="/tags/android-Studio/" style="font-size: 1.15em; color: rgb(50, 62, 50);">android Studio</a><a href="/tags/bee%E6%A1%86%E6%9E%B6/" style="font-size: 1.15em; color: rgb(191, 79, 50);">bee框架</a><a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.15em; color: rgb(50, 50, 181);">目录结构</a><a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.15em; color: rgb(75, 178, 117);">四大组件</a><a href="/tags/Android-Media/" style="font-size: 1.15em; color: rgb(153, 180, 87);">Android Media</a><a href="/tags/cameraX/" style="font-size: 1.15em; color: rgb(57, 50, 50);">cameraX</a><a href="/tags/jetpack-compose/" style="font-size: 1.2em; color: rgb(117, 167, 133);">jetpack compose</a><a href="/tags/%E8%BD%BBnas/" style="font-size: 1.15em; color: rgb(200, 112, 169);">轻nas</a><a href="/tags/%E6%9D%82%E8%A8%80/" style="font-size: 1.2em; color: rgb(78, 50, 50);">杂言</a><a href="/tags/ES6/" style="font-size: 1.2em; color: rgb(96, 139, 141);">ES6</a><a href="/tags/fetch/" style="font-size: 1.15em; color: rgb(101, 50, 67);">fetch</a><a href="/tags/promise/" style="font-size: 1.15em; color: rgb(99, 128, 123);">promise</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.15em; color: rgb(198, 163, 50);">C语言</a><a href="/tags/gitea/" style="font-size: 1.25em; color: rgb(54, 189, 122);">gitea</a><a href="/tags/docker%E9%95%9C%E5%83%8F/" style="font-size: 1.15em; color: rgb(50, 173, 50);">docker镜像</a><a href="/tags/gitea-action/" style="font-size: 1.15em; color: rgb(50, 198, 80);">gitea action</a><a href="/tags/gradle/" style="font-size: 1.2em; color: rgb(133, 185, 65);">gradle</a><a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.15em; color: rgb(50, 50, 192);">长连接和短链接</a><a href="/tags/idea%E6%BF%80%E6%B4%BB/" style="font-size: 1.15em; color: rgb(50, 167, 50);">idea激活</a><a href="/tags/JAVA/" style="font-size: 1.3em; color: rgb(50, 101, 99);">JAVA</a><a href="/tags/jar%E5%8C%85/" style="font-size: 1.15em; color: rgb(151, 82, 103);">jar包</a><a href="/tags/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/" style="font-size: 1.2em; color: rgb(128, 130, 131);">数据通信</a><a href="/tags/JWT/" style="font-size: 1.15em; color: rgb(88, 110, 181);">JWT</a><a href="/tags/java/" style="font-size: 1.2em; color: rgb(50, 131, 90);">java</a><a href="/tags/k8s/" style="font-size: 1.2em; color: rgb(67, 137, 50);">k8s</a><a href="/tags/ktor/" style="font-size: 1.15em; color: rgb(77, 101, 154);">ktor</a><a href="/tags/linux/" style="font-size: 1.4em; color: rgb(198, 79, 100);">linux</a><a href="/tags/compose/" style="font-size: 1.25em; color: rgb(100, 114, 165);">compose</a><a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 1.15em; color: rgb(180, 50, 65);">代理</a><a href="/tags/mihomo/" style="font-size: 1.15em; color: rgb(50, 58, 50);">mihomo</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 1.15em; color: rgb(157, 171, 181);">服务器</a><a href="/tags/Lombok/" style="font-size: 1.15em; color: rgb(50, 177, 121);">Lombok</a><a href="/tags/MVI/" style="font-size: 1.15em; color: rgb(131, 68, 50);">MVI</a><a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 1.15em; color: rgb(195, 137, 50);">架构</a></div></div><div class="card-widget card-archives">
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.23em; color: #999ea6">java</a> <a href="/tags/ES6/" style="font-size: 1.23em; color: #999ea6">ES6</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.1em; color: #999">嵌入式</a> <a href="/tags/python%E5%85%A5%E9%97%A8/" style="font-size: 1.1em; color: #999">python入门</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E5%AD%90%E5%9F%9F%E5%90%8D/" style="font-size: 1.1em; color: #999">子域名</a> <a href="/tags/DNS%E8%A7%A3%E6%9E%90/" style="font-size: 1.1em; color: #999">DNS解析</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.1em; color: #999">四大组件</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.1em; color: #999">C语言</a> <a href="/tags/windows%E8%B7%AF%E7%94%B1%E8%A1%A8/" style="font-size: 1.1em; color: #999">windows路由表</a> <a href="/tags/react/" style="font-size: 1.23em; color: #999ea6">react</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 1.1em; color: #999">浏览器</a> <a href="/tags/mingw/" style="font-size: 1.1em; color: #999">mingw</a> <a href="/tags/moshi/" style="font-size: 1.1em; color: #999">moshi</a> <a href="/tags/%E9%BC%A0%E6%A0%87%E6%A0%B7%E5%BC%8F/" style="font-size: 1.1em; color: #999">鼠标样式</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.1em; color: #999">-嵌入式</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E9%85%8D%E8%89%B2/" style="font-size: 1.1em; color: #999">主题配色</a> <a href="/tags/%E5%A4%9A%E5%B9%B3%E5%8F%B0%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">多平台管理工具</a> <a href="/tags/ubuntu%E6%A1%8C%E9%9D%A2%E7%AB%AF/" style="font-size: 1.37em; color: #99a4b2">ubuntu桌面端</a> <a href="/tags/js/" style="font-size: 1.1em; color: #999">js</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.1em; color: #999">微服务</a> <a href="/tags/props/" style="font-size: 1.1em; color: #999">props</a> <a href="/tags/%E7%A1%AC%E7%9B%98/" style="font-size: 1.1em; color: #999">硬盘</a> <a href="/tags/iconpark/" style="font-size: 1.1em; color: #999">iconpark</a> <a href="/tags/%E8%BD%BBnas/" style="font-size: 1.1em; color: #999">轻nas</a> <a href="/tags/%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/" style="font-size: 1.1em; color: #999">底层源码</a> <a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">目录结构</a> <a href="/tags/docker%E9%95%9C%E5%83%8F/" style="font-size: 1.1em; color: #999">docker镜像</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 1.37em; color: #99a4b2">深度学习</a> <a href="/tags/linux/" style="font-size: 1.5em; color: #99a9bf">linux</a> <a href="/tags/CROS/" style="font-size: 1.1em; color: #999">CROS</a> <a href="/tags/mock/" style="font-size: 1.1em; color: #999">mock</a> <a href="/tags/mihomo/" style="font-size: 1.1em; color: #999">mihomo</a> <a href="/tags/cameraX/" style="font-size: 1.1em; color: #999">cameraX</a> <a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.1em; color: #999">长连接和短链接</a> <a href="/tags/%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" style="font-size: 1.1em; color: #999">备份恢复</a> <a href="/tags/clash/" style="font-size: 1.1em; color: #999">clash</a> <a href="/tags/expect-actual/" style="font-size: 1.1em; color: #999">expect actual</a> <a href="/tags/speedtest/" style="font-size: 1.1em; color: #999">speedtest</a> <a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.1em; color: #999">adb调试</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
-      <a class="card-more-btn" href="/archives/" title="查看更多"><i class="fas fa-angle-right"></i></a>
+      <a class="card-more-btn" href="/archives/"
+            title="查看更多">
+            <i class="fas fa-angle-right"></i>
+          </a>
     </div>
-    <ul class="card-archive-list">
   
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/09/">
-          <span class="card-archive-list-date">九月 2025</span>
-          <span class="card-archive-list-count">2</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/06/">
-          <span class="card-archive-list-date">六月 2025</span>
-          <span class="card-archive-list-count">1</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/04/">
-          <span class="card-archive-list-date">四月 2025</span>
-          <span class="card-archive-list-count">3</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/01/">
-          <span class="card-archive-list-date">一月 2025</span>
-          <span class="card-archive-list-count">2</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/12/">
-          <span class="card-archive-list-date">十二月 2024</span>
-          <span class="card-archive-list-count">9</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/11/">
-          <span class="card-archive-list-date">十一月 2024</span>
-          <span class="card-archive-list-count">3</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/09/">
-          <span class="card-archive-list-date">九月 2024</span>
-          <span class="card-archive-list-count">1</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/07/">
-          <span class="card-archive-list-date">七月 2024</span>
-          <span class="card-archive-list-count">9</span>
-        </a>
-      </li>
-    </ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">272</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">172k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-21T07:11:03.566Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://image.zfxt.top/stair.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              九月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/12/">
+            <span class="card-archive-list-date">
+              十二月 2024
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/11/">
+            <span class="card-archive-list-date">
+              十一月 2024
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/09/">
+            <span class="card-archive-list-date">
+              九月 2024
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/07/">
+            <span class="card-archive-list-date">
+              七月 2024
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">272</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-21T09:04:05.865Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 小贺同学</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: str => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
@@ -253,41 +255,44 @@
     } else {
       subtitleType()
     }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
   }
 }
 btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
 </script><script>function subtitleType () {
-  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js').then(() => {
-    jinrishici.load(result =>{
-      if (true) {
-        const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"]
-        const content = result.data.content
-        sub.unshift(content)
-        typedJSFn.init(sub)
-      } else {
-        document.getElementById('subtitle').textContent = result.data.content
-      }
+  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js')
+    .then(() => {
+      jinrishici.load(result => {
+        if (result && result.data && result.data.content) {
+          typedJSFn.processSubtitle(result.data.content)
+        } else {
+          throw new Error('Failed to parse the return value of Jinrishici API')
+        }
+      })
     })
-  })
+    .catch(err => {
+      console.error('Failed to get the Jinrishici API:', err)
+      typedJSFn.processSubtitle(4)
+    })
 }
 typedJSFn.run(subtitleType)
-</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="docsearch-wrap"><div id="docsearch" style="display:none"></div><link rel="stylesheet" href="https://unpkg.com/@docsearch/css/dist/style.css"/><script src="https://unpkg.com/@docsearch/js/dist/umd/index.js"></script><script>(() => {
-  docsearch(Object.assign({
-    appId: 'X9T3YGN9TM',
-    apiKey: '902ed0d2369a90e1a691ba2eae99d1a9',
-    indexName: '访问所有信息',
-    container: '#docsearch',
-    placeholder: '搜索文章',
-  }, null))
-
-  const handleClick = () => {
-    document.querySelector('.DocSearch-Button').click()
-  }
-
-  const searchClickFn = () => {
-    btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', handleClick)
-  }
-
-  searchClickFn()
-  window.addEventListener('pjax:complete', searchClickFn)
-})()</script></div></div></body></html>
+</script></div><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

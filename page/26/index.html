@@ -9,7 +9,7 @@
 <meta property="article:author" content="小贺同学">
 <meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/page/26/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/page/26/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><script>
     (() => {
       
     const saveToLocal = {
@@ -82,25 +82,7 @@
 
       const theme = saveToLocal.get('theme')
     
-          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
-          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
-          
-          if (theme === undefined) {
-            if (mediaQueryLight.matches) activateLightMode()
-            else if (mediaQueryDark.matches) activateDarkMode()
-            else {
-              const hour = new Date().getHours()
-              const isNight = hour <= 6 || hour >= 18
-              isNight ? activateDarkMode() : activateLightMode()
-            }
-            mediaQueryDark.addEventListener('change', () => {
-              if (saveToLocal.get('theme') === undefined) {
-                e.matches ? activateDarkMode() : activateLightMode()
-              }
-            })
-          } else {
-            theme === 'light' ? activateLightMode() : activateDarkMode()
-          }
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
         
       
       const asideStatus = saveToLocal.get('aside-status')
@@ -120,8 +102,8 @@
   </script><script>const GLOBAL_CONFIG = {
   root: '/',
   algolia: undefined,
-  localSearch: undefined,
-  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
   highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
   copy: {
     success: '复制成功',
@@ -141,28 +123,26 @@
     month: '个月前'
   },
   copyright: undefined,
-  lightbox: 'fancybox',
+  lightbox: 'medium_zoom',
   Snackbar: undefined,
   infinitegrid: {
     js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
     buttonText: '加载更多'
   },
   isPhotoFigcaption: false,
-  islazyload: false,
+  islazyloadPlugin: false,
   isAnchor: false,
   percent: {
     toc: true,
     rightside: false,
   },
-  autoDarkmode: true
+  autoDarkmode: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
   title: '小贺同学的blog',
-  isPost: false,
-  isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  isShuoshuo: false
-}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/4a9e831e/" title="实体、视图对象、数据传输对象关系">实体、视图对象、数据传输对象关系</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T07:31:50.000Z" title="发表于 2023-04-20 15:31:50">2023-04-20</time></span></div><div class="content">1、entity 里的每一个字段，与数据库相对应， 2、vo 里的每一个字段，是和你前台 html 页面相对应， 3、dto 这是用来转换从 entity 到 vo，或者从 vo 到 entity 的中间的东西 。 举个例子： 你的html页面上有三个字段，name，pass，age 你的数据库表里，有两个字段，name，pass ， 注意没有 age。 而你的 vo 里，就应该有下面三个成员变量 ，因为对应 html 页面上三个字段 。   dto 和 entity 里面的字段应该是一样的，dto 只是 entity 到 vo，或者 vo 到 entity 的中间过程，如果没有这个过程，你仍然可以做到增删改查，这是根据具体公司规范来的 。  </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/517a90b0/" title="DevOps 工具：提升软件开发和运营效率">DevOps 工具：提升软件开发和运营效率</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T04:20:48.000Z" title="发表于 2023-04-20 12:20:48">2023-04-20</time></span></div><div class="content">DevOps tools（DevOps工具）是指用于支持DevOps实践的软件工具集合。DevOps是一种软件开发和运营的方法论，旨在通过协作、自动化和监控等方式来增强软件开发和运营的效率和质量。DevOps工具可以帮助开发和运维团队实现自动化、协作和监控等目标，从而提高软件开发和运营的效率和质量。 一些常见的DevOps工具包括： 持续集成（Continuous Integration，CI）工具，如Jenkins、Travis CI、CircleCI等，用于自动化构建和测试代码；持续交付（Continuous Delivery，CD）工具，如Ansible、Puppet、Chef等，用于自动化部署和配置代码；容器化工具，如Docker、Kubernetes等，用于管理和部署容器化应用程序；监控和日志工具，如Prometheus、Grafana、ELK Stack等，用于监控应用程序的健康状况和日志信息；协作工具，如GitLab、GitHub、Bitbucket等，用于团队协作和版本控制。 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a9073959/" title="K8S：容器编排与微服务平台">K8S：容器编排与微服务平台</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T04:14:39.000Z" title="发表于 2023-04-20 12:14:39">2023-04-20</time></span></div><div class="content">K8S是什么K8S全称kubernetes，是由Google在2014年开源的生产级别的容器编排系统，或者说是微服务和云原生平台,他实际上是一个微服务框架。目前很主流的微服务框架和平台有Spring Cloud、Dubbo和K8S。Spring...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/735b0735/" title="知乎：科学普及对科学发展的必要性">知乎：科学普及对科学发展的必要性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T03:19:01.000Z" title="发表于 2023-04-20 11:19:01">2023-04-20</time></span></div><div class="content"> 引用自https://zhuanlan.zhihu.com/p/53260098  </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/96f85423/" title="WEB存储和JSON数据处理">WEB存储和JSON数据处理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-19T23:02:49.000Z" title="发表于 2023-04-20 07:02:49">2023-04-20</time></span></div><div class="content">...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/3cd18efd/" title="Kotlin基础：变量、函数、循环、集合">Kotlin基础：变量、函数、循环、集合</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-19T07:24:09.000Z" title="发表于 2023-04-19 15:24:09">2023-04-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">基础main函数123fun main() &#123;    println(&quot;Hello world!&quot;)&#125; print，println输出到屏幕上。 函数默认不填即为Unit。when类似于switch，if else 只要有结果判定成功，便不再往下判断。Unit标识无返回类型&#x3D;&gt;void前变量名，后数据类型使用${}作为占位符 1234567891011121314//sampleStartfun sum(a: Int, b: Int): Int &#123;    return a + b&#125;//sampleEndfun sum(a: Int, b: Int) = a + bfun main() &#123;    println(&quot;sum of 19 and 23 is $&#123;sum(19, 23)&#125;&quot;)    printSum(-11,53)&#125;fun printSum(a: Int, b: Int): Unit &#123;   ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/62dcc9a3/" title="Kotlin语言基础与跨平台性">Kotlin语言基础与跨平台性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-19T06:44:42.000Z" title="发表于 2023-04-19 14:44:42">2023-04-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content"> 视频学习  Kotlin学习JVM虚拟机  kotlin语言在进行编译的环节中，会比java更加的优化 跨平台性不止可以基于JVM运行，甚至可以直接生成二进制代码。  基础语法语言声明变量和内置数据类型  声明变量： 12345678910111213141516171819println(&quot;hello world&quot;)   /*       var 变量名 : 数据类型 = &quot;&quot;    */   var str:String = &quot;hzt&quot;   /*       内置数据类型       String  字符串       Char    字符       Boolean true/false       Int     整形       Float   单精度浮点型       Double  双精度浮点型       List    集合       Set     无重复集合       Map     键值对集合    */   println(str)  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ef8bc635/" title="Nginx：高性能Web服务器及代理">Nginx：高性能Web服务器及代理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-18T22:35:34.000Z" title="发表于 2023-04-19 06:35:34">2023-04-19</time></span></div><div class="content">Nginx 基本概念： 一个高性能的http和反向代理web服务器，能支持高负载，效率高  正向代理通过代理服务器访问服务器，例如搭建梯子才访问www.google.com。（可以隐藏客户端的信息）这个内容就叫正向代理  反向代理一般情况下是就是客户端对代理无感知，只是通过代理服务器去隐藏目标服务器的具体信息，只暴露代理服务器的地址，隐藏真实服务器的地址。反向代理后，客户端无法知道服务器的具体位置。  负载均衡     默认情况下，是一个服务器，前后连锁相关。将原先集中到单个服务器上的情况改为请求分发到多个服务器上。    - 动静分离实际上就是前后端分离，nginx可以直接放前端的静态资源，而后端单独部署。2. 安装，配置  先安装依赖项(以centos7.8为例）123456789yum updateyum -y install make zlib zlib-devel gcc-c++ libtool openssl openssl-devel pcre pcre-devel#下载稳定版安装包wget...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/84b7f3c5/" title="Vue数据通信：props和computed属性">Vue数据通信：props和computed属性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-18T08:04:50.000Z" title="发表于 2023-04-18 16:04:50">2023-04-18</time></span></div><div class="content">props用法 父组件&#x3D;&#x3D;&gt;子组件 通信 子组件&#x3D;&#x3D;&gt;父组件 必须父组件给子组件一个方法   props的参数是不能修改的。  computed计算属性正常写法(例） 12345computed:&#123;  isAll:&#123;    get()&#123; return null&#125;,    set()&#123; ...&#125;&#125; 简写方式(只有get方法) 123computed:&#123;  isAll()&#123; return null&#125;,&#125; </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/7b5e219/" title="ES6 Reduce：数组归并方法">ES6 Reduce：数组归并方法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-18T07:53:39.000Z" title="发表于 2023-04-18 15:53:39">2023-04-18</time></span></div><div class="content">ES6中的reduce方法，是一种数组的归并方法。他的每一次遍历后的值会留给下一次继续遍历。 1234567891011121314let arr5 = [&#x27;name&#x27;,&#x27;age&#x27;,&#x27;long&#x27;,&#x27;short&#x27;,&#x27;long&#x27;,&#x27;name&#x27;,&#x27;name&#x27;] //pre第一次的值，cur当前值 &#123;&#125;标识pre的预设值let arrResult1 = arr.reduce((pre,cur) =&gt;&#123;    console.log(pre,cur)    if(cur in pre)&#123;        pre[cur]++    &#125;else&#123;        pre[cur] = 1    &#125;    return pre&#125;,&#123;&#125;)console.log(arrResult1)//结果：&#123;name: 3, age: 1, long: 2,...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/25/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/#content-inner">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/#content-inner">27</a><a class="page-number" href="/page/28/#content-inner">28</a><a class="extend next" rel="next" href="/page/27/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"/></a><div class="content"><a class="title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d734db86/" title="d2l深度学习问题汇总"><img src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"/></a><div class="content"><a class="title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+  pageType: 'home'
+}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/4a9e831e/" title="实体、视图对象、数据传输对象关系">实体、视图对象、数据传输对象关系</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T07:31:50.000Z" title="发表于 2023-04-20 15:31:50">2023-04-20</time></span></div><div class="content">1、entity 里的每一个字段，与数据库相对应， 2、vo 里的每一个字段，是和你前台 html 页面相对应， 3、dto 这是用来转换从 entity 到 vo，或者从 vo 到 entity 的中间的东西 。 举个例子： 你的html页面上有三个字段，name，pass，age 你的数据库表里，有两个字段，name，pass ， 注意没有 age。 而你的 vo 里，就应该有下面三个成员变量 ，因为对应 html 页面上三个字段 。   dto 和 entity 里面的字段应该是一样的，dto 只是 entity 到 vo，或者 vo 到 entity 的中间过程，如果没有这个过程，你仍然可以做到增删改查，这是根据具体公司规范来的 。  </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/517a90b0/" title="DevOps 工具：提升软件开发和运营效率">DevOps 工具：提升软件开发和运营效率</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T04:20:48.000Z" title="发表于 2023-04-20 12:20:48">2023-04-20</time></span></div><div class="content">DevOps tools（DevOps工具）是指用于支持DevOps实践的软件工具集合。DevOps是一种软件开发和运营的方法论，旨在通过协作、自动化和监控等方式来增强软件开发和运营的效率和质量。DevOps工具可以帮助开发和运维团队实现自动化、协作和监控等目标，从而提高软件开发和运营的效率和质量。 一些常见的DevOps工具包括： 持续集成（Continuous Integration，CI）工具，如Jenkins、Travis CI、CircleCI等，用于自动化构建和测试代码；持续交付（Continuous Delivery，CD）工具，如Ansible、Puppet、Chef等，用于自动化部署和配置代码；容器化工具，如Docker、Kubernetes等，用于管理和部署容器化应用程序；监控和日志工具，如Prometheus、Grafana、ELK Stack等，用于监控应用程序的健康状况和日志信息；协作工具，如GitLab、GitHub、Bitbucket等，用于团队协作和版本控制。 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a9073959/" title="K8S：容器编排与微服务平台">K8S：容器编排与微服务平台</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T04:14:39.000Z" title="发表于 2023-04-20 12:14:39">2023-04-20</time></span></div><div class="content">K8S是什么K8S全称kubernetes，是由Google在2014年开源的生产级别的容器编排系统，或者说是微服务和云原生平台,他实际上是一个微服务框架。目前很主流的微服务框架和平台有Spring Cloud、Dubbo和K8S。Spring Cloud来自Netflix，Dubbo来自阿里，而K8S则来自Google。 PodPod是K8S设计的一个全新的概念，个Pod中可以运行一个或者多个容器。在一个集群中，K8S会为每个Pod都分配一个集群内唯一的IP地址，因为Pod中有一个叫Pause的根容器，其余的用户业务容器都是共享这个根容器的IP和Volume。 ServiceService被创建，K8S会为其分配一个集群内唯一的IP，叫做ClusterIP，ClusterIP是一个虚拟的IP地址，无法被Ping，仅仅只限于在K8S的集群内使用 负载均衡Service对客户端，屏蔽了底层Pod的寻址的过程。并且由kube-proxy进程将对Service的请求转发到具体的Pod上，具体到哪一个，由具体的调度算法决定。这样以来，就实现了负载均衡。 LabelLable就是标签，可以...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/735b0735/" title="知乎：科学普及对科学发展的必要性">知乎：科学普及对科学发展的必要性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-20T03:19:01.000Z" title="发表于 2023-04-20 11:19:01">2023-04-20</time></span></div><div class="content"> 引用自https://zhuanlan.zhihu.com/p/53260098  </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/96f85423/" title="WEB存储和JSON数据处理">WEB存储和JSON数据处理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-19T23:02:49.000Z" title="发表于 2023-04-20 07:02:49">2023-04-20</time></span></div><div class="content">WEBStoragelocalstorage本地存储他是js自带的原生方法，并不是vue特有的。他会存储在你自己的浏览器中。而且她只能存储字符串的内容。他是window下的一个函数。 12345678localstorage.getItem(&#x27;&#x27;)//获取本地存储中的值localstorage.setItem(&#x27;key&#x27;,&#x27;value&#x27;)//设置本地存储的值localstorage.removeItem(&#x27;&#x27;)//移除某一个值localstorage.clear()//清空 当你要存储一个对象到localstorage中时，需要先转化为JSON的字符串格式。 sessionstorage会话存储他的方法与localstorage一致，但是他只会保存在每一次会话中。当关闭浏览器，会话就会结束，所有内容就会删除。 如果存储在localstorage中的键值不存在，会返回一个nullJSON方法json格式的字符串转化为json对象。JSON.parse()json对象转化为json格式的字符串JSON.s...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/3cd18efd/" title="Kotlin基础：变量、函数、循环、集合">Kotlin基础：变量、函数、循环、集合</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-19T07:24:09.000Z" title="发表于 2023-04-19 15:24:09">2023-04-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">基础main函数123fun main() &#123;    println(&quot;Hello world!&quot;)&#125; print，println输出到屏幕上。 函数默认不填即为Unit。when类似于switch，if else 只要有结果判定成功，便不再往下判断。Unit标识无返回类型&#x3D;&gt;void前变量名，后数据类型使用${}作为占位符 1234567891011121314//sampleStartfun sum(a: Int, b: Int): Int &#123;    return a + b&#125;//sampleEndfun sum(a: Int, b: Int) = a + bfun main() &#123;    println(&quot;sum of 19 and 23 is $&#123;sum(19, 23)&#125;&quot;)    printSum(-11,53)&#125;fun printSum(a: Int, b: Int): Unit &#123;    println(&quot;sum...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/62dcc9a3/" title="Kotlin语言基础与跨平台性">Kotlin语言基础与跨平台性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-19T06:44:42.000Z" title="发表于 2023-04-19 14:44:42">2023-04-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content"> 视频学习  Kotlin学习JVM虚拟机  kotlin语言在进行编译的环节中，会比java更加的优化 跨平台性不止可以基于JVM运行，甚至可以直接生成二进制代码。  基础语法语言声明变量和内置数据类型  声明变量： 12345678910111213141516171819println(&quot;hello world&quot;)   /*       var 变量名 : 数据类型 = &quot;&quot;    */   var str:String = &quot;hzt&quot;   /*       内置数据类型       String  字符串       Char    字符       Boolean true/false       Int     整形       Float   单精度浮点型       Double  双精度浮点型       List    集合       Set     无重复集合       Map     键值对集合    */   println(str)   //他没有int，float。因为他在运行时，会转化...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ef8bc635/" title="Nginx：高性能Web服务器及代理">Nginx：高性能Web服务器及代理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-18T22:35:34.000Z" title="发表于 2023-04-19 06:35:34">2023-04-19</time></span></div><div class="content">Nginx 基本概念： 一个高性能的http和反向代理web服务器，能支持高负载，效率高  正向代理通过代理服务器访问服务器，例如搭建梯子才访问www.google.com。（可以隐藏客户端的信息）这个内容就叫正向代理  反向代理一般情况下是就是客户端对代理无感知，只是通过代理服务器去隐藏目标服务器的具体信息，只暴露代理服务器的地址，隐藏真实服务器的地址。反向代理后，客户端无法知道服务器的具体位置。  负载均衡     默认情况下，是一个服务器，前后连锁相关。将原先集中到单个服务器上的情况改为请求分发到多个服务器上。    - 动静分离实际上就是前后端分离，nginx可以直接放前端的静态资源，而后端单独部署。2. 安装，配置  先安装依赖项(以centos7.8为例）123456789yum updateyum -y install make zlib zlib-devel gcc-c++ libtool openssl openssl-devel pcre pcre-devel#下载稳定版安装包wget https://nginx.org/download/nginx-1.24...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/84b7f3c5/" title="Vue数据通信：props和computed属性">Vue数据通信：props和computed属性</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-18T08:04:50.000Z" title="发表于 2023-04-18 16:04:50">2023-04-18</time></span></div><div class="content">props用法 父组件&#x3D;&#x3D;&gt;子组件 通信 子组件&#x3D;&#x3D;&gt;父组件 必须父组件给子组件一个方法   props的参数是不能修改的。  computed计算属性正常写法(例） 12345computed:&#123;  isAll:&#123;    get()&#123; return null&#125;,    set()&#123; ...&#125;&#125; 简写方式(只有get方法) 123computed:&#123;  isAll()&#123; return null&#125;,&#125; </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/7b5e219/" title="ES6 Reduce：数组归并方法">ES6 Reduce：数组归并方法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-18T07:53:39.000Z" title="发表于 2023-04-18 15:53:39">2023-04-18</time></span></div><div class="content">ES6中的reduce方法，是一种数组的归并方法。他的每一次遍历后的值会留给下一次继续遍历。 1234567891011121314let arr5 = [&#x27;name&#x27;,&#x27;age&#x27;,&#x27;long&#x27;,&#x27;short&#x27;,&#x27;long&#x27;,&#x27;name&#x27;,&#x27;name&#x27;] //pre第一次的值，cur当前值 &#123;&#125;标识pre的预设值let arrResult1 = arr.reduce((pre,cur) =&gt;&#123;    console.log(pre,cur)    if(cur in pre)&#123;        pre[cur]++    &#125;else&#123;        pre[cur] = 1    &#125;    return pre&#125;,&#123;&#125;)console.log(arrResult1)//结果：&#123;name: 3, age: 1, long: 2, s...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/25/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/#content-inner">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/#content-inner">27</a><a class="page-number" href="/page/28/#content-inner">28</a><a class="extend next" rel="next" href="/page/27/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"/></a><div class="content"><a class="title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d734db86/" title="d2l深度学习问题汇总"><img src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"/></a><div class="content"><a class="title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
@@ -170,70 +150,92 @@
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Android%E5%85%A5%E9%97%A8/"><span class="card-category-list-name">Android入门</span><span class="card-category-list-count">42</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Echarts/"><span class="card-category-list-name">Echarts</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Linux基础</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/RabbitMQ/"><span class="card-category-list-name">RabbitMQ</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/clash/"><span class="card-category-list-name">clash</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kali/"><span class="card-category-list-name">kali</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kotlin/"><span class="card-category-list-name">kotlin</span><span class="card-category-list-count">65</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nvm/"><span class="card-category-list-name">nvm</span><span class="card-category-list-count">2</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/android/" style="font-size: 1.35em; color: rgb(50, 129, 50);">android</a><a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.15em; color: rgb(145, 50, 155);">adb调试</a><a href="/tags/vue/" style="font-size: 1.45em; color: rgb(128, 50, 50);">vue</a><a href="/tags/JS/" style="font-size: 1.35em; color: rgb(146, 50, 199);">JS</a><a href="/tags/MediaPlayer/" style="font-size: 1.15em; color: rgb(119, 169, 50);">MediaPlayer</a><a href="/tags/APK%E6%89%93%E5%8C%85/" style="font-size: 1.15em; color: rgb(50, 158, 196);">APK打包</a><a href="/tags/android-Studio/" style="font-size: 1.15em; color: rgb(50, 62, 50);">android Studio</a><a href="/tags/bee%E6%A1%86%E6%9E%B6/" style="font-size: 1.15em; color: rgb(191, 79, 50);">bee框架</a><a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.15em; color: rgb(50, 50, 181);">目录结构</a><a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.15em; color: rgb(75, 178, 117);">四大组件</a><a href="/tags/Android-Media/" style="font-size: 1.15em; color: rgb(153, 180, 87);">Android Media</a><a href="/tags/cameraX/" style="font-size: 1.15em; color: rgb(57, 50, 50);">cameraX</a><a href="/tags/jetpack-compose/" style="font-size: 1.2em; color: rgb(117, 167, 133);">jetpack compose</a><a href="/tags/%E8%BD%BBnas/" style="font-size: 1.15em; color: rgb(200, 112, 169);">轻nas</a><a href="/tags/%E6%9D%82%E8%A8%80/" style="font-size: 1.2em; color: rgb(78, 50, 50);">杂言</a><a href="/tags/ES6/" style="font-size: 1.2em; color: rgb(96, 139, 141);">ES6</a><a href="/tags/fetch/" style="font-size: 1.15em; color: rgb(101, 50, 67);">fetch</a><a href="/tags/promise/" style="font-size: 1.15em; color: rgb(99, 128, 123);">promise</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.15em; color: rgb(198, 163, 50);">C语言</a><a href="/tags/gitea/" style="font-size: 1.25em; color: rgb(54, 189, 122);">gitea</a><a href="/tags/docker%E9%95%9C%E5%83%8F/" style="font-size: 1.15em; color: rgb(50, 173, 50);">docker镜像</a><a href="/tags/gitea-action/" style="font-size: 1.15em; color: rgb(50, 198, 80);">gitea action</a><a href="/tags/gradle/" style="font-size: 1.2em; color: rgb(133, 185, 65);">gradle</a><a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.15em; color: rgb(50, 50, 192);">长连接和短链接</a><a href="/tags/idea%E6%BF%80%E6%B4%BB/" style="font-size: 1.15em; color: rgb(50, 167, 50);">idea激活</a><a href="/tags/JAVA/" style="font-size: 1.3em; color: rgb(50, 101, 99);">JAVA</a><a href="/tags/jar%E5%8C%85/" style="font-size: 1.15em; color: rgb(151, 82, 103);">jar包</a><a href="/tags/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/" style="font-size: 1.2em; color: rgb(128, 130, 131);">数据通信</a><a href="/tags/JWT/" style="font-size: 1.15em; color: rgb(88, 110, 181);">JWT</a><a href="/tags/java/" style="font-size: 1.2em; color: rgb(50, 131, 90);">java</a><a href="/tags/k8s/" style="font-size: 1.2em; color: rgb(67, 137, 50);">k8s</a><a href="/tags/ktor/" style="font-size: 1.15em; color: rgb(77, 101, 154);">ktor</a><a href="/tags/linux/" style="font-size: 1.4em; color: rgb(198, 79, 100);">linux</a><a href="/tags/compose/" style="font-size: 1.25em; color: rgb(100, 114, 165);">compose</a><a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 1.15em; color: rgb(180, 50, 65);">代理</a><a href="/tags/mihomo/" style="font-size: 1.15em; color: rgb(50, 58, 50);">mihomo</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 1.15em; color: rgb(157, 171, 181);">服务器</a><a href="/tags/Lombok/" style="font-size: 1.15em; color: rgb(50, 177, 121);">Lombok</a><a href="/tags/MVI/" style="font-size: 1.15em; color: rgb(131, 68, 50);">MVI</a><a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 1.15em; color: rgb(195, 137, 50);">架构</a></div></div><div class="card-widget card-archives">
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.23em; color: #999ea6">java</a> <a href="/tags/ES6/" style="font-size: 1.23em; color: #999ea6">ES6</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.1em; color: #999">嵌入式</a> <a href="/tags/python%E5%85%A5%E9%97%A8/" style="font-size: 1.1em; color: #999">python入门</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E5%AD%90%E5%9F%9F%E5%90%8D/" style="font-size: 1.1em; color: #999">子域名</a> <a href="/tags/DNS%E8%A7%A3%E6%9E%90/" style="font-size: 1.1em; color: #999">DNS解析</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.1em; color: #999">四大组件</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.1em; color: #999">C语言</a> <a href="/tags/windows%E8%B7%AF%E7%94%B1%E8%A1%A8/" style="font-size: 1.1em; color: #999">windows路由表</a> <a href="/tags/react/" style="font-size: 1.23em; color: #999ea6">react</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 1.1em; color: #999">浏览器</a> <a href="/tags/mingw/" style="font-size: 1.1em; color: #999">mingw</a> <a href="/tags/moshi/" style="font-size: 1.1em; color: #999">moshi</a> <a href="/tags/%E9%BC%A0%E6%A0%87%E6%A0%B7%E5%BC%8F/" style="font-size: 1.1em; color: #999">鼠标样式</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.1em; color: #999">-嵌入式</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E9%85%8D%E8%89%B2/" style="font-size: 1.1em; color: #999">主题配色</a> <a href="/tags/%E5%A4%9A%E5%B9%B3%E5%8F%B0%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">多平台管理工具</a> <a href="/tags/ubuntu%E6%A1%8C%E9%9D%A2%E7%AB%AF/" style="font-size: 1.37em; color: #99a4b2">ubuntu桌面端</a> <a href="/tags/js/" style="font-size: 1.1em; color: #999">js</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.1em; color: #999">微服务</a> <a href="/tags/props/" style="font-size: 1.1em; color: #999">props</a> <a href="/tags/%E7%A1%AC%E7%9B%98/" style="font-size: 1.1em; color: #999">硬盘</a> <a href="/tags/iconpark/" style="font-size: 1.1em; color: #999">iconpark</a> <a href="/tags/%E8%BD%BBnas/" style="font-size: 1.1em; color: #999">轻nas</a> <a href="/tags/%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/" style="font-size: 1.1em; color: #999">底层源码</a> <a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">目录结构</a> <a href="/tags/docker%E9%95%9C%E5%83%8F/" style="font-size: 1.1em; color: #999">docker镜像</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 1.37em; color: #99a4b2">深度学习</a> <a href="/tags/linux/" style="font-size: 1.5em; color: #99a9bf">linux</a> <a href="/tags/CROS/" style="font-size: 1.1em; color: #999">CROS</a> <a href="/tags/mock/" style="font-size: 1.1em; color: #999">mock</a> <a href="/tags/mihomo/" style="font-size: 1.1em; color: #999">mihomo</a> <a href="/tags/cameraX/" style="font-size: 1.1em; color: #999">cameraX</a> <a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.1em; color: #999">长连接和短链接</a> <a href="/tags/%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" style="font-size: 1.1em; color: #999">备份恢复</a> <a href="/tags/clash/" style="font-size: 1.1em; color: #999">clash</a> <a href="/tags/expect-actual/" style="font-size: 1.1em; color: #999">expect actual</a> <a href="/tags/speedtest/" style="font-size: 1.1em; color: #999">speedtest</a> <a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.1em; color: #999">adb调试</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
-      <a class="card-more-btn" href="/archives/" title="查看更多"><i class="fas fa-angle-right"></i></a>
+      <a class="card-more-btn" href="/archives/"
+            title="查看更多">
+            <i class="fas fa-angle-right"></i>
+          </a>
     </div>
-    <ul class="card-archive-list">
   
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/09/">
-          <span class="card-archive-list-date">九月 2025</span>
-          <span class="card-archive-list-count">2</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/06/">
-          <span class="card-archive-list-date">六月 2025</span>
-          <span class="card-archive-list-count">1</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/04/">
-          <span class="card-archive-list-date">四月 2025</span>
-          <span class="card-archive-list-count">3</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/01/">
-          <span class="card-archive-list-date">一月 2025</span>
-          <span class="card-archive-list-count">2</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/12/">
-          <span class="card-archive-list-date">十二月 2024</span>
-          <span class="card-archive-list-count">9</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/11/">
-          <span class="card-archive-list-date">十一月 2024</span>
-          <span class="card-archive-list-count">3</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/09/">
-          <span class="card-archive-list-date">九月 2024</span>
-          <span class="card-archive-list-count">1</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/07/">
-          <span class="card-archive-list-date">七月 2024</span>
-          <span class="card-archive-list-count">9</span>
-        </a>
-      </li>
-    </ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">272</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">172k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-21T07:11:03.566Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://image.zfxt.top/stair.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              九月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/12/">
+            <span class="card-archive-list-date">
+              十二月 2024
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/11/">
+            <span class="card-archive-list-date">
+              十一月 2024
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/09/">
+            <span class="card-archive-list-date">
+              九月 2024
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/07/">
+            <span class="card-archive-list-date">
+              七月 2024
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">272</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-21T09:04:05.865Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 小贺同学</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: str => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
@@ -253,41 +255,44 @@
     } else {
       subtitleType()
     }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
   }
 }
 btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
 </script><script>function subtitleType () {
-  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js').then(() => {
-    jinrishici.load(result =>{
-      if (true) {
-        const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"]
-        const content = result.data.content
-        sub.unshift(content)
-        typedJSFn.init(sub)
-      } else {
-        document.getElementById('subtitle').textContent = result.data.content
-      }
+  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js')
+    .then(() => {
+      jinrishici.load(result => {
+        if (result && result.data && result.data.content) {
+          typedJSFn.processSubtitle(result.data.content)
+        } else {
+          throw new Error('Failed to parse the return value of Jinrishici API')
+        }
+      })
     })
-  })
+    .catch(err => {
+      console.error('Failed to get the Jinrishici API:', err)
+      typedJSFn.processSubtitle(4)
+    })
 }
 typedJSFn.run(subtitleType)
-</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="docsearch-wrap"><div id="docsearch" style="display:none"></div><link rel="stylesheet" href="https://unpkg.com/@docsearch/css/dist/style.css"/><script src="https://unpkg.com/@docsearch/js/dist/umd/index.js"></script><script>(() => {
-  docsearch(Object.assign({
-    appId: 'X9T3YGN9TM',
-    apiKey: '902ed0d2369a90e1a691ba2eae99d1a9',
-    indexName: '访问所有信息',
-    container: '#docsearch',
-    placeholder: '搜索文章',
-  }, null))
-
-  const handleClick = () => {
-    document.querySelector('.DocSearch-Button').click()
-  }
-
-  const searchClickFn = () => {
-    btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', handleClick)
-  }
-
-  searchClickFn()
-  window.addEventListener('pjax:complete', searchClickFn)
-})()</script></div></div></body></html>
+</script></div><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>

@@ -9,7 +9,7 @@
 <meta property="article:author" content="小贺同学">
 <meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/page/23/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/page/23/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><script>
     (() => {
       
     const saveToLocal = {
@@ -82,25 +82,7 @@
 
       const theme = saveToLocal.get('theme')
     
-          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
-          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
-          
-          if (theme === undefined) {
-            if (mediaQueryLight.matches) activateLightMode()
-            else if (mediaQueryDark.matches) activateDarkMode()
-            else {
-              const hour = new Date().getHours()
-              const isNight = hour <= 6 || hour >= 18
-              isNight ? activateDarkMode() : activateLightMode()
-            }
-            mediaQueryDark.addEventListener('change', () => {
-              if (saveToLocal.get('theme') === undefined) {
-                e.matches ? activateDarkMode() : activateLightMode()
-              }
-            })
-          } else {
-            theme === 'light' ? activateLightMode() : activateDarkMode()
-          }
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
         
       
       const asideStatus = saveToLocal.get('aside-status')
@@ -120,8 +102,8 @@
   </script><script>const GLOBAL_CONFIG = {
   root: '/',
   algolia: undefined,
-  localSearch: undefined,
-  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
   highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
   copy: {
     success: '复制成功',
@@ -141,28 +123,26 @@
     month: '个月前'
   },
   copyright: undefined,
-  lightbox: 'fancybox',
+  lightbox: 'medium_zoom',
   Snackbar: undefined,
   infinitegrid: {
     js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
     buttonText: '加载更多'
   },
   isPhotoFigcaption: false,
-  islazyload: false,
+  islazyloadPlugin: false,
   isAnchor: false,
   percent: {
     toc: true,
     rightside: false,
   },
-  autoDarkmode: true
+  autoDarkmode: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
   title: '小贺同学的blog',
-  isPost: false,
-  isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  isShuoshuo: false
-}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c3ea1584/" title="Vuex映射方法的使用">Vuex映射方法的使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-26T04:14:27.000Z" title="发表于 2023-04-26 12:14:27">2023-04-26</time></span></div><div class="content">vuex的最终使用方法再标签中添加 1import &#123;mapGetters,mapState,mapActions&#125; from &#x27;vuex&#x27; 然后有两种使用方法，下面示例： 1234567computed:&#123;  ...mapGetters&#123;sum:&#x27;sum&#x27;,add:&#x27;add&#x27;&#125;//对象式//对象式的含义：key：表示会在computed中生成的方法函数。而value:表示从mapGetters中调用的方法  ...mapGetters&#123;[&#x27;sum&#x27;,&#x27;add&#x27;]&#125;//数组式//数组式的含义即，同时创建再这边的函数并调用mapGetters的方法，这两个方法同名而已。同理mapMutation也是一样的&#125;</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/41f76cd3/" title="Vuex Getters 使用指南">Vuex Getters 使用指南</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-26T00:20:35.000Z" title="发表于 2023-04-26 08:20:35">2023-04-26</time></span></div><div class="content">vuex正式使用方法。 getters在store&#x2F;index.js中添加一个 123456const getters = &#123;    bigSum(state)&#123;        return state.sum*10    &#125;&#125;然后再export中添加getters 再组件中要调用getters，使用$store.state.getters.内容 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/518b3934/" title="Vuex中的关键功能：Actions、Mutations、State">Vuex中的关键功能：Actions、Mutations、State</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T23:43:53.000Z" title="发表于 2023-04-26 07:43:53">2023-04-26</time></span></div><div class="content">vuex再vuex中，有三个关键的内容和相关的函数方法 actions。再组件中调用actions需要调用this.$store.dispatch(‘方法’，value) 。组件会调用vuex中actions，请求使用方法，并传递value参数给他。而在actions中的方法中，他将会收到两个参数，context上下文，value参数。这个context上下文可以直接调用state，也可以调用commit方法来继续调用mutation。 mutations，他会接受actions发送过来的请求。然后他也会有两个参数，第一个参数就是state，也就是mutations可以用来修改state中的数据（当然，actions中的context也可以直接调用state并进行修改，但我们并不推荐这么做。）。然后可以直接再mutations中修改state的内容。state再组件中调用state的内容时，需要使用this.$store.state.内容...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/cb1dda86/" title="Vuex 数据管理详解">Vuex 数据管理详解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T23:34:43.000Z" title="发表于 2023-04-26 07:34:43">2023-04-26</time></span></div><div class="content">#vuex这是vuex的工作原理图。 vue2使用vuex3，vue3使用vuex4.vuex其实是存储在store中。也就是actions，mutations，state都是在store中的。主要流程。  安装vuex12//vue2中需要使用vuex3npm i  vuex@3 然后再src目录下，新建一个store目录，然后再store目录下新建一个index.js。其中写以下模板内容。1234567891011121314import  &#x27;Vue&#x27; from &#x27;uue&#x27;import   &#x27;Vuex&#x27; from &#x27;uuex&#x27;//再编译Vuex前必须先通过Vue使用Vuex。然后他会自动检测到Vuex的内容。并绑定到Vue的内部。Vue.use(Vuex)const actions = &#123;&#125;const mutations =&#123;&#125;const state = &#123;&#125;const store = new Vuex.Store(&#123; ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/1c72751d/" title="Vue 插槽：具名和作用域">Vue 插槽：具名和作用域</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T20:20:07.000Z" title="发表于 2023-04-26 04:20:07">2023-04-26</time></span></div><div class="content">具名插槽就是可以在组件中，可以定义插槽的名字 1&lt;slot name=&quot;haha&quot;&gt;&lt;/slot&gt; 然后可以在调用该组件的父组件中通过&lt;template v-slot=&quot;haha&quot;&gt;...&lt;/template&gt;来插入新的结构标签到组件中。 作用域插槽。他的最大特点是可以从子组件传递数据到父组件。通过:标记，和prop类似，将具体的对象发送到父组件中使用。 12345678910111213141516//子组件&lt;slot name=&quot;haha&quot; :games=&quot;games&quot;  :msg=&quot;msg&quot;&gt;&lt;/slot&gt;//父组件//这里的test是可以任意取名的。他会将子组件传递过来的所有值全部接受，然后你看也获取其中的对象&lt;template v-slot=&quot;haha&quot; scope =&quot;test&quot;&gt;&lt;ul v-for=&quot;(game,index)...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ef6ef7b2/" title="Debian换源至阿里源解决安装报错">Debian换源至阿里源解决安装报错</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T07:48:09.000Z" title="发表于 2023-04-25 15:48:09">2023-04-25</time></span></div><div class="content">关于我配置我家云然后安装debian时，经常安装报错，因此在这里简单介绍一下如何给debian换源，同时推荐使用阿里源，他会比清华源更加稳定好用。  备份配置文件1cp -a /etc/apt/sources.list /etc/apt/sources.list.bak 编辑配置文件1vim /etc/apt/sources.list 具体国内源12345678deb https://mirrors.aliyun.com/debian/ bullseye main non-free contribdeb-src https://mirrors.aliyun.com/debian/ bullseye main non-free contribdeb https://mirrors.aliyun.com/debian-security/ bullseye-security maindeb-src https://mirrors.aliyun.com/debian-security/ bullseye-security maindeb...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/f1d3065d/" title="SSL证书配置、自动部署和Nginx集成">SSL证书配置、自动部署和Nginx集成</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-24T07:42:41.000Z" title="发表于 2023-04-24 15:42:41">2023-04-24</time></span></div><div class="content">关于如何配置ssl证书和自动装配，并且部署到nginx的服务器上。  首先在freessl.cn部署一个ssl证书，可以是泛域名的。他只有一个月。搭配上acme就可以永久部署了。 具体步骤如下先获得ssl泛域名证书。 然后安装acme完成自动化部署。  安装使用下面这个命令： 1curl https://get.acme.sh | sh -s email=my@example.com  可以根据上面这个模板进行修改。最后就算部署完成，可以正常浏览你的网站了.安装完成后，就根据freessl给你的命令，直接复制到你的服务器执行，然后就在服务器上安装好自动更新的证书了。但是此时的证书任然没有部署到域名上，仍然需要操作  部署好后，请记住你的证书安装的地址，这个之后部署到nginx上需要使用。 nginx部署ssl证书最好的做法不是直接修改nginx.conf 文件，而是在conf.d...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/b469765b/" title="Kotlin 多平台 Web 应用工具包">Kotlin 多平台 Web 应用工具包</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-23T22:27:45.000Z" title="发表于 2023-04-24 06:27:45">2023-04-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">ktorktor是由JetBrains构建的多平台工具包，用于在kotlin中创建Web应用程序。Ktor 是一个轻松构建联网应用（web 应用、 HTTP 服务、 移动应用以及浏览器应用）的框架。 现代的联网应用需要异步化来提供最佳的用户体验，而 Kotlin 协程为此提供了极其简便的方式。 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/b1eeb086/" title="Gradle 构建项目管理工具">Gradle 构建项目管理工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-23T19:43:34.000Z" title="发表于 2023-04-24 03:43:34">2023-04-24</time></span></div><div class="content">Android经常使用build.gradle来添加依赖和批量打包。 Gradle 简单介绍Gradle 构建由 Project 和 Task 组成，Project 保存项目的属性，例如 name，版本号，代码文件位置。Task 也是 Project 的一部分，但是它是可执行的任务，我们最常使用的 build 就是一个 Task，Task 可以依赖于另外一个 Task，一个 Task 在执行的时候，它依赖的 Task 会先执行。这样，当我们 build 的时候，这个 Task 可能依赖很多的 Task，比如代码检查、注解处理，这样一层层的依赖，最终通过 build Task 全部执行。 gradle和groovy的区别Gradle是一种自动化构建工具，与之类似的还有Maven，Ant。而Groovy是一种语言，Gradle允许使用这种语言来编写。同样kotlin也是一种语言可以用来编写Gradle，这两种语言有不同的编写格式，但是都大差不差。 DSLDSL全称：Domain Specific...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ff4fa478/" title="数据类、密封类和枚举类">数据类、密封类和枚举类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-23T07:10:26.000Z" title="发表于 2023-04-23 15:10:26">2023-04-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">数据类在class前面加上data前缀，将会创建一个数据类。编译器会自动的从主构造函数中根据所有声明的属性提取以下函数： equals() &#x2F; hashCode()toString() 格式如 “User(name&#x3D;John, age&#x3D;42)”componentN() functions 对应于属性，按声明顺序排列copy() 函数 copy函数示例： 12345678910data class User(val name: String, val age: Int)fun main(args: Array&lt;String&gt;) &#123;    val jack = User(name = &quot;Jack&quot;, age = 1)    val olderJack = jack.copy(age = 2)    println(jack)    println(olderJack)&#125; 密封类密封类用来表示受限的类继承结构。每个枚举常量只存在一个实例，而密封类...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/22/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/#content-inner">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/#content-inner">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/#content-inner">28</a><a class="extend next" rel="next" href="/page/24/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"/></a><div class="content"><a class="title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d734db86/" title="d2l深度学习问题汇总"><img src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"/></a><div class="content"><a class="title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+  pageType: 'home'
+}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c3ea1584/" title="Vuex映射方法的使用">Vuex映射方法的使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-26T04:14:27.000Z" title="发表于 2023-04-26 12:14:27">2023-04-26</time></span></div><div class="content">vuex的最终使用方法再标签中添加 1import &#123;mapGetters,mapState,mapActions&#125; from &#x27;vuex&#x27; 然后有两种使用方法，下面示例： 1234567computed:&#123;  ...mapGetters&#123;sum:&#x27;sum&#x27;,add:&#x27;add&#x27;&#125;//对象式//对象式的含义：key：表示会在computed中生成的方法函数。而value:表示从mapGetters中调用的方法  ...mapGetters&#123;[&#x27;sum&#x27;,&#x27;add&#x27;]&#125;//数组式//数组式的含义即，同时创建再这边的函数并调用mapGetters的方法，这两个方法同名而已。同理mapMutation也是一样的&#125;</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/41f76cd3/" title="Vuex Getters 使用指南">Vuex Getters 使用指南</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-26T00:20:35.000Z" title="发表于 2023-04-26 08:20:35">2023-04-26</time></span></div><div class="content">vuex正式使用方法。 getters在store&#x2F;index.js中添加一个 123456const getters = &#123;    bigSum(state)&#123;        return state.sum*10    &#125;&#125;然后再export中添加getters 再组件中要调用getters，使用$store.state.getters.内容 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/518b3934/" title="Vuex中的关键功能：Actions、Mutations、State">Vuex中的关键功能：Actions、Mutations、State</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T23:43:53.000Z" title="发表于 2023-04-26 07:43:53">2023-04-26</time></span></div><div class="content">vuex再vuex中，有三个关键的内容和相关的函数方法 actions。再组件中调用actions需要调用this.$store.dispatch(‘方法’，value) 。组件会调用vuex中actions，请求使用方法，并传递value参数给他。而在actions中的方法中，他将会收到两个参数，context上下文，value参数。这个context上下文可以直接调用state，也可以调用commit方法来继续调用mutation。 mutations，他会接受actions发送过来的请求。然后他也会有两个参数，第一个参数就是state，也就是mutations可以用来修改state中的数据（当然，actions中的context也可以直接调用state并进行修改，但我们并不推荐这么做。）。然后可以直接再mutations中修改state的内容。state再组件中调用state的内容时，需要使用this.$store.state.内容 来调用state的中的数据。 补充，组件可以直接用commit方法调用mutations。跳过actions。但是我们并不建议这么做，因为会把...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/cb1dda86/" title="Vuex 数据管理详解">Vuex 数据管理详解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T23:34:43.000Z" title="发表于 2023-04-26 07:34:43">2023-04-26</time></span></div><div class="content">#vuex这是vuex的工作原理图。 vue2使用vuex3，vue3使用vuex4.vuex其实是存储在store中。也就是actions，mutations，state都是在store中的。主要流程。  安装vuex12//vue2中需要使用vuex3npm i  vuex@3 然后再src目录下，新建一个store目录，然后再store目录下新建一个index.js。其中写以下模板内容。1234567891011121314import  &#x27;Vue&#x27; from &#x27;uue&#x27;import   &#x27;Vuex&#x27; from &#x27;uuex&#x27;//再编译Vuex前必须先通过Vue使用Vuex。然后他会自动检测到Vuex的内容。并绑定到Vue的内部。Vue.use(Vuex)const actions = &#123;&#125;const mutations =&#123;&#125;const state = &#123;&#125;const store = new Vuex.Store(&#123;  act...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/1c72751d/" title="Vue 插槽：具名和作用域">Vue 插槽：具名和作用域</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T20:20:07.000Z" title="发表于 2023-04-26 04:20:07">2023-04-26</time></span></div><div class="content">具名插槽就是可以在组件中，可以定义插槽的名字 1&lt;slot name=&quot;haha&quot;&gt;&lt;/slot&gt; 然后可以在调用该组件的父组件中通过&lt;template v-slot=&quot;haha&quot;&gt;...&lt;/template&gt;来插入新的结构标签到组件中。 作用域插槽。他的最大特点是可以从子组件传递数据到父组件。通过:标记，和prop类似，将具体的对象发送到父组件中使用。 12345678910111213141516//子组件&lt;slot name=&quot;haha&quot; :games=&quot;games&quot;  :msg=&quot;msg&quot;&gt;&lt;/slot&gt;//父组件//这里的test是可以任意取名的。他会将子组件传递过来的所有值全部接受，然后你看也获取其中的对象&lt;template v-slot=&quot;haha&quot; scope =&quot;test&quot;&gt;&lt;ul v-for=&quot;(game,index) in...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ef6ef7b2/" title="Debian换源至阿里源解决安装报错">Debian换源至阿里源解决安装报错</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-25T07:48:09.000Z" title="发表于 2023-04-25 15:48:09">2023-04-25</time></span></div><div class="content">关于我配置我家云然后安装debian时，经常安装报错，因此在这里简单介绍一下如何给debian换源，同时推荐使用阿里源，他会比清华源更加稳定好用。  备份配置文件1cp -a /etc/apt/sources.list /etc/apt/sources.list.bak 编辑配置文件1vim /etc/apt/sources.list 具体国内源12345678deb https://mirrors.aliyun.com/debian/ bullseye main non-free contribdeb-src https://mirrors.aliyun.com/debian/ bullseye main non-free contribdeb https://mirrors.aliyun.com/debian-security/ bullseye-security maindeb-src https://mirrors.aliyun.com/debian-security/ bullseye-security maindeb https://mirrors.aliyun.co...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/f1d3065d/" title="SSL证书配置、自动部署和Nginx集成">SSL证书配置、自动部署和Nginx集成</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-24T07:42:41.000Z" title="发表于 2023-04-24 15:42:41">2023-04-24</time></span></div><div class="content">关于如何配置ssl证书和自动装配，并且部署到nginx的服务器上。  首先在freessl.cn部署一个ssl证书，可以是泛域名的。他只有一个月。搭配上acme就可以永久部署了。 具体步骤如下先获得ssl泛域名证书。 然后安装acme完成自动化部署。  安装使用下面这个命令： 1curl https://get.acme.sh | sh -s email=my@example.com  可以根据上面这个模板进行修改。最后就算部署完成，可以正常浏览你的网站了.安装完成后，就根据freessl给你的命令，直接复制到你的服务器执行，然后就在服务器上安装好自动更新的证书了。但是此时的证书任然没有部署到域名上，仍然需要操作  部署好后，请记住你的证书安装的地址，这个之后部署到nginx上需要使用。 nginx部署ssl证书最好的做法不是直接修改nginx.conf 文件，而是在conf.d 文件夹下添加与你相关的服务的信息。如果没有conf.d文件夹可以自己创建。然后再nginx.conf里引用你创建的文件即可。下面是一个示例： 123456789101112131415161718192...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/b469765b/" title="Kotlin 多平台 Web 应用工具包">Kotlin 多平台 Web 应用工具包</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-23T22:27:45.000Z" title="发表于 2023-04-24 06:27:45">2023-04-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">ktorktor是由JetBrains构建的多平台工具包，用于在kotlin中创建Web应用程序。Ktor 是一个轻松构建联网应用（web 应用、 HTTP 服务、 移动应用以及浏览器应用）的框架。 现代的联网应用需要异步化来提供最佳的用户体验，而 Kotlin 协程为此提供了极其简便的方式。 </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/b1eeb086/" title="Gradle 构建项目管理工具">Gradle 构建项目管理工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-23T19:43:34.000Z" title="发表于 2023-04-24 03:43:34">2023-04-24</time></span></div><div class="content">Android经常使用build.gradle来添加依赖和批量打包。 Gradle 简单介绍Gradle 构建由 Project 和 Task 组成，Project 保存项目的属性，例如 name，版本号，代码文件位置。Task 也是 Project 的一部分，但是它是可执行的任务，我们最常使用的 build 就是一个 Task，Task 可以依赖于另外一个 Task，一个 Task 在执行的时候，它依赖的 Task 会先执行。这样，当我们 build 的时候，这个 Task 可能依赖很多的 Task，比如代码检查、注解处理，这样一层层的依赖，最终通过 build Task 全部执行。 gradle和groovy的区别Gradle是一种自动化构建工具，与之类似的还有Maven，Ant。而Groovy是一种语言，Gradle允许使用这种语言来编写。同样kotlin也是一种语言可以用来编写Gradle，这两种语言有不同的编写格式，但是都大差不差。 DSLDSL全称：Domain Specific Language，即领域特定语言，它是编程语言赋予开发者的一种特殊能力，通过它我们可以编...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ff4fa478/" title="数据类、密封类和枚举类">数据类、密封类和枚举类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-04-23T07:10:26.000Z" title="发表于 2023-04-23 15:10:26">2023-04-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/kotlin/">kotlin</a></span></div><div class="content">数据类在class前面加上data前缀，将会创建一个数据类。编译器会自动的从主构造函数中根据所有声明的属性提取以下函数： equals() &#x2F; hashCode()toString() 格式如 “User(name&#x3D;John, age&#x3D;42)”componentN() functions 对应于属性，按声明顺序排列copy() 函数 copy函数示例： 12345678910data class User(val name: String, val age: Int)fun main(args: Array&lt;String&gt;) &#123;    val jack = User(name = &quot;Jack&quot;, age = 1)    val olderJack = jack.copy(age = 2)    println(jack)    println(olderJack)&#125; 密封类密封类用来表示受限的类继承结构。每个枚举常量只存在一个实例，而密封类 的一个子类可以有可包含状态的多个实例 1234567891...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/22/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/#content-inner">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/#content-inner">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/#content-inner">28</a><a class="extend next" rel="next" href="/page/24/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"/></a><div class="content"><a class="title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d734db86/" title="d2l深度学习问题汇总"><img src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"/></a><div class="content"><a class="title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
@@ -170,70 +150,92 @@
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Android%E5%85%A5%E9%97%A8/"><span class="card-category-list-name">Android入门</span><span class="card-category-list-count">42</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Echarts/"><span class="card-category-list-name">Echarts</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Linux基础</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/RabbitMQ/"><span class="card-category-list-name">RabbitMQ</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/clash/"><span class="card-category-list-name">clash</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kali/"><span class="card-category-list-name">kali</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kotlin/"><span class="card-category-list-name">kotlin</span><span class="card-category-list-count">65</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nvm/"><span class="card-category-list-name">nvm</span><span class="card-category-list-count">2</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/android/" style="font-size: 1.35em; color: rgb(50, 129, 50);">android</a><a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.15em; color: rgb(145, 50, 155);">adb调试</a><a href="/tags/vue/" style="font-size: 1.45em; color: rgb(128, 50, 50);">vue</a><a href="/tags/JS/" style="font-size: 1.35em; color: rgb(146, 50, 199);">JS</a><a href="/tags/MediaPlayer/" style="font-size: 1.15em; color: rgb(119, 169, 50);">MediaPlayer</a><a href="/tags/APK%E6%89%93%E5%8C%85/" style="font-size: 1.15em; color: rgb(50, 158, 196);">APK打包</a><a href="/tags/android-Studio/" style="font-size: 1.15em; color: rgb(50, 62, 50);">android Studio</a><a href="/tags/bee%E6%A1%86%E6%9E%B6/" style="font-size: 1.15em; color: rgb(191, 79, 50);">bee框架</a><a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.15em; color: rgb(50, 50, 181);">目录结构</a><a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.15em; color: rgb(75, 178, 117);">四大组件</a><a href="/tags/Android-Media/" style="font-size: 1.15em; color: rgb(153, 180, 87);">Android Media</a><a href="/tags/cameraX/" style="font-size: 1.15em; color: rgb(57, 50, 50);">cameraX</a><a href="/tags/jetpack-compose/" style="font-size: 1.2em; color: rgb(117, 167, 133);">jetpack compose</a><a href="/tags/%E8%BD%BBnas/" style="font-size: 1.15em; color: rgb(200, 112, 169);">轻nas</a><a href="/tags/%E6%9D%82%E8%A8%80/" style="font-size: 1.2em; color: rgb(78, 50, 50);">杂言</a><a href="/tags/ES6/" style="font-size: 1.2em; color: rgb(96, 139, 141);">ES6</a><a href="/tags/fetch/" style="font-size: 1.15em; color: rgb(101, 50, 67);">fetch</a><a href="/tags/promise/" style="font-size: 1.15em; color: rgb(99, 128, 123);">promise</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.15em; color: rgb(198, 163, 50);">C语言</a><a href="/tags/gitea/" style="font-size: 1.25em; color: rgb(54, 189, 122);">gitea</a><a href="/tags/docker%E9%95%9C%E5%83%8F/" style="font-size: 1.15em; color: rgb(50, 173, 50);">docker镜像</a><a href="/tags/gitea-action/" style="font-size: 1.15em; color: rgb(50, 198, 80);">gitea action</a><a href="/tags/gradle/" style="font-size: 1.2em; color: rgb(133, 185, 65);">gradle</a><a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.15em; color: rgb(50, 50, 192);">长连接和短链接</a><a href="/tags/idea%E6%BF%80%E6%B4%BB/" style="font-size: 1.15em; color: rgb(50, 167, 50);">idea激活</a><a href="/tags/JAVA/" style="font-size: 1.3em; color: rgb(50, 101, 99);">JAVA</a><a href="/tags/jar%E5%8C%85/" style="font-size: 1.15em; color: rgb(151, 82, 103);">jar包</a><a href="/tags/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/" style="font-size: 1.2em; color: rgb(128, 130, 131);">数据通信</a><a href="/tags/JWT/" style="font-size: 1.15em; color: rgb(88, 110, 181);">JWT</a><a href="/tags/java/" style="font-size: 1.2em; color: rgb(50, 131, 90);">java</a><a href="/tags/k8s/" style="font-size: 1.2em; color: rgb(67, 137, 50);">k8s</a><a href="/tags/ktor/" style="font-size: 1.15em; color: rgb(77, 101, 154);">ktor</a><a href="/tags/linux/" style="font-size: 1.4em; color: rgb(198, 79, 100);">linux</a><a href="/tags/compose/" style="font-size: 1.25em; color: rgb(100, 114, 165);">compose</a><a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 1.15em; color: rgb(180, 50, 65);">代理</a><a href="/tags/mihomo/" style="font-size: 1.15em; color: rgb(50, 58, 50);">mihomo</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 1.15em; color: rgb(157, 171, 181);">服务器</a><a href="/tags/Lombok/" style="font-size: 1.15em; color: rgb(50, 177, 121);">Lombok</a><a href="/tags/MVI/" style="font-size: 1.15em; color: rgb(131, 68, 50);">MVI</a><a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 1.15em; color: rgb(195, 137, 50);">架构</a></div></div><div class="card-widget card-archives">
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.23em; color: #999ea6">java</a> <a href="/tags/ES6/" style="font-size: 1.23em; color: #999ea6">ES6</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.1em; color: #999">嵌入式</a> <a href="/tags/python%E5%85%A5%E9%97%A8/" style="font-size: 1.1em; color: #999">python入门</a> <a href="/tags/github/" style="font-size: 1.1em; color: #999">github</a> <a href="/tags/%E5%AD%90%E5%9F%9F%E5%90%8D/" style="font-size: 1.1em; color: #999">子域名</a> <a href="/tags/DNS%E8%A7%A3%E6%9E%90/" style="font-size: 1.1em; color: #999">DNS解析</a> <a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.1em; color: #999">四大组件</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.1em; color: #999">C语言</a> <a href="/tags/windows%E8%B7%AF%E7%94%B1%E8%A1%A8/" style="font-size: 1.1em; color: #999">windows路由表</a> <a href="/tags/react/" style="font-size: 1.23em; color: #999ea6">react</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 1.1em; color: #999">浏览器</a> <a href="/tags/mingw/" style="font-size: 1.1em; color: #999">mingw</a> <a href="/tags/moshi/" style="font-size: 1.1em; color: #999">moshi</a> <a href="/tags/%E9%BC%A0%E6%A0%87%E6%A0%B7%E5%BC%8F/" style="font-size: 1.1em; color: #999">鼠标样式</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.1em; color: #999">-嵌入式</a> <a href="/tags/%E4%B8%BB%E9%A2%98%E9%85%8D%E8%89%B2/" style="font-size: 1.1em; color: #999">主题配色</a> <a href="/tags/%E5%A4%9A%E5%B9%B3%E5%8F%B0%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">多平台管理工具</a> <a href="/tags/ubuntu%E6%A1%8C%E9%9D%A2%E7%AB%AF/" style="font-size: 1.37em; color: #99a4b2">ubuntu桌面端</a> <a href="/tags/js/" style="font-size: 1.1em; color: #999">js</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.1em; color: #999">微服务</a> <a href="/tags/props/" style="font-size: 1.1em; color: #999">props</a> <a href="/tags/%E7%A1%AC%E7%9B%98/" style="font-size: 1.1em; color: #999">硬盘</a> <a href="/tags/iconpark/" style="font-size: 1.1em; color: #999">iconpark</a> <a href="/tags/%E8%BD%BBnas/" style="font-size: 1.1em; color: #999">轻nas</a> <a href="/tags/%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/" style="font-size: 1.1em; color: #999">底层源码</a> <a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">目录结构</a> <a href="/tags/docker%E9%95%9C%E5%83%8F/" style="font-size: 1.1em; color: #999">docker镜像</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 1.37em; color: #99a4b2">深度学习</a> <a href="/tags/linux/" style="font-size: 1.5em; color: #99a9bf">linux</a> <a href="/tags/CROS/" style="font-size: 1.1em; color: #999">CROS</a> <a href="/tags/mock/" style="font-size: 1.1em; color: #999">mock</a> <a href="/tags/mihomo/" style="font-size: 1.1em; color: #999">mihomo</a> <a href="/tags/cameraX/" style="font-size: 1.1em; color: #999">cameraX</a> <a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.1em; color: #999">长连接和短链接</a> <a href="/tags/%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" style="font-size: 1.1em; color: #999">备份恢复</a> <a href="/tags/clash/" style="font-size: 1.1em; color: #999">clash</a> <a href="/tags/expect-actual/" style="font-size: 1.1em; color: #999">expect actual</a> <a href="/tags/speedtest/" style="font-size: 1.1em; color: #999">speedtest</a> <a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.1em; color: #999">adb调试</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
-      <a class="card-more-btn" href="/archives/" title="查看更多"><i class="fas fa-angle-right"></i></a>
+      <a class="card-more-btn" href="/archives/"
+            title="查看更多">
+            <i class="fas fa-angle-right"></i>
+          </a>
     </div>
-    <ul class="card-archive-list">
   
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/09/">
-          <span class="card-archive-list-date">九月 2025</span>
-          <span class="card-archive-list-count">2</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/06/">
-          <span class="card-archive-list-date">六月 2025</span>
-          <span class="card-archive-list-count">1</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/04/">
-          <span class="card-archive-list-date">四月 2025</span>
-          <span class="card-archive-list-count">3</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2025/01/">
-          <span class="card-archive-list-date">一月 2025</span>
-          <span class="card-archive-list-count">2</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/12/">
-          <span class="card-archive-list-date">十二月 2024</span>
-          <span class="card-archive-list-count">9</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/11/">
-          <span class="card-archive-list-date">十一月 2024</span>
-          <span class="card-archive-list-count">3</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/09/">
-          <span class="card-archive-list-date">九月 2024</span>
-          <span class="card-archive-list-count">1</span>
-        </a>
-      </li>
-    
-      <li class="card-archive-list-item">
-        <a class="card-archive-list-link" href="/archives/2024/07/">
-          <span class="card-archive-list-date">七月 2024</span>
-          <span class="card-archive-list-count">9</span>
-        </a>
-      </li>
-    </ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">272</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">172k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-21T07:11:03.566Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://image.zfxt.top/stair.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              九月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/12/">
+            <span class="card-archive-list-date">
+              十二月 2024
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/11/">
+            <span class="card-archive-list-date">
+              十一月 2024
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/09/">
+            <span class="card-archive-list-date">
+              九月 2024
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/07/">
+            <span class="card-archive-list-date">
+              七月 2024
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">272</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-21T09:04:05.865Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 小贺同学</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: str => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
@@ -253,41 +255,44 @@
     } else {
       subtitleType()
     }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
   }
 }
 btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
 </script><script>function subtitleType () {
-  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js').then(() => {
-    jinrishici.load(result =>{
-      if (true) {
-        const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"]
-        const content = result.data.content
-        sub.unshift(content)
-        typedJSFn.init(sub)
-      } else {
-        document.getElementById('subtitle').textContent = result.data.content
-      }
+  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js')
+    .then(() => {
+      jinrishici.load(result => {
+        if (result && result.data && result.data.content) {
+          typedJSFn.processSubtitle(result.data.content)
+        } else {
+          throw new Error('Failed to parse the return value of Jinrishici API')
+        }
+      })
     })
-  })
+    .catch(err => {
+      console.error('Failed to get the Jinrishici API:', err)
+      typedJSFn.processSubtitle(4)
+    })
 }
 typedJSFn.run(subtitleType)
-</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="docsearch-wrap"><div id="docsearch" style="display:none"></div><link rel="stylesheet" href="https://unpkg.com/@docsearch/css/dist/style.css"/><script src="https://unpkg.com/@docsearch/js/dist/umd/index.js"></script><script>(() => {
-  docsearch(Object.assign({
-    appId: 'X9T3YGN9TM',
-    apiKey: '902ed0d2369a90e1a691ba2eae99d1a9',
-    indexName: '访问所有信息',
-    container: '#docsearch',
-    placeholder: '搜索文章',
-  }, null))
-
-  const handleClick = () => {
-    document.querySelector('.DocSearch-Button').click()
-  }
-
-  const searchClickFn = () => {
-    btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', handleClick)
-  }
-
-  searchClickFn()
-  window.addEventListener('pjax:complete', searchClickFn)
-})()</script></div></div></body></html>
+</script></div><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>
