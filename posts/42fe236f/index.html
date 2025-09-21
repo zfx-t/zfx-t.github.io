@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Gitea实现Docker镜像打包上传全流程 | 小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文主要记录自己这两天使用gitea实现把前后端完成打包，构建镜像，以及上传到镜像仓库中实现多地部署。  前置知识CICD其实已经有过一篇文章介绍了,所以这里不再赘述。 什么是软件仓库？软件仓库（Software Repository）是一个集中存储、管理和分发软件及其相关文件（如源代码、二进制文件、文档等）的系统或平台。它类似于一个专门存放软件的“图书馆”或“仓库”，旨在简化软件的获取、安装、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitea实现Docker镜像打包上传全流程">
+<meta property="og:url" content="https://zfxt.top/posts/42fe236f/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="本文主要记录自己这两天使用gitea实现把前后端完成打包，构建镜像，以及上传到镜像仓库中实现多地部署。  前置知识CICD其实已经有过一篇文章介绍了,所以这里不再赘述。 什么是软件仓库？软件仓库（Software Repository）是一个集中存储、管理和分发软件及其相关文件（如源代码、二进制文件、文档等）的系统或平台。它类似于一个专门存放软件的“图书馆”或“仓库”，旨在简化软件的获取、安装、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/Gitea%E5%AE%9E%E7%8E%B0Docker%E9%95%9C%E5%83%8F%E6%89%93%E5%8C%85%E4%B8%8A%E4%BC%A0%E5%85%A8%E6%B5%81%E7%A8%8B-2025-09-04-16-28-10.png">
+<meta property="article:published_time" content="2025-09-04T05:12:23.000Z">
+<meta property="article:modified_time" content="2025-09-04T08:41:55.578Z">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="gitea">
+<meta property="article:tag" content="docker镜像">
+<meta property="article:tag" content="gitea action">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/Gitea%E5%AE%9E%E7%8E%B0Docker%E9%95%9C%E5%83%8F%E6%89%93%E5%8C%85%E4%B8%8A%E4%BC%A0%E5%85%A8%E6%B5%81%E7%A8%8B-2025-09-04-16-28-10.png"><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/posts/42fe236f/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+          
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gitea实现Docker镜像打包上传全流程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  isShuoshuo: false
+}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Gitea实现Docker镜像打包上传全流程</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Gitea实现Docker镜像打包上传全流程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-04T08:41:55.578Z" title="更新于 2025-09-04 16:41:55">2025-09-04</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>本文主要记录自己这两天使用gitea实现把前后端完成打包，构建镜像，以及上传到镜像仓库中实现多地部署。</p>
+</blockquote>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>CICD其实已经有过<a href="https://zfxt.top/posts/f5d3f52f">一篇文章</a>介绍了,所以这里不再赘述。</p>
+<h3 id="什么是软件仓库？"><a href="#什么是软件仓库？" class="headerlink" title="什么是软件仓库？"></a>什么是软件仓库？</h3><p>软件仓库（Software Repository）是一个集中存储、管理和分发软件及其相关文件（如源代码、二进制文件、文档等）的系统或平台。它类似于一个专门存放软件的“图书馆”或“仓库”，旨在简化软件的获取、安装、更新和维护过程。<br>例如我们常常使用到的一些jar包，npm包或者docker镜像都可以存储在其中，并提供给他人使用。</p>
+<p>而<strong>Gitea</strong>同样也有对应的<code>Package Registry</code>用来支持软件仓库的功能。详见<a target="_blank" rel="noopener" href="https://docs.gitea.com/zh-cn/usage/packages/overview">gitea文档</a><br>我要存储的便是docker镜像，也就是<code>Container</code>，对于存储这类镜像会有很多选择，包括dockerhub，Harbor，阿里私有镜像仓库等或者干脆自己搭建也可以。各家有各家的优势，我选择gitea仅仅是因为我是在本地部署的，我本人访问可以达到最优速率，体验大大增加。也省去了一些不必要的麻烦。</p>
+<p>与他差不多的就是Github Package Registry(也提供免费服务，但是吧，我作为新手，肯定还是现在自己这玩明白了再去别地儿玩)。</p>
+<h3 id="docker镜像简单介绍"><a href="#docker镜像简单介绍" class="headerlink" title="docker镜像简单介绍"></a>docker镜像简单介绍</h3><p>我本来只是会玩docker，导入各种docker镜像，搭建docker网络，以及配置相关的服务。但其实我从未自己构建过镜像。今天尝试一番，也算是揭开神秘面纱了。<br><code>docker image</code>本身就像是一个副本，用于启动各种容器，一个镜像，根据传入的参数不同，启动起来的容器也会有一点小区别。但他的内里没变，大体还是这么个东西在这。<br>然后构建镜像的话，一般需要完成你的项目后，编写一个相对应的<code>dockerfile</code>文件，可以直接让ai帮你生成，然后在执行<code>docker build -t &lt;你的镜像名字&gt; .</code><br>这条命令指的是，基于你当前的目录，他会自动读取是否有dockerfile文件，有的话，就会根据这个文件和对应的目录生成一个镜像，接着就可以用<code>docker images</code>查看到了。若要将其导出为一个压缩包也可以通过<code>docker save 镜像id &gt; image.tar</code>实现相应的功能。或者你如我一般把他推送到一个镜像仓库中，便可以方便的使用了。</p>
+<h2 id="正式工作"><a href="#正式工作" class="headerlink" title="正式工作"></a>正式工作</h2><p>先随便写一个前后端项目，注意前端要与后端相关联，可以访问到后端。</p>
+<p>然后分别编写两者的dockerfile文件<br>我把我的两个文件示例如下：</p>
+<ol>
+<li><p>前端：</p>
+ <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建阶段</span></span><br><span class="line"><span class="keyword">FROM</span> node:<span class="number">22</span> AS build</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> package*.json ./</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm ci</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm run build</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生产阶段</span></span><br><span class="line"><span class="keyword">FROM</span> nginx:alpine</span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=build /app/dist /usr/share/nginx/html</span></span><br><span class="line"><span class="comment"># 复制nginx配置</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> nginx.conf /etc/nginx/nginx.conf</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">5555</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;nginx&quot;</span>, <span class="string">&quot;-g&quot;</span>, <span class="string">&quot;daemon off;&quot;</span>]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后端</p>
+ <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.11</span>-slim</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> pip install --no-cache-dir fastapi==0.115.8 uvicorn[standard]==0.34.3 python-multipart</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制代码</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">5000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;uvicorn&quot;</span>, <span class="string">&quot;main:app&quot;</span>, <span class="string">&quot;--host&quot;</span>, <span class="string">&quot;0.0.0.0&quot;</span>, <span class="string">&quot;--port&quot;</span>, <span class="string">&quot;5000&quot;</span>]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>其中需要注意的是，你在前端中配置好的<code>nginx.conf</code>多半需要代理将访问的api都转发到后端。因此你在编写运行的<code>docker-compose.yml</code>文件时，要记得后端服务的名字与nginx配置里的名字保持一致，这样就可以将整个前后端项目组合成一个。</p>
+</blockquote>
+<p>接下来就是重头戏，如何通过<code>gitea action</code>实现自动打包构建和上传。</p>
+<ol>
+<li><p>先构建<code>.gitea/workflow/docker-build-push.yml</code>文件，文件名你们自己拟定，要在这个目录下，他就可以正确执行action。</p>
+</li>
+<li><p>展示代码</p>
+ <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Build</span> <span class="string">and</span> <span class="string">Push</span> <span class="string">Docker</span> <span class="string">Images</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line"><span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">main</span>, <span class="string">develop</span> ]</span><br><span class="line">    <span class="attr">tags:</span> [ <span class="string">&#x27;v*&#x27;</span> ]</span><br><span class="line"><span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">main</span>, <span class="string">develop</span> ]</span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line"><span class="attr">build-and-push:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">strategy:</span></span><br><span class="line">    <span class="attr">matrix:</span></span><br><span class="line">        <span class="attr">service:</span> [<span class="string">frontend</span>, <span class="string">backend</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/checkout@v4</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">fetch-depth:</span> <span class="number">0</span>  <span class="comment"># 获取完整的提交历史用于标签生成</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Login</span> <span class="string">to</span> <span class="string">Registry</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">docker/login-action@v3</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">registry:</span> <span class="string">gitea.zfxt.top</span></span><br><span class="line">        <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">vars.REGISTRY_USERNAME</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.REGISTRY_PASSWORD</span> <span class="string">&#125;&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 为后端服务生成元数据</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Extract</span> <span class="string">metadata</span> <span class="string">for</span> <span class="string">backend</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">matrix.service</span> <span class="string">==</span> <span class="string">&#x27;backend&#x27;</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">meta-backend</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">docker/metadata-action@v5</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">images:</span> <span class="string">gitea.zfxt.top/zfxt/backend</span></span><br><span class="line">        <span class="attr">tags:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        type=raw,value=latest,enable=$&#123;&#123; github.ref == &#x27;refs/heads/main&#x27; &#125;&#125;</span></span><br><span class="line"><span class="string">        type=sha,prefix=,suffix=,enable=true</span></span><br><span class="line"><span class="string">        type=ref,event=branch</span></span><br><span class="line"><span class="string">        type=ref,event=pr</span></span><br><span class="line"><span class="string">        type=semver,pattern=&#123;&#123;version&#125;&#125;</span></span><br><span class="line"><span class="string">        type=semver,pattern=&#123;&#123;major&#125;&#125;.&#123;&#123;minor&#125;&#125;</span></span><br><span class="line"><span class="string">        type=semver,pattern=&#123;&#123;major&#125;&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">    <span class="comment"># 为前端服务生成元数据</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Extract</span> <span class="string">metadata</span> <span class="string">for</span> <span class="string">frontend</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">matrix.service</span> <span class="string">==</span> <span class="string">&#x27;frontend&#x27;</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">meta-frontend</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">docker/metadata-action@v5</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">images:</span> <span class="string">gitea.zfxt.top/zfxt/frontend</span></span><br><span class="line">        <span class="attr">tags:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        type=raw,value=latest,enable=$&#123;&#123; github.ref == &#x27;refs/heads/main&#x27; &#125;&#125;</span></span><br><span class="line"><span class="string">        type=sha,prefix=,suffix=,enable=true</span></span><br><span class="line"><span class="string">        type=ref,event=branch</span></span><br><span class="line"><span class="string">        type=ref,event=pr</span></span><br><span class="line"><span class="string">        type=semver,pattern=&#123;&#123;version&#125;&#125;</span></span><br><span class="line"><span class="string">        type=semver,pattern=&#123;&#123;major&#125;&#125;.&#123;&#123;minor&#125;&#125;</span></span><br><span class="line"><span class="string">        type=semver,pattern=&#123;&#123;major&#125;&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">    <span class="comment"># 构建和推送后端镜像</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">and</span> <span class="string">push</span> <span class="string">backend</span> <span class="string">image</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">matrix.service</span> <span class="string">==</span> <span class="string">&#x27;backend&#x27;</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">docker/build-push-action@v6</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">context:</span> <span class="string">./backend</span></span><br><span class="line">        <span class="attr">file:</span> <span class="string">./backend/dockerfile</span></span><br><span class="line">        <span class="attr">push:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">tags:</span> <span class="string">$&#123;&#123;</span> <span class="string">steps.meta-backend.outputs.tags</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">labels:</span> <span class="string">$&#123;&#123;</span> <span class="string">steps.meta-backend.outputs.labels</span> <span class="string">&#125;&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 构建和推送前端镜像</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">and</span> <span class="string">push</span> <span class="string">frontend</span> <span class="string">image</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">matrix.service</span> <span class="string">==</span> <span class="string">&#x27;frontend&#x27;</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">docker/build-push-action@v6</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">context:</span> <span class="string">./front</span></span><br><span class="line">        <span class="attr">file:</span> <span class="string">./front/dockerfile</span></span><br><span class="line">        <span class="attr">push:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">tags:</span> <span class="string">$&#123;&#123;</span> <span class="string">steps.meta-frontend.outputs.tags</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">labels:</span> <span class="string">$&#123;&#123;</span> <span class="string">steps.meta-frontend.outputs.labels</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>逐段解释</p>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line"><span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">main</span>, <span class="string">develop</span> ]</span><br><span class="line">    <span class="attr">tags:</span> [ <span class="string">&#x27;v*&#x27;</span> ]</span><br><span class="line"><span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">main</span>, <span class="string">develop</span> ]</span><br></pre></td></tr></table></figure>
+
+<p> 作用​​：定义工作流触发场景</p>
+<ul>
+<li>​分支推送​​：当代码推送到 main或 develop分支时触发</li>
+<li>​标签推送​​：当打上 v*格式的版本标签（如 v1.0.0）时触发</li>
+<li>Pull Request​​：当向 main或 develop分支提交 PR 时触发</li>
+</ul>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line"><span class="attr">build-and-push:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">strategy:</span></span><br><span class="line">    <span class="attr">matrix:</span></span><br><span class="line">        <span class="attr">service:</span> [<span class="string">frontend</span>, <span class="string">backend</span>]</span><br></pre></td></tr></table></figure>
+
+<p> 作用​​：定义并行构建任务</p>
+<ul>
+<li>​​runs-on​​：使用最新 Ubuntu 环境</li>
+<li>​matrix​​：并行构建<code>frontend</code>和<code>backend</code>两个服务</li>
+</ul>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line"><span class="attr">uses:</span> <span class="string">actions/checkout@v4</span></span><br><span class="line"><span class="attr">with:</span></span><br><span class="line">    <span class="attr">fetch-depth:</span> <span class="number">0</span>  <span class="comment"># 获取完整提交历史</span></span><br></pre></td></tr></table></figure>
+
+<p> 作用​​：拉取仓库代码</p>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Login</span> <span class="string">to</span> <span class="string">Registry</span></span><br><span class="line"><span class="attr">uses:</span> <span class="string">docker/login-action@v3</span></span><br><span class="line"><span class="attr">with:</span></span><br><span class="line">    <span class="attr">registry:</span> <span class="string">gitea.zfxt.top</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">vars.REGISTRY_USERNAME</span> <span class="string">&#125;&#125;</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.REGISTRY_PASSWORD</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p> 作用​​：登录私有 Docker 仓库</p>
+<ul>
+<li>​​secrets​​：需在 GitHub 仓库的 Settings &gt; Action中预先配置</li>
+<li>vars: 同上</li>
+</ul>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Extract</span> <span class="string">metadata</span> <span class="string">for</span> <span class="string">backend</span></span><br><span class="line"><span class="attr">if:</span> <span class="string">matrix.service</span> <span class="string">==</span> <span class="string">&#x27;backend&#x27;</span></span><br><span class="line"><span class="attr">id:</span> <span class="string">meta-backend</span></span><br><span class="line"><span class="attr">uses:</span> <span class="string">docker/metadata-action@v5</span></span><br><span class="line"><span class="attr">with:</span></span><br><span class="line">    <span class="attr">images:</span> <span class="string">gitea.zfxt.top/zfxt/backend</span></span><br><span class="line">    <span class="attr">tags:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    type=raw,value=latest,enable=$&#123;&#123; github.ref == &#x27;refs/heads/main&#x27; &#125;&#125;</span></span><br><span class="line"><span class="string">    type=sha,prefix=,suffix=,enable=true</span></span><br><span class="line"><span class="string">    type=ref,event=branch</span></span><br><span class="line"><span class="string">    type=ref,event=pr</span></span><br><span class="line"><span class="string">    type=semver,pattern=&#123;&#123;version&#125;&#125;</span></span><br><span class="line"><span class="string">    type=semver,pattern=&#123;&#123;major&#125;&#125;.&#123;&#123;minor&#125;&#125;</span></span><br><span class="line"><span class="string">    type=semver,pattern=&#123;&#123;major&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p> ​​作用​​：为后端服务生成多维度镜像标签</p>
+<p> ​​标签类型​​：</p>
+<ul>
+<li>latest：仅主分支构建时添加</li>
+<li>sha：基于提交哈希的唯一标识</li>
+<li>branch&#x2F;pr：分支&#x2F;PR 名称</li>
+<li>semver：语义化版本（需项目支持版本管理）</li>
+<li>​原因​​：提供多种标签便于追踪和管理镜像</li>
+</ul>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">and</span> <span class="string">push</span> <span class="string">backend</span> <span class="string">image</span></span><br><span class="line"><span class="attr">if:</span> <span class="string">matrix.service</span> <span class="string">==</span> <span class="string">&#x27;backend&#x27;</span></span><br><span class="line"><span class="attr">uses:</span> <span class="string">docker/build-push-action@v6</span></span><br><span class="line"><span class="attr">with:</span></span><br><span class="line">    <span class="attr">context:</span> <span class="string">./backend</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">./backend/dockerfile</span></span><br><span class="line">    <span class="attr">push:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">tags:</span> <span class="string">$&#123;&#123;</span> <span class="string">steps.meta-backend.outputs.tags</span> <span class="string">&#125;&#125;</span></span><br><span class="line">    <span class="attr">labels:</span> <span class="string">$&#123;&#123;</span> <span class="string">steps.meta-backend.outputs.labels</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p> 作用​​：构建后端镜像并推送</p>
+<ul>
+<li>​​context​​：Dockerfile 所在目录</li>
+<li>file​​：Dockerfile 文件名</li>
+<li>tags&#x2F;labels​​：复用元数据生成的标签</li>
+</ul>
+</li>
+</ol>
+<p>以上差不多就完成了，但是！我真的遇到好些问题，最后归纳一下，</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Docker</span> <span class="string">Buildx</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">docker/setup-buildx-action@v3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>这个插件！！！</strong>用不了，用了就要报EOF的错误，可以说我目前和多平台无缘了。害(我忙活了一天才揪出来这个bug，其他nginx代理，校验方式，gitea历史遗留问题都试过了)。结果发现他这个新版的buildx可能用不了。呜呜呜。难过死我了，</p>
+<h2 id="最后总结"><a href="#最后总结" class="headerlink" title="最后总结"></a>最后总结</h2><p>上传完成后，可以看到我的软件包界面多了几个可以直接使用的包<br><img src="https://image.zfxt.top/hexo-blog/Gitea%E5%AE%9E%E7%8E%B0Docker%E9%95%9C%E5%83%8F%E6%89%93%E5%8C%85%E4%B8%8A%E4%BC%A0%E5%85%A8%E6%B5%81%E7%A8%8B-2025-09-04-16-26-02.png" alt="Gitea实现Docker镜像打包上传全流程-2025-09-04-16-26-02"><br>差不多也就结束了，主要是那个bug太烦人了。啊啊啊。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zfxt.top">小贺同学</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zfxt.top/posts/42fe236f/">https://zfxt.top/posts/42fe236f/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zfxt.top" target="_blank">小贺同学的blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/gitea/">gitea</a><a class="post-meta__tags" href="/tags/docker%E9%95%9C%E5%83%8F/">docker镜像</a><a class="post-meta__tags" href="/tags/gitea-action/">gitea action</a></div><div class="post-share"><div class="social-share" data-image="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/71584c07/" title="ddnsgo忘记密码"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ddnsgo忘记密码</div></div><div class="info-2"><div class="info-item-1">由于ddns-go密码要求带标点符号，太久没登录忘记了，研究了一下，解决办法如下： 执行如下命令： 1ddns-go -resetPassword pwd.123  pwd.123为要设置的密码，执行完会生成一个.ddns_go_config.yaml文件，这里完整路径是：/root/.ddns_go_config.yaml 1234567root@OpenWrt:~# ddns-go -resetPassword pwd.1232024/10/02 04:00:57 Config file has been saved to: /root/.ddns_go_config.yaml2024/10/02 04:00:57 The password of username  has been reset successfully! Please restart ddns-goroot@OpenWrt:~#  接着执行cat...</div></div></div></a><a class="pagination-related" href="/posts/27335b99/" title="acme快速配置证书"><img class="cover" src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">acme快速配置证书</div></div><div class="info-2"><div class="info-item-1">安装ACME安装很简单，一条命令: 1curl https://get.acme.sh | sh -s email=my@example.com  或者 1wget -O -  https://get.acme.sh | sh -s email=my@example.com  普通用户和 root 用户都可以安装使用。 修改默认 CAacme.sh 脚本默认 CA 服务器是 ZeroSSL，有时可能会导致获取证书的时候一直出现：Pending，The CA is processing your order，please just wait.只需要把 CA 服务器改成 Let&#39;s Encrypt 即可，虽然更改以后还是有概率出现 pending，但基本 2-3 次即可成功 1acme.sh --set-default-ca --server letsencrypt  使用DNS校验的方式签发证书如果你没有服务器，没有公网 IP，只需要 DNS 的解析记录即可完成验证。 自动验证（DNS API）DNS 方式的真正强大之处在于可以使用域名解析商提供的 API 自动添加...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/f5d3f52f/" title="使用gitea action实现CICD"><img class="cover" src="https://image.zfxt.top/hexo-blog/使用gitea-action实现CICD-2024-12-25-14-13-21.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-25</div><div class="info-item-2">使用gitea action实现CICD</div></div><div class="info-2"><div class="info-item-1">CICDCI&#x2F;CD 是持续集成和持续交付&#x2F;部署的缩写，旨在简化并加快软件开发生命周期。 持续集成（CI）是指自动且频繁地将代码更改集成到共享源代码存储库中的做法。持续交付和&#x2F;或持续部署（CD）是一个由两部分组成的过程，涉及代码更改的集成、测试和交付。持续交付不会自动部署到生产环境，持续部署则会自动将更新发布到生产环境。 简单来说，就是我们将代码提交到远程仓库后，自动化服务会替我们完成测试交付和部署的功能。 常用的CICD工具在本文中我将演示使用gitea actions实现hexo的自动部署功能。 正片开始正如其名，其实gitea和github actions的功能几乎一致，就是沿用下来了而已。在我们的操作过程中，主要有三步：  使用docker启动一个act_runner，作为action的服务器 配置deploy.yml实现推送时，自动部署到服务器 使用nginx展示部署后的页面  安装act_runner打开gitea的官方文档可以查阅关于act_runner的配置信息 注册runner在运行Act...</div></div></div></a><a class="pagination-related" href="/posts/2fecdaca/" title="自部署gitea"><img class="cover" src="https://image.zfxt.top/hexo-blog/自部署gitea-2024-12-24-23-49-03.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-24</div><div class="info-item-2">自部署gitea</div></div><div class="info-2"><div class="info-item-1">部署gitea的原因使用gitea的原因：本质上是因为在本地硬盘上每次学习一些新知识，于是创建一些demo性质的应用。特别是vue，react之类的前端应用。每个项目都会有node_module这个文件夹，这里面有特别多的4k小文件，这导致我备份硬盘数据时。速率总是被压的很低。所以我在想能不能通过一个本地部署的类似github的服务器，实现我对这些项目的备份，然后通过配置.gitignore忽略掉哪些中间过程文件和复杂的库文件。来实现对磁盘的高效率备份。 部署完gitea后，发现他其实可以很好的替代github，gitee来作为我自己的代码仓库使用。而且他也确实有很多优点，包括如下图片等功能。而且他作为本地化服务，我不需要担心网络故障，权限校验等问题。 部署过程这部分内容主要参考大佬文章以及gitea官网 我只说明我需要使用的docker...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">272</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">106</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%BD%AF%E4%BB%B6%E4%BB%93%E5%BA%93%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">什么是软件仓库？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E9%95%9C%E5%83%8F%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.2.</span> <span class="toc-text">docker镜像简单介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">正式工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">最后总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"/></a><div class="content"><a class="title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d734db86/" title="d2l深度学习问题汇总"><img src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"/></a><div class="content"><a class="title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png);"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By 小贺同学</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.isShuoshuo
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: 'dead8e226547393b381f',
+      clientSecret: '3d558abe1e03abc025fbd66a3dab37f918fa08e0',
+      repo: 'blog-comment',
+      owner: 'zfx-t',
+      admin: ['zfx-t'],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '01e25095c7e98083d44842796c0c2672'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://unpkg.com/gitalk/dist/gitalk.css')
+      await btf.getScript('https://unpkg.com/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="docsearch-wrap"><div id="docsearch" style="display:none"></div><link rel="stylesheet" href="https://unpkg.com/@docsearch/css/dist/style.css"/><script src="https://unpkg.com/@docsearch/js/dist/umd/index.js"></script><script>(() => {
+  docsearch(Object.assign({
+    appId: 'X9T3YGN9TM',
+    apiKey: '902ed0d2369a90e1a691ba2eae99d1a9',
+    indexName: '访问所有信息',
+    container: '#docsearch',
+    placeholder: '搜索文章',
+  }, null))
+
+  const handleClick = () => {
+    document.querySelector('.DocSearch-Button').click()
+  }
+
+  const searchClickFn = () => {
+    btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', handleClick)
+  }
+
+  searchClickFn()
+  window.addEventListener('pjax:complete', searchClickFn)
+})()</script></div></div></body></html>

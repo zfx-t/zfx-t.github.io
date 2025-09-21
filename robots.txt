@@ -11,3 +11,5 @@ Disallow: /vendors/
 Disallow:/ fancybox/
 Disallow /index.php/
 Sitemap: https://zfxt.top/sitemap.xml
+
+# Algolia-Crawler-Verif：F9EE30C58C0D81ED
