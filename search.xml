@@ -8118,7 +8118,7 @@ grub-install --target=x86_64-efi --efi-directory=$(realpath mnt) --bootloader-id
 
 前两个步骤无需多言，稍微注意一点，在mnt中新建一个boot文件夹，然后将bzImage移动到这个boot文件夹下，busybox直接放在mnt目录下即可。
 然后在boot中新建一个grub目录，然后创建grub.cfg文件
-menuentry &quot;xiaohe_linux&quot; &#123;    insmod part_gpt    insmod fat    insmod ext2    insmod normal    search --no-floppy --fs-uuid --set=root 你的数据盘UUID    linu /boot/bzImage root=PARTUUID=你的数据盘PARTUUID rw init=/boot/init rootdelay=3&#125;
+menuentry &quot;xiaohe_linux&quot; &#123;    insmod part_gpt    insmod fat    insmod ext2    insmod normal    search --no-floppy --fs-uuid --set=root 你的数据盘UUID    linux /boot/bzImage root=PARTUUID=你的数据盘PARTUUID rw init=/boot/init rootdelay=3&#125;
 
 uuid和part_uuid都是通过blkid来获取的，可以很直观的看到。
 接着在boot目录下创建一个init文件，内容如下
