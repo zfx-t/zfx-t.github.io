@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>小贺同学的blog</title><meta name="author" content="小贺同学"><meta name="copyright" content="小贺同学"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="分享知识，勤做笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小贺同学的blog">
+<meta property="og:url" content="https://zfxt.top/index.html">
+<meta property="og:site_name" content="小贺同学的blog">
+<meta property="og:description" content="分享知识，勤做笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.zfxt.top/hexo-blog/avator.jpg">
+<meta property="article:author" content="小贺同学">
+<meta property="article:tag" content="小贺同学,blog,hexo,博客，server,frontend,backend">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.zfxt.top/hexo-blog/avator.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "小贺同学的blog",
+  "alternateName": [
+    "zfxt.top"
+  ],
+  "url": "https://zfxt.top/"
+}</script><link rel="shortcut icon" href="https://image.zfxt.top/hexo-blog/avator.jpg"><link rel="canonical" href="https://zfxt.top/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '小贺同学的blog',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="google-site-verification" content="qM82BkVOomn0vUhQaGVPhjpJDzMmcntviVV1NsCKCNM" /><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">274</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">108</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://image.zfxt.top/stair.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">小贺同学的blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">小贺同学的blog</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a7014e01/" title="迁移Debian并配置niri桌面的一系列配置以及问题">迁移Debian并配置niri桌面的一系列配置以及问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-04-17T14:02:57.000Z" title="发表于 2026-04-17 22:02:57">2026-04-17</time></span></div><div class="content"> ”这是一次冒险，也是一次疯狂的折腾“  导火索自3月初开学以来，我因为不爱呆在宿舍，经常在工位的缘故，苦于笔记本的厚重（实际上是轻薄本，但依然很重），我渐渐适应了工位上mint系统。特别是他的热区功能，让我感到非常好用。于是乎，将近一个月，我发觉，我的日常生活已经可以完全使用linux来实现代替了。而这就是这篇文章产生的起点。 起点Fedora 颜值拉满：Niri+ Dank Material Shell 一步到位 这个视频是我踏出这一步的开始，因为美观，好看。加上对linux的习惯。我选择了直接重装系统，不给自己留退路了。（实际上重要数据已经多地保存了，大家千万不要轻易尝试！！！）。于是乎，再第一次实验中，我选择了fedora+dms+niri，也就是视频中一模一样的配置。❌错误发生在安装了dankGreeter之后，这只是一个适配的登陆UI。但是在我安装后，他就变成了全英文界面。虽然我也不是不能接受。重点是我不知道怎么调回来。视频的评论中有一些配置，但在我测试过之后，他也只有命令行的help提示变成了中文，其他的甚至包括浏览器都变成了全英文界面，这太难受了。同时我还不太适应...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/posts/44df985e/" title="手搓一个linux发行版(娱乐向)"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/手搓一个linux发行版-娱乐向-2025-10-17-15-25-58.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="手搓一个linux发行版(娱乐向)"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/44df985e/" title="手搓一个linux发行版(娱乐向)">手搓一个linux发行版(娱乐向)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-10-17T05:26:49.000Z" title="发表于 2025-10-17 13:26:49">2025-10-17</time></span></div><div class="content">手搓Linux发行版 该文章主要引用自于小乐大佬的B站视频自己跟着视频手搓了一遍并把视频教程做成博客，同时记录一些自己出现的问题  编译内核第一步就是从网上找到现成的linux内核并下载下来，Linux Kernel Archives 我下载的时候，与视频中的版本不相同，这也导致我后面出现了一些无法解决的问题。在视频中的稳定内核版本为6.13.2,而我的版本为6.17.3。我出现的问题是我无法打开FB_EFI。（这在第二弹视频中有提到过）。启动系统后只有一个光标，但是一直无法显示后续内容的黑屏。在下面我给出GPT的相关回答。  这是我问GPT给出的相关答案在 Linux 内核 6.17.3 这一版本中，如果你在 make menuconfig 或 make xconfig 里 看不到 “EFI-based Framebuffer Support” 选项（CONFIG_FB_EFI），这是正常的现象 —— 从 内核 6.x 开始，Framebuffer 与 EFI 的支持方式发生了较大变化。  内核逐步弃用老旧的 fbdev 驱动（如 efifb、uvesafb）。 DRM（Dir...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></span></div><div class="content">由于ddns-go密码要求带标点符号，太久没登录忘记了，研究了一下，解决办法如下： 执行如下命令： 1ddns-go -resetPassword pwd.123  pwd.123为要设置的密码，执行完会生成一个.ddns_go_config.yaml文件，这里完整路径是：/root/.ddns_go_config.yaml 1234567root@OpenWrt:~# ddns-go -resetPassword pwd.1232024/10/02 04:00:57 Config file has been saved to: /root/.ddns_go_config.yaml2024/10/02 04:00:57 The password of username  has been reset successfully! Please restart ddns-goroot@OpenWrt:~#  接着执行cat &#x2F;root&#x2F;.ddns_go_config.yaml查看文件内容 ddns-go忘记登陆密码的处理办法其中password后面的字符串就是加密...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></span></div><div class="content"> 本文主要记录自己这两天使用gitea实现把前后端完成打包，构建镜像，以及上传到镜像仓库中实现多地部署。  前置知识CICD其实已经有过一篇文章介绍了,所以这里不再赘述。 什么是软件仓库？软件仓库（Software Repository）是一个集中存储、管理和分发软件及其相关文件（如源代码、二进制文件、文档等）的系统或平台。它类似于一个专门存放软件的“图书馆”或“仓库”，旨在简化软件的获取、安装、更新和维护过程。例如我们常常使用到的一些jar包，npm包或者docker镜像都可以存储在其中，并提供给他人使用。 而Gitea同样也有对应的Package Registry用来支持软件仓库的功能。详见gitea文档我要存储的便是docker镜像，也就是Container，对于存储这类镜像会有很多选择，包括dockerhub，Harbor，阿里私有镜像仓库等或者干脆自己搭建也可以。各家有各家的优势，我选择gitea仅仅是因为我是在本地部署的，我本人访问可以达到最优速率，体验大大增加。也省去了一些不必要的麻烦。 与他差不多的就是Github Package Registry(也提供免费服务...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/posts/27335b99/" title="acme快速配置证书"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></span></div><div class="content">安装ACME安装很简单，一条命令: 1curl https://get.acme.sh | sh -s email=my@example.com  或者 1wget -O -  https://get.acme.sh | sh -s email=my@example.com  普通用户和 root 用户都可以安装使用。 修改默认 CAacme.sh 脚本默认 CA 服务器是 ZeroSSL，有时可能会导致获取证书的时候一直出现：Pending，The CA is processing your order，please just wait.只需要把 CA 服务器改成 Let&#39;s Encrypt 即可，虽然更改以后还是有概率出现 pending，但基本 2-3 次即可成功 1acme.sh --set-default-ca --server letsencrypt  使用DNS校验的方式签发证书如果你没有服务器，没有公网 IP，只需要 DNS 的解析记录即可完成验证。 自动验证（DNS API）DNS 方式的真正强大之处在于可以使用域名解析商提供的 API 自动添加 TXT...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/解决ubuntu下定时任务不执行的问题-2025-04-10-20-41-57.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解决ubuntu下定时任务不执行的问题"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/c17db359/" title="解决ubuntu下定时任务不执行的问题">解决ubuntu下定时任务不执行的问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-10T12:41:30.000Z" title="发表于 2025-04-10 20:41:30">2025-04-10</time></span></div><div class="content">先打开日志查看cron运行日志（/var/log/cron.log），但是并未找到相关文件，原因是ubuntu默认没有开cron日志，执行命令： 1sudo vim /etc/rsyslog.d/50-default.conf  找到cron.log相关行，将前面注释符#去掉，保存退出，重启rsyslog： 1sudo  service rsyslog  restart  执行less -10 /var/log/cron.log再次查看cron运行日志，log出来了，提示如下信息： 1No MTA installed, discarding output  原因是cron把屏幕输出都发送到email了，而当前环境并未安装email server，于是系统报错，解决方面就是不要直接向屏幕输出内容，而是重定向到一个文件。 修改任务文件 1sudo vim /var/spool/cron/crontabs/waterfronter  将末行改为： 1* * * * * echo &quot;Hello world!&quot; &gt;&gt; /tmp/cron_log.txt  保...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/posts/d734db86/" title="d2l深度学习问题汇总"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/d2l深度学习问题汇总-2025-04-10-17-04-43.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="d2l深度学习问题汇总"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/d734db86/" title="d2l深度学习问题汇总">d2l深度学习问题汇总</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-10T09:03:42.000Z" title="发表于 2025-04-10 17:03:42">2025-04-10</time></span></div><div class="content">d2l安装问题第一步就是安装问题，可能是版本太新的问题，我安装时使用pip install d2l报过错误。所以现提供一个解决方案。有说是后面的版本，你需要提前安装mxnet，然后再安装d2l。但是我没装，所以提供下述解决方案 1234pip install d2l==0.15.1# 在之后还会遇到一个关于ipython新版本缺少指令的问题，需降级使用pip uninstall ipythonpip install ipython==7.22.0  更多版本可以查看d2l版本列表如此，即可解决d2l包无法使用的问题 </div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/posts/10614fa3/" title="下一站，上岸"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/下一站，上岸-2025-04-10-13-25-56.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="下一站，上岸"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/10614fa3/" title="下一站，上岸">下一站，上岸</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-10T05:24:10.000Z" title="发表于 2025-04-10 13:24:10">2025-04-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%B8%8A%E5%B2%B8/">上岸</a></span></div><div class="content"> 今天是4月10日，距离我得知自己拟录取已经过了一周了。公示期也过去了。我也总算可以好好装个逼了。哈哈哈哈  心得体会该以什么开头呢，一战成硕？不过些许风霜罢了？还是说，终于熬出头了？似乎无论哪种说辞都无法阐述我内心的奇怪感觉，这与我12月份当时的感觉有些不同1。 好像一切都很凑巧，生活很惬意，对结果也很随意。没有很强硬的目的，却获得了还不错的结果。或许我应当在此先报个喜。是的，我从双非考到211了，暨南大学。 ……说些什么好呢，我自认为已经和我认为重要的人都分享过我的喜悦了。所以，当我放下手机那一刻。我竟有些过于平静：恍惚间，大学四年竟然已经过去了。好吧，那我们先就此打住，或许是乐极生悲。我实在是不知道讲什么了。那接下来我就说说从4.3到4.10这几天我的感受吧。 (删减一大部分内容) 经验分享上面的话结束了，那接下来就是正题了。嘿嘿，逆袭上岸！暨大1：2的复试比，招38个人，我排63，经过复试后，我排到了第19名，成功的逆袭上岸了。嚯哈哈哈哈。我可真牛逼啊！ 我的专业代码是计算机技术(085404),考的是222408.当然，逆袭上岸并不是一蹴而就的，在复试准备期间我也付出了...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/posts/70b7a805/" title="Linux配置mihomo代理并开启TUN模式"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/Linux配置mihomo代理并开启TUN模式-2025-01-12-20-14-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux配置mihomo代理并开启TUN模式"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/70b7a805/" title="Linux配置mihomo代理并开启TUN模式">Linux配置mihomo代理并开启TUN模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-12T12:12:25.000Z" title="发表于 2025-01-12 20:12:25">2025-01-12</time></span></div><div class="content">先介绍一下什么是mihomo:  Mihomo原名Clash Meta，是基于广受欢迎的开源网络代理工具Clash开发的增强网络代理工具。它不仅继承了Clash的核心功能，还增加了一些独特的特性，如支持更多的出站传输协议和复杂的规则控制等。在2023年经历了Clash for Windows删库事件之后，原Clash项目删库停止更新，于是开发者将Clash Meta改名为Mihomo，继续进行维护和更新。  所以，曾经使用过clash的应该可以很快上手。 mihomo官网 在本篇文章中，将会使用mihomo内核来进行代理，同时还会打开TUN模式实现透明代理。如有需要请接着往下看吧。 mihomo安装和配置下载mihomo内核 进入mihomo内核下载地址去下载对应架构版本的文件。比如mihomo-linux-amd64-alpha-b3db113.gz，解压后将mihomo-linux-amd64上传到虚拟机上，同时重命名为mihomo。  如果访问不到github的话，这里提供一个mihomo-linux-amd64-go120-v1.19.1.gz   给 mihomo 增加...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/posts/e3802614/" title="nginx配置ws"><img class="post-bg" src="https://image.zfxt.top/hexo-blog/nginx配置ws-2025-01-12-19-59-50.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nginx配置ws"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/e3802614/" title="nginx配置ws">nginx配置ws</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-12T11:58:33.000Z" title="发表于 2025-01-12 19:58:33">2025-01-12</time></span></div><div class="content">在恢复服务器的过程中，get 到的一个小知识：因为所有的服务都是通过 nginx 代理出来的。而默认配置下并没有对 ws 进行代理。 WS的全称是WebSocket，Nginx配置WebSocket也比较简单，只需要在nginx.conf文件中进行相应的配置。这种方式很简单，但是很有效，能够横向扩展WebSocket服务端的服务能力。 这里直接贴代码： 123456789101112131415161718192021222324252627map $http_upgrade $connection_upgrade &#123;    default upgrade;    &#x27;&#x27; close;&#125;# 如果$http_upgrade 不为 &#x27;&#x27; (空)， 则$connection_upgrade 为 upgrade 。# 如果$http_upgrade 为 &#x27;&#x27; (空)， 则 $connection_upgrade 为 close。server&#123;    ...    location / &#123;  ...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/#content-inner">28</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://image.zfxt.top/hexo-blog/avator.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">小贺同学</div><div class="author-info-description">分享知识，勤做笔记</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">274</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">108</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zfx-t"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">靡不有初，鲜克有终</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a7014e01/" title="迁移Debian并配置niri桌面的一系列配置以及问题">迁移Debian并配置niri桌面的一系列配置以及问题</a><time datetime="2026-04-17T14:02:57.000Z" title="发表于 2026-04-17 22:02:57">2026-04-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/44df985e/" title="手搓一个linux发行版(娱乐向)"><img src="https://image.zfxt.top/hexo-blog/手搓一个linux发行版-娱乐向-2025-10-17-15-25-58.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="手搓一个linux发行版(娱乐向)"/></a><div class="content"><a class="title" href="/posts/44df985e/" title="手搓一个linux发行版(娱乐向)">手搓一个linux发行版(娱乐向)</a><time datetime="2025-10-17T05:26:49.000Z" title="发表于 2025-10-17 13:26:49">2025-10-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/71584c07/" title="ddnsgo忘记密码">ddnsgo忘记密码</a><time datetime="2025-09-04T08:37:29.000Z" title="发表于 2025-09-04 16:37:29">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程"><img src="https://image.zfxt.top/hexo-blog/Gitea实现Docker镜像打包上传全流程-2025-09-04-16-28-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Gitea实现Docker镜像打包上传全流程"/></a><div class="content"><a class="title" href="/posts/42fe236f/" title="Gitea实现Docker镜像打包上传全流程">Gitea实现Docker镜像打包上传全流程</a><time datetime="2025-09-04T05:12:23.000Z" title="发表于 2025-09-04 13:12:23">2025-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/27335b99/" title="acme快速配置证书"><img src="https://image.zfxt.top/hexo-blog/acme快速配置证书-2025-06-02-12-33-45.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="acme快速配置证书"/></a><div class="content"><a class="title" href="/posts/27335b99/" title="acme快速配置证书">acme快速配置证书</a><time datetime="2025-06-02T04:03:47.000Z" title="发表于 2025-06-02 12:03:47">2025-06-02</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Android%E5%85%A5%E9%97%A8/"><span class="card-category-list-name">Android入门</span><span class="card-category-list-count">42</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Echarts/"><span class="card-category-list-name">Echarts</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Linux基础</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/RabbitMQ/"><span class="card-category-list-name">RabbitMQ</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/clash/"><span class="card-category-list-name">clash</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kali/"><span class="card-category-list-name">kali</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/kotlin/"><span class="card-category-list-name">kotlin</span><span class="card-category-list-count">65</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nvm/"><span class="card-category-list-name">nvm</span><span class="card-category-list-count">2</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/android/" style="font-size: 1.35em; color: rgb(82, 64, 102);">android</a><a href="/tags/adb%E8%B0%83%E8%AF%95/" style="font-size: 1.15em; color: rgb(50, 140, 56);">adb调试</a><a href="/tags/vue/" style="font-size: 1.45em; color: rgb(50, 172, 50);">vue</a><a href="/tags/JS/" style="font-size: 1.35em; color: rgb(50, 161, 179);">JS</a><a href="/tags/MediaPlayer/" style="font-size: 1.15em; color: rgb(191, 50, 171);">MediaPlayer</a><a href="/tags/APK%E6%89%93%E5%8C%85/" style="font-size: 1.15em; color: rgb(191, 89, 140);">APK打包</a><a href="/tags/android-Studio/" style="font-size: 1.15em; color: rgb(77, 50, 166);">android Studio</a><a href="/tags/bee%E6%A1%86%E6%9E%B6/" style="font-size: 1.15em; color: rgb(50, 61, 103);">bee框架</a><a href="/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" style="font-size: 1.15em; color: rgb(50, 50, 50);">目录结构</a><a href="/tags/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/" style="font-size: 1.15em; color: rgb(198, 50, 50);">四大组件</a><a href="/tags/Android-Media/" style="font-size: 1.15em; color: rgb(63, 50, 67);">Android Media</a><a href="/tags/jetpack-compose/" style="font-size: 1.2em; color: rgb(161, 95, 50);">jetpack compose</a><a href="/tags/cameraX/" style="font-size: 1.15em; color: rgb(190, 50, 50);">cameraX</a><a href="/tags/%E8%BD%BBnas/" style="font-size: 1.15em; color: rgb(50, 54, 134);">轻nas</a><a href="/tags/%E6%9D%82%E8%A8%80/" style="font-size: 1.2em; color: rgb(50, 111, 50);">杂言</a><a href="/tags/ES6/" style="font-size: 1.2em; color: rgb(131, 147, 81);">ES6</a><a href="/tags/fetch/" style="font-size: 1.15em; color: rgb(50, 138, 159);">fetch</a><a href="/tags/promise/" style="font-size: 1.15em; color: rgb(50, 171, 107);">promise</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.15em; color: rgb(50, 181, 131);">C语言</a><a href="/tags/gitea/" style="font-size: 1.25em; color: rgb(50, 132, 172);">gitea</a><a href="/tags/docker%E9%95%9C%E5%83%8F/" style="font-size: 1.15em; color: rgb(50, 50, 50);">docker镜像</a><a href="/tags/gitea-action/" style="font-size: 1.15em; color: rgb(159, 50, 50);">gitea action</a><a href="/tags/gradle/" style="font-size: 1.2em; color: rgb(51, 200, 84);">gradle</a><a href="/tags/%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E9%93%BE%E6%8E%A5/" style="font-size: 1.15em; color: rgb(77, 50, 54);">长连接和短链接</a><a href="/tags/idea%E6%BF%80%E6%B4%BB/" style="font-size: 1.15em; color: rgb(50, 90, 72);">idea激活</a><a href="/tags/%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1/" style="font-size: 1.2em; color: rgb(50, 117, 65);">数据通信</a><a href="/tags/JAVA/" style="font-size: 1.3em; color: rgb(176, 166, 187);">JAVA</a><a href="/tags/jar%E5%8C%85/" style="font-size: 1.15em; color: rgb(57, 50, 105);">jar包</a><a href="/tags/JWT/" style="font-size: 1.15em; color: rgb(50, 157, 171);">JWT</a><a href="/tags/java/" style="font-size: 1.2em; color: rgb(50, 130, 171);">java</a><a href="/tags/k8s/" style="font-size: 1.2em; color: rgb(66, 103, 121);">k8s</a><a href="/tags/ktor/" style="font-size: 1.15em; color: rgb(50, 166, 50);">ktor</a><a href="/tags/compose/" style="font-size: 1.25em; color: rgb(102, 55, 60);">compose</a><a href="/tags/linux/" style="font-size: 1.4em; color: rgb(130, 100, 180);">linux</a><a href="/tags/%E4%BB%A3%E7%90%86/" style="font-size: 1.15em; color: rgb(50, 164, 74);">代理</a><a href="/tags/mihomo/" style="font-size: 1.15em; color: rgb(141, 50, 196);">mihomo</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 1.15em; color: rgb(50, 197, 180);">服务器</a><a href="/tags/Lombok/" style="font-size: 1.15em; color: rgb(50, 50, 106);">Lombok</a><a href="/tags/MVI/" style="font-size: 1.15em; color: rgb(82, 170, 152);">MVI</a><a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 1.15em; color: rgb(51, 50, 64);">架构</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      <a class="card-more-btn" href="/archives/"
+            title="查看更多">
+            <i class="fas fa-angle-right"></i>
+          </a>
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/04/">
+            <span class="card-archive-list-date">
+              四月 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/10/">
+            <span class="card-archive-list-date">
+              十月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              九月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/12/">
+            <span class="card-archive-list-date">
+              十二月 2024
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/11/">
+            <span class="card-archive-list-date">
+              十一月 2024
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">274</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-06-07T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">177k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-04-19T11:23:01.349Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://image.zfxt.top/stair.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2026 By 小贺同学</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div><div class="footer_custom_text">本网站由 <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png" align="absmiddle" width="59px" height="30px" /></a> 提供CDN加速/云存储服务<br> <a href="https://beian.miit.gov.cn/" target="_blank">湘ICP备2023014266号-1</a><br><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=43030302000164" target="_blank"><img src="https://www.beian.gov.cn/img/ghs.png"  >湘公网安备 43030302000164号</a><br></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/utils.js"></script><script src="https://unpkg.com/hexo-theme-butterfly/source/js/main.js"></script><script src="https://unpkg.com/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://unpkg.com/typed.js/dist/typed.umd.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["纵星河万里，亦不及你一垂眸。","知其不可奈何而安之若命。","道阻且长，行则将至。","大家都会相望于江湖"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  btf.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js')
+    .then(() => {
+      jinrishici.load(result => {
+        if (result && result.data && result.data.content) {
+          typedJSFn.processSubtitle(result.data.content)
+        } else {
+          throw new Error('Failed to parse the return value of Jinrishici API')
+        }
+      })
+    })
+    .catch(err => {
+      console.error('Failed to get the Jinrishici API:', err)
+      typedJSFn.processSubtitle(4)
+    })
+}
+typedJSFn.run(subtitleType)
+</script></div><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="https://cdn.jsdelivr.net/gh/Pil0tXia/busuanzi-modified/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="https://unpkg.com/hexo-theme-butterfly/source/js/search/local-search.js"></script></div></div></body></html>
